@@ -1,0 +1,13 @@
+name: cs557
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openjdk=21
+  - cmake
+  - glew
+  - libpng
+  - zlib
+  - libopengl
+  - libflite
+  - pip
