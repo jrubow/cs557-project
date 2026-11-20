@@ -34,9 +34,18 @@ def main():
     frozen = root / "frozen-config.json"
     if frozen.exists() and json.loads(frozen.read_text()) != config:
         parser.error("Run root already has different settings; use a new root")
-    frozen.write_text(json.dumps(config, indent=2) + "\n")
+    if not frozen.exists():
+        frozen.write_text(json.dumps(config, indent=2) + "\n")
     source = Path(__file__).resolve().parents[1]
     revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=source, text=True).strip()
+    manifest = {"source_revision": revision, "config": config,
+                "steps_per_run": args.steps, "validation_episodes": args.episodes}
+    manifest_path = root / "manifest.json"
+    if manifest_path.exists():
+        if json.loads(manifest_path.read_text()) != manifest:
+            parser.error("Run root is pinned to a different source/config/budget; use its frozen checkout or a new root")
+    else:
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     state = {"source_revision": revision, "config": str(frozen), "completed": [],
              "steps_per_run": args.steps, "seeds": args.seeds, "conditions": args.conditions}
 

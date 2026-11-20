@@ -3,7 +3,7 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
-**Status:** six simulator-independent checks and the real Minecraft combat smoke
+**Status:** seven simulator-independent checks and the real Minecraft combat smoke
 check have passed on native Windows with Python 3.11 and Java 21. The initial
 500-decision benchmark measured 165.5 decisions/second including resets, excluding
 PPO updates. A CPU condition-B pilot completed 10,240 steps and 100 PPO update
@@ -12,9 +12,14 @@ A resumed 100,352-step B calibration survived all ten validation episodes to the
 time limit, but still made no kills. The scripted baseline averaged 2.5 waves and
 5.2 kills on that scenario set. Behavior traces show PPO evading and attacking
 outside useful range rather than learning combat.
-See the Windows setup below. This is integration evidence, not a completed A/B/C
-experiment or a successful combat policy; checkpoints and result files stay
-outside Git.
+A subsequent calibration combining progressively harder initial encounters,
+stronger damage shaping, and a steady-action initialization learned combat:
+at 100,352 steps it cleared at least one wave in 8/10 validation episodes, averaging
+0.9 completed waves and 1.1 kills. Evaluation used the original random starts.
+Continuing it to 300,032 steps produced at least one completed wave in 50/50
+validation episodes, averaging 1.9 waves and 3.14 kills. All 50 ended in death;
+this is not five-wave success or a completed A/B/C experiment. Checkpoints and
+result files stay outside Git.
 
 ## Get the first training run going
 
@@ -263,13 +268,27 @@ runtime directories first; this initial implementation does not configure them.
 On Windows, `scripts/run_experiments_windows.py` accepts `--config`, `--run-root`,
 `--steps`, `--seeds`, and `--conditions` to run selected jobs sequentially. Use it
 only after choosing the common configuration on validation. It freezes the full
-config in the run root, writes `status.json`, enforces a per-training-process
+config and a source/budget manifest in the run root, writes `status.json`, enforces a per-training-process
 timeout, and evaluates each completed checkpoint on validation. It stops on a
 failed process or a changed source revision. Keep that checkout unchanged while
-the queue is running. Creating `RUN_ROOT/STOP_AFTER_CURRENT` prevents the next
+the queue is running. Later queue invocations in that root must match the pinned
+source revision, configuration, training budget, and validation episode count.
+Creating `RUN_ROOT/STOP_AFTER_CURRENT` prevents the next
 run from starting. Existing nonempty run directories are rejected; recover a
 failed run explicitly with the documented checkpoint resume command, then queue
 the remaining jobs. It never runs the test split automatically.
+
+`configs/comparison.json` records every selected setting explicitly, with a 1M
+step budget and checkpoints approximately every 10k decisions. To start one fresh
+comparison run from a clean, frozen checkout:
+
+```powershell
+python scripts/run_experiments_windows.py --config configs/comparison.json --run-root runs/comparison --conditions B --seeds 1 --steps 1000000 --episodes 50
+```
+
+This selects one run. Preserve its configuration and source revision when adding
+other seeds/conditions later; calibrations that resume an earlier model remain
+separate from these fresh, equal-budget runs.
 
 ## Human contextual benchmark
 
@@ -295,7 +314,7 @@ interval, and a slow simulator may give extra thinking time.
 - `task.py`: action/observation encoding and reward deltas.
 - `train.py`: PPO/checkpoints; `evaluate.py`: fixed scenarios and throughput.
 - `policies.py` / `human.py`: baselines; `report.py`: CSV summaries and figures.
-- `smoke.py`: short real-simulator checks; `tests/`: six tiny checks requiring only NumPy/Gymnasium.
+- `smoke.py`: short real-simulator checks; `tests/`: seven tiny checks requiring only NumPy/Gymnasium.
 
 Suggested remaining ten-day sequence: first get a real smoke/benchmark/pilot on
 compute; use the next day to fix integration and calibrate on validation; reserve
@@ -329,16 +348,36 @@ enemy distance below three blocks on 0.97%, and absolute pitch above 45 degrees 
 both PPO and the scripted controller. This supports evasion and ineffective
 aiming as the current learning failure; it does not establish a best remedy.
 
-The next experiment should be a focused validation calibration of combat reward
-strength or an easier initial aiming curriculum, before fixing the final common
-A/B/C configuration. Keep the baseline configuration and these results intact.
-Do not launch the nine-run sweep on the strength of survival alone. The measured
-calibration rate is about 181 additional decisions/second including overhead;
-nine 1M-step runs would project to roughly 17–19 hours with a 25% margin using
-that rate and the original benchmark. This is not measured sustained multi-wave
-throughput. Reserve separate time for evaluation, baselines, human sessions,
-analysis, and writing, and keep every final condition's curriculum and budget
-identical.
+Four fresh B/seed-0 calibrations then tested stronger damage-dealt shaping,
+easier early encounters, both together, and both plus steady-action initialization.
+The first three still produced zero validation kills at 100,352 steps. The last
+candidate (`calibration-steady.json`) made 340 kills in 791 completed training
+episodes and cleared at least one wave in 8/10 ordinary validation episodes.
+It averaged 0.9 waves, 1.1 kills, and 33.1 damage dealt; all episodes ended in death.
+Its trace spent 54.82% of decisions within three blocks of an enemy and only
+0.24% with absolute pitch above 45 degrees. Trace totals matched every episode.
+These exploratory runs support continuing the combined configuration; they do
+not isolate each component's causal contribution or establish seed robustness.
+
+The selected candidate then resumed to 300,032 total steps (2,930 PPO update
+epochs), adding 199,680 decisions in 1,006.9 seconds including startup/cleanup.
+Its 616 additional completed training episodes made 1,231 kills and completed
+the three-wave training target nine times. Starting-position assistance was
+fully removed at 200k; the ordinary wave curriculum remains common across A/B/C.
+On 50 validation scenarios (50,000–50,049), every episode cleared at least one
+wave, averaging 1.9 waves, 3.14 kills, and 76.52 damage dealt. All ended in death,
+with no five-wave success. The 300k checkpoint has only just reached the five-wave
+training stage. Its trace counts and reward/damage/kill sums matched all 50
+episode records. The continuation measured 198.3 decisions/second including
+startup/cleanup; this is measured multi-wave throughput from one training seed.
+
+Preserve these calibration results separately from fresh controlled runs. The
+100k combined calibration took 531.6 seconds including startup/cleanup; planning
+roughly two hours for each 1M-step run leaves margin for slower later waves.
+Reserve separate time for evaluation, baselines, human sessions, analysis, and
+writing. Use identical encounter/wave curricula, initialization, and budget for
+all final A/B/C conditions, and keep the held-out test scenarios untouched until
+the configuration is fixed. No nine-run sweep has been launched.
 
 API references: [CraftGround 2.7.4](https://pypi.org/project/craftground/2.7.4/),
 [pinned environment source](https://github.com/yhs0602/CraftGround/blob/848a34519247ea68ce878e675381bd8d62084dce/src/craftground/environment/environment.py),
