@@ -1,6 +1,7 @@
 """Exercise task boundaries without launching Minecraft or a training job."""
 
 from types import SimpleNamespace
+import math
 import unittest
 
 import numpy as np
@@ -46,6 +47,32 @@ class Backend:
 
 
 class EnvironmentTests(unittest.TestCase):
+    def test_encounter_curriculum_is_common_and_excluded_from_evaluation(self):
+        config = load_config()
+        config["environment"]["encounter_curriculum"] = [[0, 2.5, 3.0, 10], [200000, 4, 10, 180]]
+        commands = []
+        for condition in ("A", "B", "C"):
+            backend = Backend()
+            env = CombatEnv(config, condition=condition, backend=backend)
+            env.reset(seed=42)
+            commands.append(backend.commands)
+        self.assertEqual(commands[0], commands[1])
+        self.assertEqual(commands[1], commands[2])
+        spawn = next(c for c in commands[0] if c.startswith("summon")).split()
+        x, z = float(spawn[2]), float(spawn[4])
+        self.assertTrue(2.499 <= math.hypot(x, z) <= 3.001)
+        heading = [c for c in commands[0] if c.startswith("tp @p")][-1].split()
+        yaw = float(heading[5])
+        self.assertLessEqual(abs((yaw-math.degrees(math.atan2(-x, z))+180) % 360-180), 10.1)
+        original = Backend()
+        CombatEnv(load_config(), evaluation=True, backend=original).reset(seed=42)
+        for evaluation, step in [(True, 0), (False, 200000)]:
+            backend = Backend()
+            env = CombatEnv(config, evaluation=evaluation, backend=backend)
+            env.set_training_step(step)
+            env.reset(seed=42)
+            self.assertEqual(backend.commands, original.commands)
+
     def make_env(self):
         config = load_config()
         config["environment"].update(action_repeat=2, max_waves=2)

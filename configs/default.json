@@ -14,6 +14,7 @@
     "weapon": "iron_sword",
     "armor": "iron",
     "use_vglrun": false,
+    "encounter_curriculum": [],
     "curriculum": [
       [
         0,

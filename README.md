@@ -137,6 +137,23 @@ stage change takes effect on the next episode. One decision normally advances fo
 Minecraft ticks, about 0.2 seconds of game time. Wall time is separate. The default
 budget is 1M decisions per run; PPO rounds to complete 1,024-step rollouts.
 
+An optional `environment.encounter_curriculum` can make **training-only first
+encounters** easier. Each stage is `[start_step, min_spawn_radius,
+max_spawn_radius, initial_yaw_error_degrees]`. The player begins aimed roughly at
+the zombie's torso when yaw error is below 180 degrees, then controls every camera
+change normally. There is no continuous target lock. Later waves use the original
+spawn rules. An empty list (the default) preserves the original environment.
+Evaluation always uses the original 4–10 block spawn radius and random initial
+orientation, regardless of this curriculum.
+
+The experimental `calibration-encounter*.json` configs progressively relax starts
+at 0/50k/100k steps and restore the original geometry/orientation at 200k. A live
+Minecraft check verified close/aligned early starts, full initial health and zero
+setup rewards, plus identical unassisted late-training/evaluation starts. The
+same curriculum must be used for A, B, and C if selected. The reward-5 candidate
+only increases damage-dealt shaping from 1 to 5; A's outcome rewards are unchanged.
+These files are calibration candidates, not a declaration that learning succeeds.
+
 `configs/default.json` contains the common settings. JSON overrides can specify
 only changed keys, and unknown keys fail early. Choose coefficients/budgets on
 validation, then hold them fixed for the final A/B/C comparison. A short single-wave
@@ -234,6 +251,17 @@ the corresponding episode CSV metrics.
 Gradle/runtime/options/world files. To use several machines, use separate clones
 and separate Python environments. Parallel workers on one host need separate
 runtime directories first; this initial implementation does not configure them.
+
+On Windows, `scripts/run_experiments_windows.py` accepts `--config`, `--run-root`,
+`--steps`, `--seeds`, and `--conditions` to run selected jobs sequentially. Use it
+only after choosing the common configuration on validation. It freezes the full
+config in the run root, writes `status.json`, enforces a per-training-process
+timeout, and evaluates each completed checkpoint on validation. It stops on a
+failed process or a changed source revision. Keep that checkout unchanged while
+the queue is running. Creating `RUN_ROOT/STOP_AFTER_CURRENT` prevents the next
+run from starting. Existing nonempty run directories are rejected; recover a
+failed run explicitly with the documented checkpoint resume command, then queue
+the remaining jobs. It never runs the test split automatically.
 
 ## Human contextual benchmark
 

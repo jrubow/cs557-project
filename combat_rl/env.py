@@ -101,10 +101,20 @@ class CombatEnv(gym.Env):
 
     def _spawn_commands(self, wave):
         e = self.settings
+        encounter = None
+        # Training-only scaffolding for the first encounter. Evaluation always
+        # retains the original full spawn range and random orientation.
+        if not self.evaluation and wave == 1:
+            for stage in e.get("encounter_curriculum", []):
+                if self.training_step >= stage[0]:
+                    encounter = stage
+        near, far = min(4.0, e["arena_radius"] - 2), e["arena_radius"] - 2
+        if encounter is not None:
+            _, near, far, _ = encounter
         positions = []
         for _ in range(wave):
             for _ in range(1000):
-                radius = self.np_random.uniform(min(4.0, e["arena_radius"] - 2), e["arena_radius"] - 2)
+                radius = self.np_random.uniform(near, far)
                 angle = self.np_random.uniform(-math.pi, math.pi)
                 x, z = radius * math.cos(angle), radius * math.sin(angle)
                 if all(math.hypot(x-a, z-b) >= 1.5 for a, b in positions):
@@ -112,11 +122,18 @@ class CombatEnv(gym.Env):
                     break
             else:
                 raise RuntimeError("Could not sample separated enemy spawns")
-        return [f'summon minecraft:zombie {x+e["arena_center_x"]:.3f} 65.0 '
+        commands = [f'summon minecraft:zombie {x+e["arena_center_x"]:.3f} 65.0 '
                 f'{z+e["arena_center_z"]:.3f} '
                 '{IsBaby:0b,PersistenceRequired:1b,CanPickUpLoot:0b,'
                 'HandItems:[{},{}],ArmorItems:[{},{},{},{}],Tags:["cs557_enemy"]}'
                 for x, z in positions]
+        if encounter is not None and encounter[3] < 180:
+            x, z = positions[0]
+            yaw = math.degrees(math.atan2(-x, z)) + self.np_random.uniform(-encounter[3], encounter[3])
+            pitch = math.degrees(math.atan2(0.62, math.hypot(x, z)))
+            commands.insert(0, f'tp @p {float(e["arena_center_x"])} 65.0 '
+                            f'{float(e["arena_center_z"])} {yaw:.3f} {pitch:.3f}')
+        return commands
 
     def _loadout_commands(self, yaw):
         e = self.settings
