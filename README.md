@@ -3,14 +3,18 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
-**Status:** code and six simulator-independent checks are complete. Real Minecraft
-startup, combat smoke checks, PPO training, and performance have **not** been run
-yet. Run the smoke command below on the compute machine before spending training
-time. There are no experimental results in this repository.
+**Status:** six simulator-independent checks and the real Minecraft combat smoke
+check have passed on native Windows with Python 3.11 and Java 21. The initial
+500-decision benchmark measured 165.5 decisions/second including resets, excluding
+PPO updates. A CPU condition-B pilot completed 10,240 steps and 100 PPO update
+epochs; its ten validation episodes completed zero waves (all ended in death).
+See the Windows setup below. This is integration evidence, not a completed A/B/C
+experiment or a successful combat policy; checkpoints and result files stay
+outside Git.
 
 ## Get the first training run going
 
-Use Linux, Python 3.11, Java 21, and an OpenGL display. The first CraftGround launch
+Use Python 3.11, Java 21, and an OpenGL display (Linux or native Windows). The first CraftGround launch
 downloads and builds Minecraft/native dependencies; allow time and network access.
 Start with one simulator and at least several GB of free RAM (the JVM defaults to
 a 3 GB heap). Minecraft throughput, not this small MLP, is likely to determine
@@ -70,6 +74,43 @@ display instead of the software-rendering wrapper. The default policy runs on CP
 If startup stalls at Minecraft's accessibility screen, the pinned runtime may
 need `onboardAccessibility:false` in its game `options.txt`. Inspect that screen/log
 before changing the installed runtime. Keep the pinned package versions together.
+
+### Native Windows
+
+Use an isolated Conda environment and the normal desktop graphics driver. Install
+Visual Studio Build Tools with the C++ desktop workload/Windows SDK if a compiler
+is not already available. This path was exercised with Visual Studio 18 Build
+Tools, Java 21, and the pinned Python packages; it does not need WSL or Xvfb.
+Choose a reasonably short environment prefix, with Windows long paths enabled.
+The Linux `environment.yml` and `headless.sh` are not Windows setup scripts.
+
+```powershell
+conda env create -f environment-windows.yml
+conda activate cs557-windows
+python -m pip install -e ".[train]"
+python -m unittest discover -s tests -v
+python scripts/windows_run.py --timeout 1800 --log runs/smoke.log -- -m combat_rl.smoke --timeout-seconds 1800
+python scripts/windows_run.py --timeout 1200 --log runs/benchmark.log -- -m combat_rl.evaluate --benchmark-steps 500 --output runs/benchmark.json
+python scripts/windows_run.py --timeout 1800 --log runs/pilot.log -- -m combat_rl.train --condition B --seed 0 --steps 10000 --run-dir runs/pilot
+python scripts/windows_run.py --timeout 1800 --log runs/validation.log -- -m combat_rl.evaluate --model runs/pilot/final.zip --split validation --episodes 10 --output runs/pilot/validation.csv
+```
+
+The wrapper selects Java and native-library paths from the Python interpreter's
+Conda environment, keeps Gradle's cache there, records combined logs and a
+`.status.json`, and monitors only its own process descendants. It applies an
+external wall timeout and cleans up tracked descendants, including on normal
+exit. The smoke command's Unix SIGALRM alone does not bound Windows execution.
+Exit code 124 means the external timeout fired. Use new log/output paths on reruns;
+run only one simulator at a time. Set a longer timeout for longer training runs;
+forced timeouts cannot guarantee a new checkpoint.
+
+The pinned runtime currently reports native exit `-1073740791` from Gradle during
+Windows shutdown, after successful checks/results. Waiting for graceful exit did
+not resolve it. This remains an upstream shutdown limitation, not a clean JVM
+exit or evidence that every integration path is tested. Preserve the logs and
+check the Python result/status and descendant cleanup separately. Accessibility
+onboarding did not block the tested installation; no runtime source edits were
+needed to build or complete the combat checks.
 
 ## Experiment
 
@@ -214,10 +255,24 @@ evaluation, human sessions, plots, and writing. Reduce budget before cutting the
 evaluation/writing window. Equipment generalization, mixed enemies, RGB policies,
 and video export are extensions after the core comparisons work.
 
-Local verification performed: six task/state-machine tests, CLI/syntax checks, and
-small synthetic checkpoint/summary checks. Those synthetic values are not saved as
-project results. No Minecraft build, real PPO update, GPU test, or training was run
-on the initial laptop.
+Initial laptop verification covered six task/state-machine tests, CLI/syntax,
+and synthetic checkpoint/summary checks. On the Windows desktop, the real
+Minecraft build and combat smoke check passed, followed by the 500-step benchmark,
+10,240-step CPU PPO pilot (70 training episodes), checkpoint reload, and ten
+validation episodes using seeds 50,000–50,009. The pilot's full supervised process
+took 142.1 seconds including startup/cleanup. Its 133-second PPO timing includes
+startup; later rollouts took roughly 5–6 seconds per 1,024 steps. Neither training
+nor validation completed a wave. No held-out test evaluation or nine-run sweep
+has been launched, and no CUDA policy benchmark has been performed.
+
+The next useful budget is a **100k-step B calibration run**, approximately 15–30
+minutes with startup and margin, followed by validation and behavioral inspection.
+If learning is viable and sustained multi-wave throughput holds, 1M steps for each
+of three seeds per A/B/C condition is provisionally feasible: about 19–44 hours
+with 25% margin using the benchmark and startup-heavy pilot rates. This is a
+projection, not a measured full-sweep duration; reserve additional time for
+evaluation, baselines, human sessions, analysis, and writing before committing to
+the common final budget. Keep all conditions' curriculum and budget identical.
 
 API references: [CraftGround 2.7.4](https://pypi.org/project/craftground/2.7.4/),
 [pinned environment source](https://github.com/yhs0602/CraftGround/blob/848a34519247ea68ce878e675381bd8d62084dce/src/craftground/environment/environment.py),
