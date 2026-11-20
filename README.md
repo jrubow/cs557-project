@@ -154,6 +154,14 @@ same curriculum must be used for A, B, and C if selected. The reward-5 candidate
 only increases damage-dealt shaping from 1 to 5; A's outcome rewards are unchanged.
 These files are calibration candidates, not a declaration that learning succeeds.
 
+`training.initial_action_bias` optionally initializes a fresh PPO policy's action
+logits to favor standing still, neutral yaw/pitch, no jump/sprint, and attack.
+The default is zero; `calibration-steady.json` uses 2.5 to reduce unproductive
+initial camera drift. Every action remains available, sampled during training,
+and learned normally. This is a common initialization prior, not scripted control
+or a change to observations/rewards. It is applied only to new models, never when
+resuming, and must be identical across final A/B/C runs.
+
 `configs/default.json` contains the common settings. JSON overrides can specify
 only changed keys, and unknown keys fail early. Choose coefficients/budgets on
 validation, then hold them fixed for the final A/B/C comparison. A short single-wave

@@ -10,6 +10,8 @@ from pathlib import Path
 import subprocess
 import sys
 
+# Prefer this checkout over any other editable installation of the project.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from combat_rl.config import load_config
 
 

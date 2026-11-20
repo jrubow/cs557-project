@@ -54,7 +54,8 @@
       128
     ],
     "checkpoint_every": 50000,
-    "torch_threads": 1
+    "torch_threads": 1,
+    "initial_action_bias": 0.0
   },
   "evaluation": {
     "episodes": 50,

@@ -40,6 +40,7 @@ DEFAULTS = {
         "policy_layers": [128, 128],
         "checkpoint_every": 50000,
         "torch_threads": 1,
+        "initial_action_bias": 0.0,
     },
     "evaluation": {"episodes": 50, "validation_seed": 50000, "test_seed": 100000},
 }
@@ -88,6 +89,9 @@ def load_config(path=None):
         previous_step = step
     if encounters and encounters[0][0] != 0:
         raise ValueError("encounter curriculum must start at step zero")
+    action_bias = config["training"]["initial_action_bias"]
+    if not isinstance(action_bias, (int, float)) or not math.isfinite(action_bias) or action_bias < 0:
+        raise ValueError("initial_action_bias must be finite and nonnegative")
     if e["weapon"] not in ("wooden_sword", "stone_sword", "iron_sword", "diamond_sword", "netherite_sword"):
         raise ValueError("weapon must be a supported sword")
     if e["armor"] not in ("none", "leather", "chainmail", "iron", "diamond", "netherite"):
