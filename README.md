@@ -8,6 +8,10 @@ check have passed on native Windows with Python 3.11 and Java 21. The initial
 500-decision benchmark measured 165.5 decisions/second including resets, excluding
 PPO updates. A CPU condition-B pilot completed 10,240 steps and 100 PPO update
 epochs; its ten validation episodes completed zero waves (all ended in death).
+A resumed 100,352-step B calibration survived all ten validation episodes to the
+time limit, but still made no kills. The scripted baseline averaged 2.5 waves and
+5.2 kills on that scenario set. Behavior traces show PPO evading and attacking
+outside useful range rather than learning combat.
 See the Windows setup below. This is integration evidence, not a completed A/B/C
 experiment or a successful combat policy; checkpoints and result files stay
 outside Git.
@@ -217,6 +221,15 @@ same seed sets for paired scenarios and report variability across independent
 training seeds. The summary averages episodes within runs before calculating
 across-run means/SD; one run has an undefined SD, not zero variability.
 
+For behavior inspection, add `--trace-output runs/my_run/validation-trace.csv` to
+an episode evaluation command. This optional CSV records each action, pre-action
+player state, nearest-enemy distance/bearing, approximate torso pitch error, and
+actual reward/statistic deltas. Enemy geometry is diagnostic ground truth only;
+it is never added to the policy input (including condition C). Distance and angle
+thresholds are aiming proxies, not a Minecraft hit test. Trace recording is
+excluded from the throughput benchmark. The sum of trace deltas should match
+the corresponding episode CSV metrics.
+
 `n_envs=1` is intentional: changing ports alone does not isolate CraftGround's
 Gradle/runtime/options/world files. To use several machines, use separate clones
 and separate Python environments. Parallel workers on one host need separate
@@ -265,14 +278,31 @@ startup; later rollouts took roughly 5–6 seconds per 1,024 steps. Neither trai
 nor validation completed a wave. No held-out test evaluation or nine-run sweep
 has been launched, and no CUDA policy benchmark has been performed.
 
-The next useful budget is a **100k-step B calibration run**, approximately 15–30
-minutes with startup and margin, followed by validation and behavioral inspection.
-If learning is viable and sustained multi-wave throughput holds, 1M steps for each
-of three seeds per A/B/C condition is provisionally feasible: about 19–44 hours
-with 25% margin using the benchmark and startup-heavy pilot rates. This is a
-projection, not a measured full-sweep duration; reserve additional time for
-evaluation, baselines, human sessions, analysis, and writing before committing to
-the common final budget. Keep all conditions' curriculum and budget identical.
+The follow-up B calibration resumed the saved pilot to 100,352 total steps (980
+PPO update epochs), adding 90,112 decisions in 498.6 seconds including startup and
+cleanup. Its 196 additional completed training episodes had no kills. On ten
+validation scenarios it survived to every 600-game-second time limit, with zero
+kills and mean damage dealt 0.41, compared with 2.02 for random and 118.66 for the
+scripted controller. The scripted controller completed 2–3 waves per episode,
+though none completed all five. These are small validation samples from one PPO
+training seed, not final test results.
+
+The 30,000-decision PPO trace showed attack selected 86.8% of the time, nearest
+enemy distance below three blocks on 0.97%, and absolute pitch above 45 degrees on
+73.75%. Trace lengths and reward/damage/kill sums matched the episode CSVs for
+both PPO and the scripted controller. This supports evasion and ineffective
+aiming as the current learning failure; it does not establish a best remedy.
+
+The next experiment should be a focused validation calibration of combat reward
+strength or an easier initial aiming curriculum, before fixing the final common
+A/B/C configuration. Keep the baseline configuration and these results intact.
+Do not launch the nine-run sweep on the strength of survival alone. The measured
+calibration rate is about 181 additional decisions/second including overhead;
+nine 1M-step runs would project to roughly 17–19 hours with a 25% margin using
+that rate and the original benchmark. This is not measured sustained multi-wave
+throughput. Reserve separate time for evaluation, baselines, human sessions,
+analysis, and writing, and keep every final condition's curriculum and budget
+identical.
 
 API references: [CraftGround 2.7.4](https://pypi.org/project/craftground/2.7.4/),
 [pinned environment source](https://github.com/yhs0602/CraftGround/blob/848a34519247ea68ce878e675381bd8d62084dce/src/craftground/environment/environment.py),
