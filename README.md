@@ -3,23 +3,23 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
-**Status:** seven simulator-independent checks and the real Minecraft combat smoke
-check have passed on native Windows with Python 3.11 and Java 21. The initial
-500-decision benchmark measured 165.5 decisions/second including resets, excluding
-PPO updates. A CPU condition-B pilot completed 10,240 steps and 100 PPO update
-epochs; its ten validation episodes completed zero waves (all ended in death).
-A resumed 100,352-step B calibration survived all ten validation episodes to the
-time limit, but still made no kills. The scripted baseline averaged 2.5 waves and
-5.2 kills on that scenario set. Behavior traces show PPO evading and attacking
-outside useful range rather than learning combat.
-A subsequent calibration combining progressively harder initial encounters,
-stronger damage shaping, and a steady-action initialization learned combat:
-at 100,352 steps it cleared at least one wave in 8/10 validation episodes, averaging
-0.9 completed waves and 1.1 kills. Evaluation used the original random starts.
-Continuing it to 300,032 steps produced at least one completed wave in 50/50
-validation episodes, averaging 1.9 waves and 3.14 kills. All 50 ended in death;
-this is not five-wave success or a completed A/B/C experiment. Checkpoints and
-result files stay outside Git.
+**Status:** seven simulator-independent checks and real Minecraft combat smoke
+checks passed on native Windows with Python 3.11 and Java 21. The first controlled
+A/B/C comparison is complete: each fresh seed-1 model trained for 1,000,448
+decisions with identical frozen code/config/budgets, then ran 50 shared validation
+scenarios with ordinary starting positions.
+
+| Condition | Mean waves completed | Mean kills | Five-wave successes |
+| --- | ---: | ---: | ---: |
+| A | 2.02 | 3.40 | 0/50 |
+| B | 2.72 | 5.68 | 0/50 |
+| C | 2.16 | 4.20 | 0/50 |
+
+All 150 episodes cleared at least one wave and ended in death. These are results
+from one training seed, so variability across training seeds is still unknown.
+The test split and full nine-run sweep remain unlaunched. Models, recordings,
+and result files stay outside Git. See the calibration history and recording
+instructions below.
 
 ## Get the first training run going
 
@@ -285,6 +285,14 @@ never enter the structured policy observations. This is a fresh
 diagnostic rollout, not a replay of earlier CSV results: Minecraft AI randomness
 can differ despite identical Python scenario seeds. Frame counts and final
 damage/kill counters are checked against the recorded episode.
+
+A real B/seed-1 diagnostic on validation scenario 50,000 recorded 54.0 game
+seconds, six kills, and three completed waves before death during wave four.
+The 1,081 raw frames and 1,121 annotated frames (including the end hold) decoded
+successfully at 20 fps; timing and final counters matched the episode record.
+Decoded frames were visually inspected and contained changing Minecraft scenes.
+This fresh rollout differs from the earlier same-seed CSV, as expected from the
+runtime's non-bit-exact AI behavior.
 
 `n_envs=1` is intentional: changing ports alone does not isolate CraftGround's
 Gradle/runtime/options/world files. To use several machines, use separate clones
