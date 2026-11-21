@@ -278,8 +278,10 @@ press/release pulses. Capture starts after reset setup and ends at termination.
 
 The recorder uses the first validation scenario by default and deterministic PPO
 actions. `--scenario-seed` can select another validation seed; test seeds are
-rejected. It increases only capture resolution from 160x90 to 640x360. RGB and
-diagnostic labels never enter the structured policy observations. This is a fresh
+rejected. Display-only overrides increase capture resolution from 160x90 to
+640x360 and show the native sword/crosshair/HUD for inspection; use
+`--hide-game-hud` to retain the training HUD setting. RGB and diagnostic labels
+never enter the structured policy observations. This is a fresh
 diagnostic rollout, not a replay of earlier CSV results: Minecraft AI randomness
 can differ despite identical Python scenario seeds. Frame counts and final
 damage/kill counters are checked against the recorded episode.

@@ -56,6 +56,8 @@ def main():
     parser.add_argument('--scenario-seed', type=int)
     parser.add_argument('--width', type=int, default=640)
     parser.add_argument('--height', type=int, default=360)
+    parser.add_argument('--hide-game-hud', action='store_true',
+                        help='Keep the training display setting instead of showing the sword/crosshair/HUD')
     parser.add_argument('--port', type=int, default=8000)
     args = parser.parse_args()
     if args.output_dir.exists():
@@ -102,7 +104,13 @@ def main():
     success = False
     started = time.perf_counter()
     try:
-        env._raw = FrameTap(env._make_backend())
+        backend = env._make_backend()
+        # This message has not been sent yet. Only the diagnostic display changes;
+        # policy observations/actions and task settings remain the saved ones.
+        backend.initial_env.isHudHidden = args.hide_game_hud
+        backend.initial_env_message.hudHidden = args.hide_game_hud
+        assert backend.ipc.initial_environment is backend.initial_env_message
+        env._raw = FrameTap(backend)
         observation, info = env.reset(seed=seed)
         baseline = env.state
 
@@ -181,11 +189,12 @@ def main():
             scenario_seed=seed,split='validation',deterministic=True,metrics=info,episode_return=episode_return,
             fps=fps,raw_frames=frame_count,annotated_frames=frame_count+fps*2,
             native_frame_size=[args.width,args.height],annotated_frame_size=list(canvas_size),
-            display_overrides={'image_width':args.width,'image_height':args.height},
+            display_overrides={'image_width':args.width,'image_height':args.height,
+                               'hud_hidden':args.hide_game_hud},
             model_config=saved_config,recording_config=config,runtime=runtime_metadata(),
             events=events,wall_seconds=time.perf_counter()-started,
             note='Fresh diagnostic rollout, not a replay of prior validation. No manual game input. '
-                 'Only capture resolution differs; RGB/overlays never enter the structured policy input. '
+                 'Only capture resolution/HUD differ; RGB/overlays never enter the structured policy input. '
                  'Raw video is 20 ticks/s; annotated video adds a 2-second end hold. '
                  'Minecraft AI is not bit-exact across runs with the same Python seed.')
         (args.output_dir/'episode.json').write_text(json.dumps(report,indent=2)+'\n')
