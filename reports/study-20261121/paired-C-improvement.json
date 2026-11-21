@@ -1,0 +1,38 @@
+{
+  "per_seed": [
+    {
+      "training_seed": 0,
+      "waves_completed": 0.48,
+      "success": 0.0,
+      "kills": 1.5200000000000005,
+      "damage_dealt": 32.28999999999998
+    },
+    {
+      "training_seed": 1,
+      "waves_completed": 0.30000000000000027,
+      "success": 0.0,
+      "kills": 0.9199999999999999,
+      "damage_dealt": 21.109999999999985
+    },
+    {
+      "training_seed": 2,
+      "waves_completed": 0.11999999999999966,
+      "success": 0.0,
+      "kills": 0.5200000000000005,
+      "damage_dealt": 15.096000000000004
+    }
+  ],
+  "mean": {
+    "waves_completed": 0.3,
+    "success": 0.0,
+    "kills": 0.9866666666666669,
+    "damage_dealt": 22.83199999999999
+  },
+  "sd": {
+    "waves_completed": 0.18000000000000016,
+    "success": 0.0,
+    "kills": 0.5033222956847166,
+    "damage_dealt": 8.725386638997712
+  },
+  "note": "Paired training seeds; same scenario list but Minecraft AI is not bit-exact. N=3 trained model pairs."
+}
