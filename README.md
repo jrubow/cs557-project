@@ -393,6 +393,22 @@ interface and the smaller sample explicitly; it is contextual, not a matched
 sample-efficiency comparison. Human responses have at least the simulated decision
 interval, and a slow simulator may give extra thinking time.
 
+## Further five-wave optimization
+
+The completed 800-episode test data, chart, summaries and model/source provenance
+are published in [reports/study-20261121](reports/study-20261121). No evaluated
+controller cleared all five waves. The next exploratory study starts from C 2M
+seed 0, chosen by its pre-test validation result, and compares continuation with
+survival-focused fine-tuning. [SURVIVAL_PLAN.md](SURVIVAL_PLAN.md) specifies fresh
+development/final-test ranges, bounded training, checkpoint retention and
+confirmation across the other seeds. The completed test study remains frozen.
+
+`train --resume <checkpoint> --finetune-config <config> --run-dir <new-directory>`
+explicitly permits reward and selected PPO-setting changes while preserving the
+task and policy spaces. Ordinary resume retains its original strict behavior.
+`evaluate --first-seed <seed>` supports fresh ranges within a split and rejects
+validation ranges that cross the configured test boundary.
+
 ## Work split and remaining gates
 
 - `env.py`: Minecraft commands, resets, waves, termination, history.

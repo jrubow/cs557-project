@@ -92,10 +92,12 @@ def inspect_model(model, config, condition, seed, target, revision, fresh=False)
             "metadata_sha256": sha256(model.with_suffix(".json")), "steps": metadata["timesteps"]}
 
 
-def evaluation_score(path, model, config, condition, seed):
+def evaluation_score(path, model, config, condition, seed, first_seed=None):
     path, model = Path(path), Path(model)
     metadata = read_json(path.with_suffix(".json"))
-    first = config["evaluation"]["validation_seed"]
+    first = config["evaluation"]["validation_seed"] if first_seed is None else first_seed
+    if not config["evaluation"]["validation_seed"] <= first < first + 50 <= config["evaluation"]["test_seed"]:
+        raise RuntimeError("Validation range crosses split boundary")
     if (metadata["split"] != "validation" or metadata["episodes"] != 50
             or metadata["first_seed"] != first or metadata["condition"] != condition
             or metadata["training_seed"] != seed or metadata["config"] != config

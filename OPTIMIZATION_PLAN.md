@@ -193,3 +193,10 @@ training seeds, and consider additional training and hyperparameter tuning:
 Learning-rate and entropy controls are documented in the
 [PPO parameter reference](https://stable-baselines3.readthedocs.io/en/v2.7.1/modules/ppo.html#parameters).
 The concrete thresholds, candidates, and time limits above are project decisions.
+
+## Subsequent exploratory study
+
+The original optimization and held-out evaluation are complete. The user has
+authorized a new attempt to clear all five waves. Its separate protocol is in
+[SURVIVAL_PLAN.md](SURVIVAL_PLAN.md), with fresh development/final-test scenarios.
+The original protocol and results above remain the completed first study.

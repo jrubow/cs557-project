@@ -16,6 +16,17 @@ METRICS = ["waves_completed", "success", "kills", "damage_dealt", "damage_taken"
            "elapsed_steps", "elapsed_seconds", "terminal_reason", "wave_target"]
 
 
+def scenario_start(config, split, episodes, override=None):
+    """Keep development ranges below the held-out boundary, even with overrides."""
+    first = config["evaluation"][split + "_seed"] if override is None else override
+    lower = config["evaluation"][split + "_seed"]
+    if episodes < 1 or first < lower:
+        raise ValueError("Scenario range starts before the configured split or is empty")
+    if split == "validation" and first + episodes > config["evaluation"]["test_seed"]:
+        raise ValueError("Validation scenarios must stay below the test boundary")
+    return first
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config")
@@ -24,6 +35,7 @@ def main():
     parser.add_argument("--condition", choices=["A", "B", "C"])
     parser.add_argument("--split", choices=["validation", "test"], default="validation")
     parser.add_argument("--episodes", type=int)
+    parser.add_argument("--first-seed", type=int, help="Explicit fresh scenario range within the chosen split")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--trace-output", type=Path,
                         help="Optional per-decision CSV for post-hoc behavior inspection")
@@ -71,7 +83,10 @@ def main():
         config = load_config(args.config)
         condition = args.condition or "B"
     count = args.episodes or config["evaluation"]["episodes"]
-    first_seed = config["evaluation"][args.split + "_seed"]
+    try:
+        first_seed = scenario_start(config, args.split, count, args.first_seed)
+    except ValueError as error:
+        parser.error(str(error))
     if model is not None:
         model.set_random_seed(first_seed)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -174,6 +189,7 @@ def main():
         args.output.with_suffix(".json").write_text(json.dumps({
             "policy": policy, "condition": condition, "model": str(args.model or ""),
             "training_seed": training_seed, "split": args.split, "first_seed": first_seed,
+            "first_seed_override": args.first_seed,
             "episodes": count, "deterministic": not args.stochastic, "config": config,
             "trace_output": str(args.trace_output) if args.trace_output else None,
             "wall_seconds": time.perf_counter() - start}, indent=2) + "\n")
