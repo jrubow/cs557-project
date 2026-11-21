@@ -17,9 +17,10 @@ scenarios with ordinary starting positions.
 
 All 150 episodes cleared at least one wave and ended in death. These are results
 from one training seed, so variability across training seeds is still unknown.
-The test split and full nine-run sweep remain unlaunched. Models, recordings,
-and result files stay outside Git. See the calibration history and recording
-instructions below.
+The remaining six fresh runs (seeds 0 and 2 for A/B/C) are now queued sequentially
+with the same frozen settings and 1M-step budgets, completing the planned nine-run
+comparison. The test split remains untouched. Models, recordings, and result
+files stay outside Git. See the calibration history and recording instructions below.
 
 ## Get the first training run going
 
@@ -365,8 +366,8 @@ Minecraft build and combat smoke check passed, followed by the 500-step benchmar
 validation episodes using seeds 50,000–50,009. The pilot's full supervised process
 took 142.1 seconds including startup/cleanup. Its 133-second PPO timing includes
 startup; later rollouts took roughly 5–6 seconds per 1,024 steps. Neither training
-nor validation completed a wave. No held-out test evaluation or nine-run sweep
-has been launched, and no CUDA policy benchmark has been performed.
+nor validation completed a wave. At that stage, neither held-out test evaluation
+nor the nine-run sweep had been launched. No CUDA policy benchmark has been performed.
 
 The follow-up B calibration resumed the saved pilot to 100,352 total steps (980
 PPO update epochs), adding 90,112 decisions in 498.6 seconds including startup and
@@ -412,7 +413,8 @@ roughly two hours for each 1M-step run leaves margin for slower later waves.
 Reserve separate time for evaluation, baselines, human sessions, analysis, and
 writing. Use identical encounter/wave curricula, initialization, and budget for
 all final A/B/C conditions, and keep the held-out test scenarios untouched until
-the configuration is fixed. No nine-run sweep has been launched.
+the configuration is fixed. The seed-1 comparison is complete and the remaining
+seed-0/seed-2 runs are queued with those same frozen settings.
 
 API references: [CraftGround 2.7.4](https://pypi.org/project/craftground/2.7.4/),
 [pinned environment source](https://github.com/yhs0602/CraftGround/blob/848a34519247ea68ce878e675381bd8d62084dce/src/craftground/environment/environment.py),
