@@ -260,6 +260,30 @@ thresholds are aiming proxies, not a Minecraft hit test. Trace recording is
 excluded from the throughput benchmark. The sum of trace deltas should match
 the corresponding episode CSV metrics.
 
+### Watch a rendered episode
+
+Install the video extra with `python -m pip install -e ".[train,video]"`. Once
+all active simulator runs have finished, record a fresh episode from a saved model:
+
+```powershell
+python scripts/windows_run.py --timeout 1800 --log runs/record-B.log -- -m combat_rl.record_episode --model runs/B_seed1/final.zip --output-dir videos/B_seed1-validation50000
+```
+
+This reads Minecraft's offscreen RGB framebuffer; the native desktop window is
+not the video source. It saves a clean `episode.mp4`, an `episode-annotated.mp4`
+with health/wave/action labels, event PNGs, per-frame data, and episode metadata.
+Playback is 20 frames per second, matching Minecraft game time; the labeled video
+adds a two-second terminal hold. Requested attack actions still use the existing
+press/release pulses. Capture starts after reset setup and ends at termination.
+
+The recorder uses the first validation scenario by default and deterministic PPO
+actions. `--scenario-seed` can select another validation seed; test seeds are
+rejected. It increases only capture resolution from 160x90 to 640x360. RGB and
+diagnostic labels never enter the structured policy observations. This is a fresh
+diagnostic rollout, not a replay of earlier CSV results: Minecraft AI randomness
+can differ despite identical Python scenario seeds. Frame counts and final
+damage/kill counters are checked against the recorded episode.
+
 `n_envs=1` is intentional: changing ports alone does not isolate CraftGround's
 Gradle/runtime/options/world files. To use several machines, use separate clones
 and separate Python environments. Parallel workers on one host need separate
@@ -320,8 +344,9 @@ Suggested remaining ten-day sequence: first get a real smoke/benchmark/pilot on
 compute; use the next day to fix integration and calibrate on validation; reserve
 the middle five days for the controlled runs; use the final three for held-out
 evaluation, human sessions, plots, and writing. Reduce budget before cutting the
-evaluation/writing window. Equipment generalization, mixed enemies, RGB policies,
-and video export are extensions after the core comparisons work.
+evaluation/writing window. Equipment generalization, mixed enemies, and RGB policies
+are extensions after the core comparisons work. Diagnostic video recording is
+available for inspecting the current structured-observation policies.
 
 Initial laptop verification covered six task/state-machine tests, CLI/syntax,
 and synthetic checkpoint/summary checks. On the Windows desktop, the real
