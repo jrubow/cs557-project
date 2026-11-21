@@ -2,6 +2,7 @@
 
 import copy
 import json
+import math
 from pathlib import Path
 
 DEFAULTS = {
@@ -21,6 +22,7 @@ DEFAULTS = {
         "armor": "iron",
         "use_vglrun": False,
         "curriculum": [[0, 1], [100000, 3], [300000, 5]],
+        "encounter_curriculum": [],
     },
     "reward": {"kill": 1.0, "wave": 3.0, "death": -5.0, "time": -0.001,
                "damage_dealt": 1.0, "damage_taken": 1.5},
@@ -38,6 +40,7 @@ DEFAULTS = {
         "policy_layers": [128, 128],
         "checkpoint_every": 50000,
         "torch_threads": 1,
+        "initial_action_bias": 0.0,
     },
     "evaluation": {"episodes": 50, "validation_seed": 50000, "test_seed": 100000},
 }
@@ -72,6 +75,23 @@ def load_config(path=None):
         raise ValueError("curriculum must start at step zero and be sorted")
     if any(step < 0 or not 1 <= waves <= 5 for step, waves in stages):
         raise ValueError("invalid curriculum stage")
+    encounters = e["encounter_curriculum"]
+    previous_step = -1
+    for stage in encounters:
+        if not isinstance(stage, list) or len(stage) != 4:
+            raise ValueError("encounter stages must be [step, min_radius, max_radius, yaw_error]")
+        step, near, far, yaw_error = stage
+        if (not isinstance(step, int) or step <= previous_step or step < 0
+                or not all(isinstance(v, (int, float)) and math.isfinite(v) for v in stage)
+                or not 2.5 <= near <= far <= e["arena_radius"] - 2
+                or not 0 <= yaw_error <= 180):
+            raise ValueError("invalid encounter curriculum stage")
+        previous_step = step
+    if encounters and encounters[0][0] != 0:
+        raise ValueError("encounter curriculum must start at step zero")
+    action_bias = config["training"]["initial_action_bias"]
+    if not isinstance(action_bias, (int, float)) or not math.isfinite(action_bias) or action_bias < 0:
+        raise ValueError("initial_action_bias must be finite and nonnegative")
     if e["weapon"] not in ("wooden_sword", "stone_sword", "iron_sword", "diamond_sword", "netherite_sword"):
         raise ValueError("weapon must be a supported sword")
     if e["armor"] not in ("none", "leather", "chainmail", "iron", "diamond", "netherite"):

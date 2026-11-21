@@ -170,6 +170,17 @@ def main():
                         gae_lambda=training["gae_lambda"], ent_coef=training["ent_coef"],
                         clip_range=training["clip_range"], n_epochs=training["n_epochs"],
                         policy_kwargs={"net_arch": training["policy_layers"]})
+            initial_bias = training.get("initial_action_bias", 0.0)
+            if initial_bias:
+                from combat_rl.task import COMPACT_NVECS, NO_OP_ACTION
+                preferred = NO_OP_ACTION.copy()
+                preferred[-1] = 1  # Attack while initially favoring steady aim/movement.
+                with torch.no_grad():
+                    offset = 0
+                    for choices, selected in zip(COMPACT_NVECS, preferred):
+                        model.policy.action_net.bias[offset + int(selected)] += initial_bias
+                        offset += int(choices)
+                print(f"Initial action preference logit bias: {initial_bias}")
         model.set_logger(configure(str(log_dir), ["stdout", "csv"]))
         remaining = training["total_timesteps"] - model.num_timesteps
         if remaining > 0:

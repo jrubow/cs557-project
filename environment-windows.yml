@@ -1,0 +1,12 @@
+name: cs557-windows
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - openjdk=21
+  - cmake
+  - ninja
+  - glew
+  - libpng
+  - zlib
+  - pip
