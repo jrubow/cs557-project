@@ -3,32 +3,74 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
-**Status:** seven simulator-independent checks and real Minecraft combat smoke
-checks passed on native Windows with Python 3.11 and Java 21. The first controlled
-A/B/C comparison is complete: each fresh seed-1 model trained for 1,000,448
-decisions with identical frozen code/config/budgets, then ran 50 shared validation
-scenarios with ordinary starting positions.
+**Status:** all nine controlled A/B/C runs are complete on native Windows with
+Python 3.11 and Java 21. Each fresh seed-0/1/2 model trained for 1,000,448 decisions
+under identical frozen code/config/budgets, then ran 50 shared validation scenarios
+with ordinary starting positions. Nineteen offline checks and the earlier real
+Minecraft combat smoke/integration checks passed.
 
 | Condition | Mean waves completed | Mean kills | Five-wave successes |
 | --- | ---: | ---: | ---: |
-| A | 2.02 | 3.40 | 0/50 |
-| B | 2.72 | 5.68 | 0/50 |
-| C | 2.16 | 4.20 | 0/50 |
+| A | 1.34 | 2.33 | 0/150 |
+| B | 2.45 | 4.96 | 0/150 |
+| C | 2.46 | 5.01 | 0/150 |
 
-All 150 episodes cleared at least one wave and ended in death. These are results
-from one training seed, so variability across training seeds is still unknown.
-The remaining six fresh runs (seeds 0 and 2 for A/B/C) are now queued sequentially
-with the same frozen settings and 1M-step budgets, completing the planned nine-run
-comparison. The test split remains untouched. Models, recordings, and result
-files stay outside Git. See the calibration history and recording instructions below.
+These are validation results averaged across three training seeds. A/seed 2
+performed poorly (0.02 mean waves); all seeds remain in the reported comparison.
+B and C are essentially tied. The predeclared ranking selected C for optimization.
+Extending C through 1.5M to 2M improved mean validation waves on all three seeds;
+the confirmed aggregate was 2.76 waves and 6.00 kills, with no five-wave success.
+The baseline for that confirmation averaged 2.46 waves and 5.02 kills, including a
+second seed-0 validation pass. A lower-learning-rate candidate did not improve.
+This additional-budget result is separate from the controlled 1M A/B/C comparison.
 
-The [policy optimization plan](OPTIMIZATION_PLAN.md) defines the next phase:
+The optimization queue finished all 24 supervised jobs on November 21, 2026,
+including three new recordings of the selected policy. Models, recordings, and
+results remain outside Git. The selected recipe and all checkpoint hashes are
+locked before held-out evaluation; test results are not used for further tuning.
+
+The [policy optimization plan](OPTIMIZATION_PLAN.md) defines the completed phase:
 diagnose failures, test additional training, screen a small number of targeted
 changes, and confirm improvements across training seeds before final testing.
 It includes selection rules and a compute/deadline limit. A separate
 `scripts/queue_optimization_windows.py` worker can wait for the comparison to
 finish, run bounded validation-only optimization, and save its selected models.
-The active comparison retains its frozen source, settings, and 1M-step budgets.
+The original comparison retains its frozen source, settings, and 1M-step budgets.
+
+`scripts/run_test_evaluation_windows.py` evaluates the nine original models and
+three selected C/2M models on test seeds 100,000-100,049. Four reference evaluations
+cover random/scripted controllers with full and restricted observations (800
+episodes total). Full-view references use B's reward settings; their actions do
+not consume rewards, and A/B have identical task dynamics and observations.
+Reported combat metrics, rather than raw reward, support comparisons. The runner
+preserves training-seed groups, separates 1M and 2M budgets, verifies scenario and
+model identities, and performs no training or post-test model selection.
+
+Held-out PPO results (mean +/- SD across three trained models, each evaluated on
+50 test scenarios):
+
+| Recipe | Mean waves completed | Mean kills | Five-wave successes |
+| --- | ---: | ---: | ---: |
+| A, 1M | 1.31 +/- 1.11 | 2.27 +/- 1.95 | 0/150 |
+| B, 1M | 2.45 +/- 0.24 | 4.97 +/- 0.77 | 0/150 |
+| C, 1M | 2.49 +/- 0.22 | 5.09 +/- 0.57 | 0/150 |
+| C, 2M extension | 2.79 +/- 0.22 | 6.08 +/- 0.77 | 0/150 |
+
+The C extension improved test waves by 0.48, 0.30, and 0.12 for training seeds
+0, 1, and 2, respectively (mean paired change +0.30 waves). This supports improved
+combat progress within the existing task, but no tested PPO model completed all
+five waves. These are descriptive results from three trained models per recipe;
+150 episodes are not 150 independent training runs. The test split assesses new
+spawn/yaw scenarios in the same arena with the same equipment and enemies, not
+new worlds or equipment generalization. All checkpoints remain unchanged.
+
+The four references each ran 50 test episodes. Random full/restricted controllers
+completed no waves and made no kills. Scripted full averaged 2.54 waves and 5.38
+kills; scripted restricted averaged 2.22 waves and 4.62 kills. Neither completed
+five waves. The full test batch finished on November 21, 2026 in 42.8 minutes:
+all 16 supervised evaluations exited zero, all 800 rows passed scenario/identity
+checks, and all model hashes remained unchanged. No controller completed all five
+waves in this batch. The human contextual benchmark remains pending.
 
 ## Get the first training run going
 
@@ -357,7 +399,9 @@ interval, and a slow simulator may give extra thinking time.
 - `task.py`: action/observation encoding and reward deltas.
 - `train.py`: PPO/checkpoints; `evaluate.py`: fixed scenarios and throughput.
 - `policies.py` / `human.py`: baselines; `report.py`: CSV summaries and figures.
-- `smoke.py`: short real-simulator checks; `tests/`: seven tiny checks requiring only NumPy/Gymnasium.
+- `smoke.py`: short real-simulator checks; `tests/`: seven task/environment checks
+  plus twelve offline queue/artifact checks. Queue checks also use `psutil` from
+  the Windows training environment; none of these unit tests launch Minecraft.
 
 Suggested remaining ten-day sequence: first get a real smoke/benchmark/pilot on
 compute; use the next day to fix integration and calibrate on validation; reserve
@@ -421,8 +465,8 @@ roughly two hours for each 1M-step run leaves margin for slower later waves.
 Reserve separate time for evaluation, baselines, human sessions, analysis, and
 writing. Use identical encounter/wave curricula, initialization, and budget for
 all final A/B/C conditions, and keep the held-out test scenarios untouched until
-the configuration is fixed. The seed-1 comparison is complete and the remaining
-seed-0/seed-2 runs are queued with those same frozen settings.
+the configuration is fixed. All nine controlled runs subsequently completed with
+those frozen settings; current validation and test status is summarized above.
 
 API references: [CraftGround 2.7.4](https://pypi.org/project/craftground/2.7.4/),
 [pinned environment source](https://github.com/yhs0602/CraftGround/blob/848a34519247ea68ce878e675381bd8d62084dce/src/craftground/environment/environment.py),

@@ -4,6 +4,15 @@ Written 2026-11-20. The user authorized queuing optimization after comparison.
 The supervised follow-on worker implements the automatic stages described below;
 the existing comparison queue retains its frozen source and settings.
 
+**Completed 2026-11-21:** the worker finished all 24 supervised jobs in 5.99 hours.
+C was selected by the predeclared rule after B/C finished nearly tied across three
+training seeds. The 2M continuation passed confirmation: mean validation waves
+increased from 2.46 to 2.76 and kills from 5.02 to 6.00, with positive wave changes
+on all three seeds and no five-wave successes. The lower-learning-rate candidate
+failed screening. The chosen three C/2M checkpoints and original nine 1M models
+were locked before the separately authorized held-out test batch. No test-driven
+parameter or checkpoint changes are part of this plan.
+
 PPO already updates policy weights during every training run. This plan covers
 the additional experimental work needed to improve the learned behavior: decide
 whether it needs more experience, better training settings, or a targeted change
