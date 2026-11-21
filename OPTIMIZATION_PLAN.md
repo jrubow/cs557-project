@@ -1,6 +1,8 @@
 # Policy optimization after the controlled comparison
 
-Written 2026-11-20. Status: planned, not added to the active queue.
+Written 2026-11-20. The user authorized queuing optimization after comparison.
+The supervised follow-on worker implements the automatic stages described below;
+the existing comparison queue retains its frozen source and settings.
 
 PPO already updates policy weights during every training run. This plan covers
 the additional experimental work needed to improve the learned behavior: decide
@@ -124,8 +126,57 @@ validated checkpoint; more training is not assumed to improve it monotonically.
 - The evaluator currently uses the validation seed range in the saved config.
   A separate confirmation scenario range would require an explicit evaluator
   feature; do not silently change model configs or use test seeds for tuning.
-- Milestone evaluation, best-checkpoint selection, and the experiment ledger are
-  workflow steps in this plan, not features already automated by the current queue.
+- `scripts/queue_optimization_windows.py` implements the handoff, milestone
+  evaluations, selection, and an append-only experiment ledger in a separate root.
+
+## Automatic queue and limits
+
+Launch the worker from a clean, dedicated checkout with `--comparison-root`,
+`--output-root`, the predecessor's `--comparison-pid` and `--comparison-created`
+timestamp, `--comparison-manifest-sha256`, `--video-deps`, and a timezone-aware
+`--cutoff-utc`. It defaults to an 18-hour optimization cap and a 24-hour wait cap.
+The waiting time does not consume the optimization budget. The optimization clock
+includes all active wall time, which is stricter than counting simulator time alone.
+The current desktop launch uses a conservative absolute cutoff of November 24,
+2026 at 00:00 Indianapolis time, ahead of the approximate submission deadline.
+
+The worker waits for successful batch completion and predecessor exit, then checks
+all nine models, configs, budgets, validation scenario ranges, and training and
+evaluation supervisor records. It refuses failures, remaining descendants, changed
+source/manifests, or reused output paths. A new optimization directory is required;
+failed queues are inspected before any explicit restart. `STOP_AFTER_CURRENT` in
+either output root stops the optimizer before its next simulator job.
+
+The automated sequence is baseline traces and five predetermined videos; 1.5M
+and 2M continuations; up to two fresh 1M setting candidates; and confirmation of
+one selected recipe on seeds 1 and 2. The 2M recipe repeats the same 1.5M restart
+boundary during confirmation. Seed-0 screening scores average two independent
+50-episode validation passes for both baseline and candidates, rather than only
+repeating a favorable borderline result. Seed-level aggregates weight all three
+training seeds equally. The confirmation gates above still apply.
+
+Candidate rules use medians of the last 100 logged training updates: learning rate
+`1e-4` if approximate KL is at least `0.03` or clipping fraction at least `0.30`;
+entropy coefficient `0.005` if joint action entropy divided by its theoretical
+maximum is at least `0.60`, or `0.02` if it is at most `0.25`. These predeclared
+heuristics may select zero, one, or two candidates. The queue saves all diagnostics
+and hypotheses before training. It does not automatically invent reward,
+curriculum, action, or observation changes: those require manual review of the
+saved traces/videos and a separately recorded experiment decision.
+
+At least six hours are reserved for confirmation, increased if observed runtimes
+suggest more is needed. Estimated job costs gate launches and the existing
+supervisor enforces the remaining time budget. Each job runs sequentially with
+explicit process cleanup. The best validated baseline remains the selection until
+the candidate passes confirmation. Partial or failed candidates never replace it.
+
+Outputs include `status.json`, `ledger.jsonl`, `comparison-summary.json`,
+`diagnostics.json`, `screening.json`, `confirmation.json` when reached, and
+`final-selection.json`, plus models, CSVs, logs, and checked MP4s. A successful
+confirmation is followed by three predetermined videos of the selected seed-0
+model. Final held-out evaluation is a separate phase: this worker never uses the
+test split. The human benchmark, manual video review, and report remain follow-up
+work after these automated experiments finish.
 
 The general approach follows SB3's advice to evaluate separately, use multiple
 training seeds, and consider additional training and hyperparameter tuning:

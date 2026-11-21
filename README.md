@@ -25,8 +25,10 @@ files stay outside Git. See the calibration history and recording instructions b
 The [policy optimization plan](OPTIMIZATION_PLAN.md) defines the next phase:
 diagnose failures, test additional training, screen a small number of targeted
 changes, and confirm improvements across training seeds before final testing.
-It includes selection rules and a compute/deadline limit. These follow-up
-experiments are planned; the active queue remains the frozen 1M-step comparison.
+It includes selection rules and a compute/deadline limit. A separate
+`scripts/queue_optimization_windows.py` worker can wait for the comparison to
+finish, run bounded validation-only optimization, and save its selected models.
+The active comparison retains its frozen source, settings, and 1M-step budgets.
 
 ## Get the first training run going
 
