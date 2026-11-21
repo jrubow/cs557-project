@@ -22,6 +22,12 @@ with the same frozen settings and 1M-step budgets, completing the planned nine-r
 comparison. The test split remains untouched. Models, recordings, and result
 files stay outside Git. See the calibration history and recording instructions below.
 
+The [policy optimization plan](OPTIMIZATION_PLAN.md) defines the next phase:
+diagnose failures, test additional training, screen a small number of targeted
+changes, and confirm improvements across training seeds before final testing.
+It includes selection rules and a compute/deadline limit. These follow-up
+experiments are planned; the active queue remains the frozen 1M-step comparison.
+
 ## Get the first training run going
 
 Use Python 3.11, Java 21, and an OpenGL display (Linux or native Windows). The first CraftGround launch
