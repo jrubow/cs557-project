@@ -25,6 +25,7 @@ class FrameTap:
         self.backend = backend
         self.callback = None
         self.latest = None
+        self.last_action = None
 
     def __getattr__(self, name):
         return getattr(self.backend, name)
@@ -35,6 +36,7 @@ class FrameTap:
         return result
 
     def step(self, action):
+        self.last_action = dict(action)
         result = self.backend.step(action)
         self.latest = result[0]
         if self.callback is not None:
@@ -54,7 +56,9 @@ def main():
     parser.add_argument('--model', type=Path, required=True)
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--scenario-seed', type=int)
-    parser.add_argument('--mode', choices=['waves', 'endless'], default='waves')
+    parser.add_argument('--mode', choices=['waves', 'endless', 'batch'], default='waves')
+    parser.add_argument('--batch-size', type=int, default=1)
+    parser.add_argument('--track-crits', action='store_true', help='Add passive critical-sound cue telemetry')
     parser.add_argument('--spawn-seconds', type=float, default=2.0,
                         help='Endless mode only: simulated seconds between zombie spawns')
     parser.add_argument('--max-seconds', type=float, default=600,
@@ -90,7 +94,7 @@ def main():
     font = ImageFont.load_default(size=16)
     title_font = ImageFont.load_default(size=19)
     fps = 20
-    canvas_size = (args.width, args.height + 120)
+    canvas_size = (args.width, args.height + (146 if args.track_crits else 120))
     paths = [args.output_dir/'episode.mp4', args.output_dir/'episode-annotated.mp4']
     writers = []
     for path, size in zip(paths, [(args.width,args.height),canvas_size]):
@@ -99,10 +103,11 @@ def main():
             output_params=['-preset','veryfast','-threads','1','-movflags','+faststart'])
         writer.send(None)
         writers.append(writer)
-    if args.mode == 'endless':
+    if args.mode in ('endless', 'batch'):
         from combat_rl.endless import EndlessCombatEnv
         env = EndlessCombatEnv(config, condition=condition, port=args.port,
-                               spawn_seconds=args.spawn_seconds, max_seconds=args.max_seconds)
+                               spawn_seconds=args.spawn_seconds, max_seconds=args.max_seconds,
+                               mode='batch' if args.mode == 'batch' else 'timed', batch_size=args.batch_size)
     else:
         env = CombatEnv(config, condition=condition, evaluation=True, port=args.port)
     frame_rows = []
@@ -123,6 +128,10 @@ def main():
         env._raw = FrameTap(backend)
         observation, info = env.reset(seed=seed)
         baseline = env.state
+        from combat_rl.telemetry import CombatTelemetry
+        tracker = CombatTelemetry() if args.track_crits else None
+        if tracker is not None:
+            tracker.begin(env._raw.latest['full'])
 
         def capture(raw, initial=False):
             nonlocal frame_count, last_canvas
@@ -131,14 +140,23 @@ def main():
                 raise RuntimeError('Expected a uint8 HWC RGB framebuffer from the pinned RAW encoder')
             rgb = np.ascontiguousarray(rgb)
             state = read_state(raw)
+            if tracker is not None and not initial:
+                tracker.observe(raw['full'], env._raw.last_action)
             tick = frame_count
             kills = max(0, state.kills-baseline.kills)
             row = dict(frame=frame_count,game_seconds=tick/fps,decision=decision,wave=env.wave,
                        health=state.health,kills=kills,x=state.x,z=state.z,yaw=state.yaw,pitch=state.pitch,
                        damage_dealt=max(0,state.damage_dealt-baseline.damage_dealt),
                        damage_taken=max(0,state.damage_taken-baseline.damage_taken))
-            if args.mode == 'endless':
+            if args.mode in ('endless', 'batch'):
                 row.update(active_enemies=len(state.entities), spawn_commands_issued=env.spawn_commands_issued)
+            if args.mode == 'batch':
+                # Callback runs immediately before the task consumes this tick.
+                clear_now = (not state.is_dead and state.health > 0 and not state.entities
+                             and state.kills-env._batch_kills_start >= args.batch_size)
+                row['batches_completed'] = env.batches_completed+int(clear_now)
+            if tracker is not None:
+                row['critical_sound_events'] = tracker.counts['critical_sound_events']
             row.update(zip(['move','strafe','yaw_action','pitch_action','jump','sprint','attack'],
                            map(int, active_action)))
             frame_rows.append(row)
@@ -149,11 +167,13 @@ def main():
             title = (f'ENDLESS DEMO | spawn every {args.spawn_seconds:g}s | scenario {seed}'
                      if args.mode == 'endless' else
                      f'PPO {condition} | seed {metadata["seed"]} | validation {seed} | 1x game time')
+            if args.mode == 'batch':
+                title = f'BATCH SURVIVAL | k={args.batch_size} | scenario {seed} | 1x game time'
             draw.text((12,7),title,
                       font=title_font,fill='white')
             y = args.height + 40
             metrics_label = (f'{tick/fps:6.2f}s | HP {state.health:.1f}/20 | Kills {kills} | Alive {len(state.entities)}'
-                             if args.mode == 'endless' else
+                             if args.mode in ('endless', 'batch') else
                              f'{tick/fps:6.2f}s | Wave {env.wave}/5 | HP {state.health:.1f}/20 | Kills {kills}')
             draw.text((12,y),metrics_label,
                       font=title_font,fill=(138,225,176))
@@ -161,6 +181,10 @@ def main():
             draw.text((12,y+27),line1,font=font,fill='white')
             draw.text((12,y+49),line2+' | Actions requested; attack is pulsed',
                       font=font,fill=(195,203,219))
+            if tracker is not None:
+                suffix = f' | Batches cleared {row["batches_completed"]}' if args.mode == 'batch' else ''
+                draw.text((12,y+73),f'Critical sound cues {tracker.counts["critical_sound_events"]}'+suffix,
+                          font=font,fill=(255,210,110))
             writers[1].send(np.asarray(canvas))
             last_canvas = canvas
             previous = frame_rows[-2] if len(frame_rows)>1 else row
@@ -194,8 +218,10 @@ def main():
         draw = ImageDraw.Draw(last_canvas)
         draw.rectangle((0,0,args.width,32),fill=(86,31,38))
         end_label = (f'ENDLESS: {info["terminal_reason"]} | {info["kills"]} kills'
-                     if args.mode == 'endless' else
+                     if args.mode in ('endless', 'batch') else
                      f'END: {info["terminal_reason"]} | {info["waves_completed"]} waves | {info["kills"]} kills')
+        if args.mode == 'batch':
+            end_label = f'BATCH k={args.batch_size}: {info["terminal_reason"]} | {info["kills"]} kills'
         draw.text((12,7),end_label,
                   font=title_font,fill='white')
         last_canvas.save(args.output_dir/'final-frame.png')
@@ -226,6 +252,15 @@ def main():
                 'Recording ends on death or its time limit. No policy updates. '
                 'Spawn count counts issued summon commands; raw ticks and kills are recorded. '
                 'RGB/HUD are display-only; raw video is 20 ticks/s, annotation adds a two-second end hold.')
+        if args.mode == 'batch':
+            report['note'] = ('Exploratory cleared-batch survival, not a five-wave evaluation. '
+                f'Spawn {args.batch_size} zombies initially and after every full batch clear; '
+                'standard arena/gear, no between-batch healing. The wave feature is fixed at k. '
+                'No policy updates or manual input. RGB/HUD/telemetry never enter policy input. '
+                'Raw video is 20 ticks/s; annotation adds a two-second end hold.')
+        if tracker is not None:
+            report['combat_telemetry'] = tracker.summary()
+            (args.output_dir/'critical-events.json').write_text(json.dumps(tracker.events)+'\n')
         (args.output_dir/'episode.json').write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps({'output_dir':str(args.output_dir),'metrics':info,'raw_frames':frame_count}),flush=True)
         success = True

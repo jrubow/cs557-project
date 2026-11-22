@@ -3,6 +3,14 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
+**Next exploratory phase:** [batch survival and critical-hit analysis](docs/endless-calibration.md)
+waits for the current survival confirmations and recordings to finish. It compares
+cleared batches of 1/2/3/5 zombies with timed arrivals, then fine-tunes a copy for
+up to 2M additional decisions. Passive critical-sound telemetry is validated with
+scripted controls and measured across saved C checkpoints. This phase has no
+overall time cutoff and uses development scenarios only; it does not replace the
+original five-wave study or its test results.
+
 **Status:** all nine controlled A/B/C runs are complete on native Windows with
 Python 3.11 and Java 21. Each fresh seed-0/1/2 model trained for 1,000,448 decisions
 under identical frozen code/config/budgets, then ran 50 shared validation scenarios

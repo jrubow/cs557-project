@@ -95,6 +95,54 @@ class EndlessTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 EndlessCombatEnv(load_config(), **settings)
 
+    def test_batch_waits_for_every_kill_then_respawns_without_healing(self):
+        backend = AccumulatingBackend()
+        env = EndlessCombatEnv(load_config(), backend=backend, mode='batch', batch_size=3)
+        obs, info = env.reset(seed=52000)
+        self.assertEqual(info['active_enemies'], 3)
+        self.assertAlmostEqual(float(obs[6]), .6)
+        backend.commands.clear()
+        backend.script = [observation(1, kills=12, health=8)]
+        _, _, done, cut, info = env.step(NO_OP_ACTION)
+        self.assertEqual(info['spawn_commands_issued'], 3)
+        self.assertEqual(info['batches_completed'], 0)
+        backend.script = [observation(0, kills=13, health=8)]
+        _, _, done, cut, info = env.step(NO_OP_ACTION)
+        self.assertFalse(done or cut)
+        self.assertEqual(info['spawn_commands_issued'], 6)
+        self.assertEqual(info['batches_completed'], 1)
+        self.assertEqual(info['kills'], 3)
+        self.assertEqual(info['final_health'], 8)
+        self.assertEqual(info['active_enemies'], 3)
+        self.assertEqual(info['peak_active_enemies'], 3)
+        self.assertTrue(all(command.startswith('summon minecraft:zombie ') for command in backend.commands))
+        for _ in range(20):
+            env.step(NO_OP_ACTION)
+        self.assertEqual(env.spawn_commands_issued, 6)  # Timed arrivals are disabled.
+
+    def test_empty_or_dead_observation_cannot_double_spawn_a_batch(self):
+        for health, seconds in [(0,300), (7,.05)]:
+            backend = AccumulatingBackend()
+            env = EndlessCombatEnv(load_config(), backend=backend, mode='batch', batch_size=2, max_seconds=seconds)
+            env.reset(seed=52000)
+            backend.script = [observation(0, kills=12, health=health)]
+            _, _, done, cut, info = env.step(NO_OP_ACTION)
+            self.assertEqual(info['spawn_commands_issued'], 2)
+            self.assertEqual(info['batches_completed'], int(health > 0))
+            self.assertEqual(done, health == 0)
+            self.assertEqual(cut, health > 0)
+        backend = AccumulatingBackend()
+        env = EndlessCombatEnv(load_config(), backend=backend, mode='batch', batch_size=2)
+        env.reset(seed=52000)
+        backend.script = [observation(0, kills=10)]
+        env.step(NO_OP_ACTION)
+        self.assertEqual(env.batches_completed, 0)  # Empty entity list alone is insufficient.
+
+    def test_invalid_batch_size_and_mode_rejected(self):
+        for kwargs in (dict(mode='other'),dict(batch_size=0),dict(batch_size=6),dict(batch_size=2.5)):
+            with self.assertRaises(ValueError):
+                EndlessCombatEnv(load_config(), **kwargs)
+
 
 if __name__ == '__main__':
     unittest.main()

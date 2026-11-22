@@ -99,6 +99,9 @@ class CombatEnv(gym.Env):
                 limit = waves
         return min(limit, self.settings["max_waves"])
 
+    def _initial_enemy_count(self):
+        return 1
+
     def _spawn_commands(self, wave):
         e = self.settings
         encounter = None
@@ -182,7 +185,8 @@ class CombatEnv(gym.Env):
                 break
         else:
             raise RuntimeError("Reset cleanup/statistic counters did not settle")
-        self._raw.add_commands(["effect clear @p minecraft:instant_health"] + self._spawn_commands(1))
+        initial_count = self._initial_enemy_count()
+        self._raw.add_commands(["effect clear @p minecraft:instant_health"] + self._spawn_commands(initial_count))
         for _ in range(40):
             observation, *_ = self._raw.step(noop)
             self.state = read_state(observation)
@@ -190,10 +194,10 @@ class CombatEnv(gym.Env):
             centered = math.hypot(self.state.x-e["arena_center_x"],
                                   self.state.z-e["arena_center_z"]) < 0.5
             if (not self.state.is_dead and self.state.health >= 19.99 and centered
-                    and len(self.state.entities) == 1):
+                    and len(self.state.entities) == initial_count):
                 break
         else:
-            raise RuntimeError("Reset failed: expected full health, center position, and one zombie")
+            raise RuntimeError(f"Reset failed: expected full health, center position, and {initial_count} zombies")
         self._wave_kills_start = self.state.kills
         self._attack_held = False
         self._done = False
