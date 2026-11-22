@@ -16,6 +16,7 @@ from pathlib import Path
 import statistics
 import subprocess
 import sys
+import tempfile
 import time
 import zipfile
 
@@ -28,15 +29,38 @@ METRICS = ("success_rate", "waves", "kills", "damage_dealt", "damage_taken")
 
 
 def read_json(path):
-    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
+    return json.loads(_retry_permission(lambda: Path(path).read_text(encoding="utf-8-sig")))
+
+
+def _retry_permission(operation):
+    # Windows readers/antivirus can temporarily deny replacement of an open
+    # status file. Keep the old complete JSON visible while retrying; do not
+    # abort a healthy simulator on the first sharing violation.
+    for attempt in range(21):
+        try:
+            return operation()
+        except PermissionError:
+            if attempt == 20:
+                raise
+            time.sleep(min(0.05 * 2**attempt, 0.5))
 
 
 def write_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(path.name + ".tmp")
-    temporary.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    temporary.replace(path)
+    payload = json.dumps(value, indent=2, allow_nan=False) + "\n"
+    # Unique same-directory staging avoids collisions with stale .tmp files.
+    with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=path.parent,
+                                     prefix='.'+path.name+'.', suffix='.tmp', delete=False) as stream:
+        temporary = Path(stream.name)
+        stream.write(payload)
+    try:
+        _retry_permission(lambda: temporary.replace(path))
+    finally:
+        try:
+            temporary.unlink()
+        except OSError:
+            pass  # Already replaced, or retain an inaccessible staging file for diagnosis.
 
 
 def sha256(path):
