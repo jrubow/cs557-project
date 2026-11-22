@@ -165,6 +165,7 @@ class Worker:
             if sock.connect_ex(('127.0.0.1', 8000)) == 0:
                 raise RuntimeError('Minecraft port occupied')
         log = self.root/'logs'/(label+'.log')
+        log.parent.mkdir(parents=True,exist_ok=True)
         if log.exists():
             raise RuntimeError('Refusing to overwrite a supervised job')
         env = os.environ.copy()
