@@ -5,8 +5,10 @@ import math
 import statistics
 
 from .env import read_state
+from .focus import FocusTracker, DEFINITIONS as FOCUS_DEFINITIONS, summarize as summarize_focus
 
 DEFINITIONS = dict(
+    focus_fire=FOCUS_DEFINITIONS,
     close_distance=4.0, aligned_yaw_degrees=15.0, aligned_pitch_degrees=20.0,
     player_eye_offset=1.62, zombie_torso_offset=1.0, radial_motion_per_tick=.01,
     window_ticks=20, near_wall_gap=2.0, escaped_wall_gap=3.0,
@@ -60,6 +62,7 @@ def aggregate(episodes):
     escaped = [e for e in walls if e['outcome']=='escaped']
     c = counts
     return dict(episodes=len(episodes), counts=dict(counts), movement_windows=groups,
+        focus_fire=summarize_focus([e['focus_fire'] for e in episodes]),
         yaw_correction_fraction=ratio(c['yaw_improving_turns'],c['yaw_turns']),
         pitch_correction_fraction=ratio(c['pitch_improving_turns'],c['pitch_turns']),
         mean_camera_only_yaw_gain_degrees=ratio(c['yaw_gain_sum'],c['yaw_turns']),
@@ -94,6 +97,8 @@ class BehaviorTracker:
 
     def begin(self, full):
         self.previous = read_state({'full':full})
+        self.focus = FocusTracker()
+        self.focus.begin(full)
         self.tick, self.counts, self.last_row = 0, Counter(), None
         self.windows, self.searches, self.walls, self.attack_intervals = [], [], [], []
         self.buffer = []
@@ -108,6 +113,7 @@ class BehaviorTracker:
             raise RuntimeError('Begin a new episode before observing more ticks')
         before, after = self.previous, read_state({'full':full})
         self.tick += 1
+        focus = self.focus.observe(full)
         targets = visible_targets(before,self.settings,self.condition)
         target = targets[0] if targets else None
         pulse = int(bool(action.get('attack')))
@@ -123,6 +129,9 @@ class BehaviorTracker:
             on_ground_after=bool(full.is_on_ground),velocity_y_after=float(full.velocity_y),
             damage_dealt=dealt,damage_taken=taken,kills=max(0,after.kills-before.kills),critical_cue=critical_cue,
             enemy_count=len(before.entities),visible_count=len(targets),
+            damaged_ids=json.dumps(focus['damaged_ids']),death_ids=json.dumps(focus['death_ids']),
+            wounded_alive=focus['wounded_alive'],damage_target_transition=focus['transition'],
+            entity_health_after=json.dumps(self.focus.previous,separators=(',',':')),
             nearest_any_distance=min((geometry(before,e)[0] for e in before.entities),default=None),
             target_id=target.uuid if target else None,target_distance=None,target_bearing=None,target_pitch_error=None,
             target_alive_after=False,target_error_after=None,target_pitch_error_after=None,
@@ -230,4 +239,4 @@ class BehaviorTracker:
                 self._end_wall('episode_end')
             self.finished = True
         return dict(counts=dict(self.counts),windows=self.windows,searches=self.searches,walls=self.walls,
-                    attack_intervals_ticks=self.attack_intervals)
+                    attack_intervals_ticks=self.attack_intervals,focus_fire=self.focus.finish())

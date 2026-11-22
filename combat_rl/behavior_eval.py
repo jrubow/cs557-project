@@ -87,6 +87,9 @@ def evaluate(args):
                 result = env._raw.behavior.finish()
                 if result['counts']['ticks'] != round(info['elapsed_seconds']*20):
                     raise RuntimeError('Behavior trace/tick mismatch')
+                if (result['focus_fire']['counts']['ticks'] != result['counts']['ticks']
+                        or result['focus_fire']['counts'].get('player_kills',0) != info['kills']):
+                    raise RuntimeError('Focus trace/episode tick or kill-counter mismatch')
                 for key in ('damage_dealt','damage_taken'):
                     if not math.isclose(result['counts'].get(key,0),info[key],abs_tol=1e-5):
                         raise RuntimeError('Behavior trace/episode damage mismatch')

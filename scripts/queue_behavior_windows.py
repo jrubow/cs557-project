@@ -141,24 +141,29 @@ def plot_history(history,path):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    fig,axes = plt.subplots(2,3,figsize=(13,7),layout='constrained')
+    fig,axes = plt.subplots(3,3,figsize=(13,10),layout='constrained')
     plots = [('yaw_correction_fraction','Camera turns reducing yaw error'),
              ('aligned_attack_fraction','Attacks in geometric aiming band'),
              ('damage_per_attack_pulse','Damage per attack request'),
              ('near_wall_fraction','Fraction of ticks near walls'),
              ('critical_cues_per_100_attack_pulses','Critical sound cues / 100 requests'),
-             ('retreat','Unanswered retreat windows / minute')]
+             ('retreat','Unanswered retreat windows / minute'),
+             ('focus:mean_kill_seconds','Mean first damage to death (completed only, s)'),
+             ('focus:switch_before_kill_fraction','Damage-target switches before killing'),
+             ('focus:multiple_wounded_fraction','Multiple wounded / multi-enemy ticks')]
     for axis,(key,title) in zip(axes.flat,plots):
         values = []
         for record in history:
             score = record['summary']
-            value = (1200*score['movement_windows']['retreat']['unanswered_damage_windows']/score['counts']['ticks']
+            value = (score['focus_fire'][key.split(':')[1]] if key.startswith('focus:') else
+                     1200*score['movement_windows']['retreat']['unanswered_damage_windows']/score['counts']['ticks']
                      if key=='retreat' else score[key])
             values.append(float('nan') if value is None else value)
         axis.plot([r['steps']/1e6 for r in history],values,marker='o')
         axis.set(title=title,xlabel='Training decisions (millions)')
         axis.grid(alpha=.25)
-    fig.suptitle('C seed 0: observed combat behavior across checkpoints\n10 matched development scenarios each; geometric proxies, not proof of intent')
+    fig.suptitle('C seed 0: observed combat behavior across checkpoints\n10 matched development scenarios; descriptive proxies, not proof of intent')
+    fig.supxlabel('Kill-time means exclude unfinished, initially injured and observation-gap cases; see counts in summaries.')
     fig.savefig(path,dpi=160)
     plt.close(fig)
 

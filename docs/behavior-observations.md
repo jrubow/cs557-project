@@ -56,6 +56,40 @@ and distinguish enemies disappearing from successful reacquisition. Enemy
 movement can contribute to visibility; reacquisition alone is not proof of an
 intentional search strategy.
 
+**Focus fire and time to kill.** Track every arena zombie by UUID, including those
+outside the policy's field of view. The primary duration is `(first observed
+health-zero tick - first observed health-decrease tick) / 20`, in game seconds.
+Start at first damage, not spawn or the first attack request. The mean and median
+pool completed zombies and include their sample count; retain every zombie record
+and per-episode evidence. A lethal first hit has duration zero at the 0.05-second
+observation resolution. A lingering corpse counts only once. The runtime's
+`ToMessage.kt` supplies the UUID and living-entity health; collect the raw entity
+list because the policy's `read_state` deliberately removes health-zero corpses.
+
+Require a healthy 20-HP observation before first damage and uninterrupted entity
+observations for the primary kill-time statistic. Zombies initially seen injured
+have an unknown earlier damage time and are excluded, with counts retained. A
+zombie disappearing is an unknown outcome, even if the aggregate player kill
+counter increases: that counter alone cannot identify the dead zombie. Record
+unfinished timers when the player dies or the episode cap is reached, and record
+lost observations separately. Report initially injured cases, observation gaps,
+excluded deaths and health-confirmed deaths alongside the player's kill total.
+Completed-only means can favor policies that abandon hard targets, so never
+interpret them without the incomplete counts and episode survival/kill results.
+
+For complementary evidence, count successive single-target health-loss events
+that stay on the same UUID or switch while the previously damaged zombie remains
+alive. Count opportunities only when at least two zombies were alive before the
+next event; the previous target must still be observed alive when switching.
+Choosing a new enemy after a confirmed death is not a switch-before-kill. A tick
+with multiple damaged zombies is ambiguous (for example, a sword sweep), is
+reported separately, and breaks the target sequence. Also measure mean wounded
+zombies alive and the fraction of multi-enemy ticks with multiple wounded zombies.
+These are health-loss proxies, not attributed attacks: environmental damage and
+sweeps can contribute. Lower kill time, fewer switches and fewer simultaneous
+wounded enemies together can support focus-fire behavior, but do not prove intent
+or a causal performance benefit. No new focus-fire reward is introduced.
+
 **Walls and maneuvering.** Measure fraction of time within two coordinate blocks
 of an arena wall, incoming damage per second near/away from walls, and how long
 it takes to move back to at least three blocks away. This hysteresis prevents
@@ -88,7 +122,9 @@ a competing Minecraft instance.
 
 Outputs include gzip-compressed per-tick CSVs with entity identities/positions,
 pre/post player geometry, actions and damage; complete per-episode windows and
-censored intervals; summaries with opportunity counts; checkpoint charts; and
+censored intervals; raw post-tick UUID/health maps (including corpses), damaged/dead
+UUIDs, complete zombie timers and target-damage events; summaries with opportunity
+counts; checkpoint charts; and
 the first three qualifying retreat windows per episode for manual examination.
 All outcomes remain available, not just illustrative windows. Passive observers
 must reproduce environment tick and damage totals exactly.

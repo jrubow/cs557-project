@@ -12,8 +12,10 @@ overall time cutoff and uses development scenarios only; it does not replace the
 original five-wave study or its test results.
 
 The follow-up [behavior observation protocol](docs/behavior-observations.md)
-compares aiming, hit-and-retreat, attack timing, enemy reacquisition and wall
-escapes across the same saved checkpoints. It adds passive traces and annotated
+compares aiming, hit-and-retreat, attack timing, focus fire, enemy reacquisition
+and wall escapes across the same saved checkpoints. Focus-fire diagnostics include
+first-damage-to-death time per zombie, switches before killing, simultaneous
+wounded enemies and incomplete timers. It adds passive traces and annotated
 videos after batch optimization, without changing policy inputs or rewards.
 
 **Status:** all nine controlled A/B/C runs are complete on native Windows with

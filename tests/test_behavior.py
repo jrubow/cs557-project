@@ -106,6 +106,22 @@ class BehaviorTests(unittest.TestCase):
         self.assertEqual(summary['aligned_attack_fraction'],0)
         self.assertEqual(summary['attacks_without_visible_target_fraction'],1)
 
+    def test_focus_tracks_hidden_uuid_health_and_raw_corpses(self):
+        tracker = self.tracker(full(enemies=[(0,-2)]))
+        damaged = full(enemies=[(0,-2)],dealt=100)
+        damaged.surrounding_entities[ENTITY_RANGE].entities[0].health = 10
+        tracker.observe(damaged,{})
+        dead = full(enemies=[(0,-2)],dealt=200)
+        dead.surrounding_entities[ENTITY_RANGE].entities[0].health = 0
+        dead.killed_statistics['zombie'] = 1
+        row = tracker.observe(dead,{})
+        self.assertEqual(read_state({'full':dead}).entities,[])
+        self.assertEqual(row['death_ids'],'["0"]')
+        score = aggregate([tracker.finish()])
+        self.assertEqual(score['focus_fire']['mean_kill_seconds'],.05)
+        self.assertEqual(score['focus_fire']['counts']['player_kills'],1)
+        self.assertEqual(score['counts']['visible_ticks'],0)
+
 
 if __name__=='__main__':
     unittest.main()
