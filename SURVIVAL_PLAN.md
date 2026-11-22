@@ -79,3 +79,50 @@ python scripts/queue_survival_windows.py --parents <original-optimization-models
 Checkpoints and full logs stay outside Git. Compact results from the completed
 first study are published; this new study's measurements must be reported
 separately with their additional training budgets and post-test exploratory status.
+
+## Requested demonstration videos and review gate
+
+On November 21 the user requested a video of a complete five-wave victory after
+the current optimization finishes, followed by a continuous-spawn demonstration.
+`scripts/queue_demos_windows.py` runs from a separate frozen checkout. It waits
+for both the survival worker's terminal status and actual process exit, verifies
+all started supervisors cleaned up, and checks the shared Minecraft runtime is
+idle. It does not change the running training worker or start a second simulator.
+
+First use the selected best seed-0 development checkpoint and check the three
+already-planned fixed recordings. If none is a verified full victory, record new
+attempts, preferring that checkpoint's known winning development scenarios. Keep
+all attempts and record their outcomes. Stop at the first video that verifies
+five completed waves, fifteen kills, terminal success, correct model hash, and
+matching encoded frame counts. Export annotated and clean MP4s under easy names.
+This is deliberately a selected winning demonstration, not an unbiased win-rate
+sample or a replay. Never alter the task, fabricate a victory, or discard failures
+to make it look successful. There are at most thirty new attempts with a ninety-
+minute active worker cap, reserving time for the endless demo. If none succeeds,
+report that honestly and preserve the footage for investigation.
+
+Then record one fixed continuous-spawn demonstration using the same frozen
+checkpoint and scenario 51000. Begin with one zombie and add one every 2.0 game
+seconds (40 ticks), regardless of how many remain. Use ordinary random arena
+spawn positions, the same iron equipment and action controls, no regeneration or
+between-wave healing, and no five-wave termination. End at death or a ten-minute
+game-time recording limit; a surviving run is censored, not a victory. Report
+kills, survival time, final health, damage, kills/minute, peak simultaneous enemies,
+and issued spawn commands. The video shows time, HP, kills, and enemies alive.
+
+This separate stress task keeps the original 156-value policy input: its wave
+feature is fixed at the last trained stage (5), and only the nearest five visible
+enemies fill the existing slots. Additional enemies do not expand the policy's
+field of view or observation. New continuous-spawn results are not pooled with
+the five-wave benchmark. The final five-wave test scenarios stay untouched.
+
+**Stop for the user's review before calibration or training.** The first footage
+is a baseline with no policy updates. Review targeting, attack timing, movement
+near walls, response to multiple enemies, and how health is lost. If the user then
+wants calibration, compare a few spawn intervals (for example 4, 3, and 2 seconds)
+on shared development seeds to measure the arrival rate the policy can sustain.
+Freeze the reviewed cadence before tuning a copy of the policy. Preserve this
+baseline and measure gains in kills/survival under the same conditions, while
+checking for regressions on the original five-wave task. No cadence sweep,
+additional policy training, or final test is automatically authorized by this
+demonstration worker.

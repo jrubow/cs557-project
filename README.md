@@ -409,15 +409,24 @@ task and policy spaces. Ordinary resume retains its original strict behavior.
 `evaluate --first-seed <seed>` supports fresh ranges within a split and rejects
 validation ranges that cross the configured test boundary.
 
+After that worker exits, `scripts/queue_demos_windows.py` can reuse or capture a
+verified five-wave winning video and record a separate continuous-spawn stress
+demo. `record_episode --mode endless --spawn-seconds 2 --max-seconds 600` records
+one zombie every two game seconds until death or the recording limit. This is
+inference only, with the original gear and observation/action spaces; the wave
+feature is fixed at 5. The [demonstration plan](SURVIVAL_PLAN.md#requested-demonstration-videos-and-review-gate)
+keeps these results separate and stops for user review before calibration/tuning.
+
 ## Work split and remaining gates
 
 - `env.py`: Minecraft commands, resets, waves, termination, history.
 - `task.py`: action/observation encoding and reward deltas.
 - `train.py`: PPO/checkpoints; `evaluate.py`: fixed scenarios and throughput.
 - `policies.py` / `human.py`: baselines; `report.py`: CSV summaries and figures.
-- `smoke.py`: short real-simulator checks; `tests/`: seven task/environment checks
-  plus twelve offline queue/artifact checks. Queue checks also use `psutil` from
-  the Windows training environment; none of these unit tests launch Minecraft.
+- `smoke.py`: short real-simulator checks; `tests/`: task/environment boundaries,
+  queue handoff/selection, checkpoint adaptation, scenario separation and video
+  integrity checks. Tests use the Windows training environment, including one
+  SB3 save/reload check; none of these unit tests launch Minecraft.
 
 Suggested remaining ten-day sequence: first get a real smoke/benchmark/pilot on
 compute; use the next day to fix integration and calibrate on validation; reserve

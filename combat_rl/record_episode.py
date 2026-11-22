@@ -1,4 +1,4 @@
-"""Record one fresh validation episode from Minecraft's offscreen RGB frames.
+"""Record a fresh five-wave episode or a separate endless demonstration.
 
 Run with the train and video extras installed, and only when no other simulator
 is using this runtime. RGB frames are diagnostic output, never policy input.
@@ -54,6 +54,11 @@ def main():
     parser.add_argument('--model', type=Path, required=True)
     parser.add_argument('--output-dir', type=Path, required=True)
     parser.add_argument('--scenario-seed', type=int)
+    parser.add_argument('--mode', choices=['waves', 'endless'], default='waves')
+    parser.add_argument('--spawn-seconds', type=float, default=2.0,
+                        help='Endless mode only: simulated seconds between zombie spawns')
+    parser.add_argument('--max-seconds', type=float, default=600,
+                        help='Endless mode only: recording limit, at most 600 simulated seconds')
     parser.add_argument('--width', type=int, default=640)
     parser.add_argument('--height', type=int, default=360)
     parser.add_argument('--hide-game-hud', action='store_true',
@@ -94,7 +99,12 @@ def main():
             output_params=['-preset','veryfast','-threads','1','-movflags','+faststart'])
         writer.send(None)
         writers.append(writer)
-    env = CombatEnv(config, condition=condition, evaluation=True, port=args.port)
+    if args.mode == 'endless':
+        from combat_rl.endless import EndlessCombatEnv
+        env = EndlessCombatEnv(config, condition=condition, port=args.port,
+                               spawn_seconds=args.spawn_seconds, max_seconds=args.max_seconds)
+    else:
+        env = CombatEnv(config, condition=condition, evaluation=True, port=args.port)
     frame_rows = []
     events = []
     frame_count = 0
@@ -127,6 +137,8 @@ def main():
                        health=state.health,kills=kills,x=state.x,z=state.z,yaw=state.yaw,pitch=state.pitch,
                        damage_dealt=max(0,state.damage_dealt-baseline.damage_dealt),
                        damage_taken=max(0,state.damage_taken-baseline.damage_taken))
+            if args.mode == 'endless':
+                row.update(active_enemies=len(state.entities), spawn_commands_issued=env.spawn_commands_issued)
             row.update(zip(['move','strafe','yaw_action','pitch_action','jump','sprint','attack'],
                            map(int, active_action)))
             frame_rows.append(row)
@@ -134,10 +146,16 @@ def main():
             canvas = Image.new('RGB',canvas_size,(16,20,29))
             canvas.paste(Image.fromarray(rgb),(0,32))
             draw = ImageDraw.Draw(canvas)
-            draw.text((12,7),f'PPO {condition} | seed {metadata["seed"]} | validation {seed} | 1x game time',
+            title = (f'ENDLESS DEMO | spawn every {args.spawn_seconds:g}s | scenario {seed}'
+                     if args.mode == 'endless' else
+                     f'PPO {condition} | seed {metadata["seed"]} | validation {seed} | 1x game time')
+            draw.text((12,7),title,
                       font=title_font,fill='white')
             y = args.height + 40
-            draw.text((12,y),f'{tick/fps:6.2f}s | Wave {env.wave}/5 | HP {state.health:.1f}/20 | Kills {kills}',
+            metrics_label = (f'{tick/fps:6.2f}s | HP {state.health:.1f}/20 | Kills {kills} | Alive {len(state.entities)}'
+                             if args.mode == 'endless' else
+                             f'{tick/fps:6.2f}s | Wave {env.wave}/5 | HP {state.health:.1f}/20 | Kills {kills}')
+            draw.text((12,y),metrics_label,
                       font=title_font,fill=(138,225,176))
             line1,line2 = action_label(active_action)
             draw.text((12,y+27),line1,font=font,fill='white')
@@ -175,7 +193,10 @@ def main():
                 raise RuntimeError(f'Recorded {key} differs from episode metrics')
         draw = ImageDraw.Draw(last_canvas)
         draw.rectangle((0,0,args.width,32),fill=(86,31,38))
-        draw.text((12,7),f'END: {info["terminal_reason"]} | {info["waves_completed"]} waves | {info["kills"]} kills',
+        end_label = (f'ENDLESS: {info["terminal_reason"]} | {info["kills"]} kills'
+                     if args.mode == 'endless' else
+                     f'END: {info["terminal_reason"]} | {info["waves_completed"]} waves | {info["kills"]} kills')
+        draw.text((12,7),end_label,
                   font=title_font,fill='white')
         last_canvas.save(args.output_dir/'final-frame.png')
         for _ in range(fps*2):
@@ -185,6 +206,7 @@ def main():
             csv_writer.writeheader()
             csv_writer.writerows(frame_rows)
         report = dict(model=str(checkpoint.resolve()),model_sha256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
+            mode=args.mode,policy_updated=False,
             condition=condition,training_seed=metadata['seed'],training_steps=metadata['timesteps'],
             scenario_seed=seed,split='validation',deterministic=True,metrics=info,episode_return=episode_return,
             fps=fps,raw_frames=frame_count,annotated_frames=frame_count+fps*2,
@@ -197,6 +219,13 @@ def main():
                  'Only capture resolution/HUD differ; RGB/overlays never enter the structured policy input. '
                  'Raw video is 20 ticks/s; annotated video adds a 2-second end hold. '
                  'Minecraft AI is not bit-exact across runs with the same Python seed.')
+        if args.mode == 'endless':
+            report['note'] = ('Exploratory continuous-spawn demonstration, not a five-wave evaluation. '
+                'One initial zombie, then one every fixed interval; standard arena/gear, no healing. '
+                'The wave feature is fixed at 5; nearest-five/FOV observations and actions are unchanged. '
+                'Recording ends on death or its time limit. No policy updates. '
+                'Spawn count counts issued summon commands; raw ticks and kills are recorded. '
+                'RGB/HUD are display-only; raw video is 20 ticks/s, annotation adds a two-second end hold.')
         (args.output_dir/'episode.json').write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps({'output_dir':str(args.output_dir),'metrics':info,'raw_frames':frame_count}),flush=True)
         success = True
