@@ -85,7 +85,7 @@ class ContinuationWorker(q.Worker):
                 note='Current supervised training continues unchanged. Handoff occurs only after cleanup.'))
             time.sleep(5)
         state = q.read_json(self.root/'status.json')
-        if state['phase'] not in ('complete', 'budget_stopped'):
+        if state['phase'] not in ('complete', 'budget_stopped', 'failed'):
             raise RuntimeError('Predecessor did not finish a clean between-job handoff')
         manifest = q.read_json(self.root/'manifest.json')
         if (Path(manifest['source']).resolve() != self.source or manifest['source_revision'] != self.revision
@@ -117,7 +117,8 @@ class ContinuationWorker(q.Worker):
         if marker_record:
             marker.unlink()
         self.ready = True
-        self.ledger('controller_handoff', **amendment)
+        # Keep the amendment's timestamp nested; ledger() owns the event's utc.
+        self.ledger('controller_handoff', amendment=amendment)
         self.status('resuming_completed_protocol', current_job=None)
 
     def job(self, label, arguments, estimate, reserve=0):
@@ -183,6 +184,8 @@ def main():
         worker.run()
     except Exception as error:
         q.write_json(worker.control/'status.json', dict(phase='failed', error=repr(error), ready=worker.ready))
+        if worker.ready and not worker.predecessor_alive():
+            worker.status('failed', error=repr(error), current_job=None)
         raise
 
 

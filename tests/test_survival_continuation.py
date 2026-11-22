@@ -76,7 +76,7 @@ class ContinuationTests(unittest.TestCase):
         self.assertIsNone(status['remaining_seconds'])
         self.assertTrue(status['overall_time_limit_removed'])
 
-    def test_handoff_does_not_remove_an_unrelated_stop_request(self):
+    def prepare_handoff(self, token='authorized'):
         w = self.worker
         w.parent_models = []
         w.parents = []
@@ -95,13 +95,35 @@ class ContinuationTests(unittest.TestCase):
         w.original_manifest_hash = q.sha256(w.root/'manifest.json')
         q.write_json(w.root/'status.json', dict(phase='budget_stopped'))
         (w.root/'ledger.jsonl').write_text('')
-        q.write_json(w.root/'STOP_AFTER_CURRENT', dict(handoff_token='another-request'))
+        q.write_json(w.root/'STOP_AFTER_CURRENT', dict(handoff_token=token))
         w.predecessor_alive = lambda: False
         w.predecessor_identity = None
+        return w
+
+    def test_handoff_does_not_remove_an_unrelated_stop_request(self):
+        w = self.prepare_handoff(token='another-request')
         with self.assertRaisesRegex(RuntimeError, 'unrelated stop'):
             w.initialize()
         self.assertTrue((w.root/'STOP_AFTER_CURRENT').exists())
         self.assertEqual(q.sha256(w.root/'manifest.json'), w.original_manifest_hash)
+
+    def test_successful_handoff_writes_real_ledger_and_status_without_timestamp_collision(self):
+        import json
+        w = self.prepare_handoff()
+        # Exercise real persistence, which mocking ledger/status would miss.
+        w.ledger = q.Worker.ledger.__get__(w, c.ContinuationWorker)
+        w.status = c.ContinuationWorker.status.__get__(w, c.ContinuationWorker)
+        w.initialize()
+        self.assertTrue(w.ready)
+        self.assertFalse((w.root/'STOP_AFTER_CURRENT').exists())
+        self.assertEqual(q.sha256(w.root/'manifest.json'), w.original_manifest_hash)
+        record = json.loads((w.root/'ledger.jsonl').read_text().splitlines()[-1])
+        self.assertEqual(record['event'], 'controller_handoff')
+        self.assertIn('utc', record)
+        self.assertIn('utc', record['amendment'])
+        status = q.read_json(w.root/'status.json')
+        self.assertEqual(status['phase'], 'resuming_completed_protocol')
+        self.assertIsNone(status['remaining_seconds'])
 
 
 if __name__ == '__main__':
