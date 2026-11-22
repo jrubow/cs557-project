@@ -117,7 +117,7 @@ class Worker:
             stream.write(json.dumps(dict(utc=datetime.now(timezone.utc).isoformat(), event=event, **extra))+'\n')
 
     def wait_for_predecessor(self):
-        deadline = time.monotonic() + self.args.wait_hours*3600
+        deadline = time.monotonic() + self.args.wait_hours*3600 if self.args.wait_hours else None
         self.status('waiting_for_survival', predecessor_pid=self.args.predecessor_pid,
                     note='No simulator or policy update starts while the survival worker is alive.')
         while True:
@@ -133,7 +133,7 @@ class Worker:
                     if event['event'] == 'job_started':
                         clean_supervisor(self.predecessor / 'logs' / (event['label']+'.status.json'))
                 return state
-            if time.monotonic() >= deadline or (self.root / 'STOP_AFTER_CURRENT').exists():
+            if (deadline is not None and time.monotonic() >= deadline) or (self.root / 'STOP_AFTER_CURRENT').exists():
                 raise RuntimeError('Waiting stopped; no demonstration simulator started')
             self.status('waiting_for_survival', predecessor_phase=state['phase'],
                         predecessor_job=state.get('current_job'))
@@ -271,12 +271,12 @@ def main():
     parser.add_argument('--predecessor-pid', required=True, type=int)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--video-deps', required=True, type=Path)
-    parser.add_argument('--wait-hours', type=float, default=20)
+    parser.add_argument('--wait-hours', type=float, default=20, help='Zero waits for the predecessor without a deadline')
     parser.add_argument('--active-hours', type=float, default=1.5)
     parser.add_argument('--max-attempts', type=int, default=30)
     args = parser.parse_args()
-    if not (0 < args.wait_hours <= 24 and 1 <= args.active_hours <= 2 and 1 <= args.max_attempts <= 50):
-        parser.error('Require wait <=24h, active 1-2h, and 1-50 attempts')
+    if not (0 <= args.wait_hours <= 24 and 1 <= args.active_hours <= 2 and 1 <= args.max_attempts <= 50):
+        parser.error('Require wait 0-24h (zero is unlimited), active 1-2h, and 1-50 attempts')
     Worker(args).run()
 
 

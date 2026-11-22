@@ -59,6 +59,14 @@ class DemoQueueTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'unclean'):
             WaitingWorker(self.root, [False]).wait_for_predecessor()
 
+    def test_zero_wait_budget_waits_for_actual_exit(self):
+        self.predecessor()
+        worker = WaitingWorker(self.root, [True, True, False])
+        worker.args.wait_hours = 0
+        with patch.object(q.time, 'sleep') as sleep:
+            self.assertEqual(worker.wait_for_predecessor()['phase'], 'complete')
+        self.assertEqual(sleep.call_count, 2)
+
     def test_seed_order_uses_only_matching_development_results(self):
         directory = self.root/'evaluations'
         directory.mkdir()

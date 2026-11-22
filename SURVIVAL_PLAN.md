@@ -5,6 +5,15 @@ This is a second study after the first test set was observed. The completed
 The objective is repeatable five-wave completion with the existing structured
 policy, iron equipment, five-wave arena, and health carry between waves.
 
+**Budget amendment, November 21:** the user removed the overall wall-clock cutoff
+so the planned runs can finish. `continue_survival_windows.py` takes over after
+the current supervised job finishes naturally, reuses verified completed jobs,
+and executes only the remaining finite protocol. It keeps the original frozen
+training source and manifest, with a separate amendment recording this change.
+The video worker waits without a deadline. Individual six-hour job timeouts,
+failure checks, and process cleanup remain; the 10:25 a.m. overall cutoff is
+superseded after the handoff. No in-flight model training is restarted.
+
 ## Starting policy and evidence
 
 Start from C at 2M steps, seed 0. It led pre-test validation at 2.99 completed
@@ -63,13 +72,14 @@ scenario lists and budget. Every child is supervised; failed output or leftover
 tracked processes stops the queue. The existing native Windows shutdown error
 remains documented and is separate from Python exit/result validation.
 
-One simulator runs at a time. The active budget is at most 18 hours. Extensions
-reserve time for confirming both other seeds and recording episodes. At the
-previous measured rate, the full 5M path is roughly 16-18 hours; an earlier stop
-or a 4M selection shortens it. This November 21 run leaves the planned final
-72-hour evaluation/report window intact. `status.json` and `ledger.jsonl` provide
+One simulator runs at a time. The original launch had an 18-hour active budget
+and confirmation reserve; those values remain in its immutable historical
+manifest. The user's later budget amendment above removes the overall cutoff.
+The finite training targets and selection rules are unchanged. At the earlier
+measured rate the full 5M path was roughly 16-18 hours; actual completion depends
+on throughput and the selected target. `status.json` and `ledger.jsonl` provide
 live progress; create `STOP_AFTER_CURRENT` in the output root to stop between jobs.
-Budget/failure stops are recorded explicitly and do not claim confirmation.
+Failure or requested-stop states do not claim confirmation.
 
 ```powershell
 python scripts/queue_survival_windows.py --parents <original-optimization-models> `

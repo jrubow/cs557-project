@@ -165,7 +165,7 @@ class Worker:
             development_scenarios=[DEV_FIRST, DEV_FIRST+49], reserved_test_scenarios=[FINAL_TEST_FIRST, FINAL_TEST_FIRST+49],
             new_test_used=False, old_study_closed=True, **extra))
 
-    def run(self):
+    def initialize(self):
         self.source_check()
         if self.root.exists():
             raise RuntimeError('Use a completely new output root')
@@ -182,6 +182,9 @@ class Worker:
             reserved_test_scenarios=list(range(FINAL_TEST_FIRST, FINAL_TEST_FIRST+EPISODES)),
             max_hours=self.args.max_hours, selection='success rate, then completed waves, then kills',
             note='Exploratory second study after the original test was observed. Same arena/gear/actions; no healing or scripted aim. Survival recipes jointly change damage penalty, learning rate and discount, so they are not single-factor ablations. See SURVIVAL_PLAN.md.'))
+
+    def run(self):
+        self.initialize()
         try:
             # Verify real simulator warm-start/config integration before the long
             # queue. This small checkpoint is excluded from selection and trials.

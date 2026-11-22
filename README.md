@@ -417,6 +417,13 @@ inference only, with the original gear and observation/action spaces; the wave
 feature is fixed at 5. The [demonstration plan](SURVIVAL_PLAN.md#requested-demonstration-videos-and-review-gate)
 keeps these results separate and stops for user review before calibration/tuning.
 
+The user subsequently removed the overall training deadline. A graceful
+`continue_survival_windows.py` handoff validates and reuses finished jobs from
+the original output root, keeps its frozen training source, and completes the
+remaining finite protocol without an overall time limit. It records a separate
+manifest amendment and retains per-job failure protection. The demonstration
+worker accepts `--wait-hours 0` to wait for that continuation without a deadline.
+
 ## Work split and remaining gates
 
 - `env.py`: Minecraft commands, resets, waves, termination, history.
