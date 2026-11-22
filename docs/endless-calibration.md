@@ -102,3 +102,25 @@ Implementation evidence: `combat_rl/telemetry.py`, `combat_rl/crit_probe.py`,
 `combat_rl/survival_task.py`; runtime source
 `craftground_runtime_mc121/src/main/java/com/kyhsgeekcode/minecraftenv/MinecraftSoundListener.kt`;
 Minecraft 1.21 client asset `assets/minecraft/lang/en_us.json`.
+
+## Final-checkpoint recovery
+
+On November 22 the final +2M checkpoint was saved at 6,001,664 total decisions,
+but the supervisor exited without a completion JSON. The batch controller and
+its behavior-analysis waiter stopped, preserving that failure. Its precise
+supervisor exit/cleanup outcome is unknown; it is not reported as a clean job.
+
+`scripts/finish_endless_windows.py` explicitly audits the 26 earlier completed
+supervisors, development results, task/settings, final parent/hash/budget/source,
+ZIP integrity and actual PPO weights. It requires old controllers and the
+simulator to be absent, and the same scientific task code. It adopts the final
+artifact into a fresh output directory without retraining, retains the original
+failure evidence, and runs the unchanged final candidate evaluation, selection,
+confirmation, transfer checks and recordings. The new ledger contains only its
+own supervised jobs; adoption is a separate event with an unknown prior exit code.
+Behavior analysis waits for this continuation's successful completion and exit.
+
+New supervisor runs atomically persist outcomes even for handled cleanup errors,
+and batch/behavior workers capture supervisor stdout/stderr in a dedicated log.
+These changes improve diagnostics and prevent handled errors from silently losing
+their status; they cannot guarantee a receipt after external process termination.

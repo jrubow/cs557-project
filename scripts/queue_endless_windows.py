@@ -173,10 +173,12 @@ class Worker:
                    '--log', str(log), '--', *map(str, arguments)]
         self.status('running', current_job=label)
         self.ledger('job_started', label=label, command=command)
-        process = subprocess.Popen(command, cwd=self.source, env=env, creationflags=subprocess.CREATE_NO_WINDOW)
-        while process.poll() is None:
-            self.status('running')
-            time.sleep(5)
+        with log.with_suffix('.supervisor.log').open('x',encoding='utf-8') as supervisor_log:
+            process = subprocess.Popen(command, cwd=self.source, env=env, stdout=supervisor_log,
+                stderr=subprocess.STDOUT, creationflags=subprocess.CREATE_NO_WINDOW)
+            while process.poll() is None:
+                self.status('running')
+                time.sleep(5)
         record = clean_supervisor(log.with_suffix('.status.json'))
         if process.returncode:
             raise RuntimeError('Supervisor failed')
