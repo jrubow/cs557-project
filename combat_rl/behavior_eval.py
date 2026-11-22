@@ -1,6 +1,7 @@
 """Matched, inference-only behavior traces; never inject diagnostic state into PPO."""
 import argparse
 import csv
+import faulthandler
 import gzip
 import json
 import math
@@ -59,11 +60,21 @@ def evaluate(args):
     env = make_environment(config,condition,spec,args.port)
     records = []
     try:
-        env._raw = BehaviorTap(env._make_backend())
+        print('Behavior evaluation: constructing simulator backend',flush=True)
+        faulthandler.dump_traceback_later(300)
+        try:
+            env._raw = BehaviorTap(env._make_backend())
+        finally:
+            faulthandler.cancel_dump_traceback_later()
         with gzip.open(args.output/'ticks.csv.gz','wt',newline='',encoding='utf-8') as stream:
             writer = None
             for seed in range(first,first+args.episodes):
-                observation,_ = env.reset(seed=seed)
+                print(f'Behavior evaluation: resetting scenario {seed}',flush=True)
+                faulthandler.dump_traceback_later(300)
+                try:
+                    observation,_ = env.reset(seed=seed)
+                finally:
+                    faulthandler.cancel_dump_traceback_later()
                 env.action_space.seed(seed)
                 def emit(row):
                     nonlocal writer

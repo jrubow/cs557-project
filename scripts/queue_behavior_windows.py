@@ -53,6 +53,10 @@ class Worker(BaseWorker):
         directory = self.root/'evaluations'/name
         self.job(name,['-m','combat_rl.behavior_eval','--model',model,'--task-spec',self.spec_path(spec),
             '--output',directory,'--first-seed',first,'--episodes',episodes,'--policy',policy])
+        return self.read_behavior(name,directory,model,spec,first,episodes,policy,self.revision)
+
+    def read_behavior(self,name,directory,model,spec,first,episodes,policy,revision):
+        model = self.remember(model)
         meta,records = read_json(directory/'metadata.json'),read_json(directory/'episodes.json')
         if (meta['model_sha256']!=sha256(model) or meta['model_metadata_sha256']!=sha256(model.with_suffix('.json'))
                 or meta['task']!=spec or meta['policy']!=policy or meta['policy_updated']
@@ -60,7 +64,7 @@ class Worker(BaseWorker):
                 or meta['deterministic']!=(policy!='random')
                 or meta['config']!=read_json(model.with_suffix('.json'))['config']
                 or not 50000<=first<first+episodes<=100000 or meta['definitions']!=DEFINITIONS
-                or meta['runtime']['git_revision']!=self.revision or meta['runtime']['git_status']
+                or meta['runtime']['git_revision']!=revision or meta['runtime']['git_status']
                 or [r['scenario_seed'] for r in records]!=list(range(first,first+episodes))
                 or meta['trace_sha256']!=sha256(directory/'ticks.csv.gz')):
             raise RuntimeError('Behavior evaluation provenance mismatch')

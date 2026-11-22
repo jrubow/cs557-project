@@ -8,13 +8,14 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock,patch
 
 from combat_rl import behavior_eval as b
 from combat_rl.config import load_config
 from combat_rl.endless import EndlessCombatEnv
 from combat_rl.train import save_checkpoint
 from scripts.queue_optimization_windows import sha256,write_json
+from scripts.continue_behavior_windows import Worker as ContinuationWorker
 from test_survival_task import TelemetryBackend,environment
 
 
@@ -56,6 +57,19 @@ class BehaviorEvaluationTests(unittest.TestCase):
                     self.assertEqual(meta['policy'],policy)
                     self.assertEqual(meta['deterministic'],policy!='random')
                     self.assertEqual(sha256(root/'parent.zip'),original)
+                    # Exercise real validation/reuse of these actual PPO/reference outputs.
+                    worker=object.__new__(ContinuationWorker)
+                    worker.models={}; worker.state={'jobs_reused':0}; worker.old_revision='test'
+                    worker.status=Mock(); worker.ledger=Mock(); worker.job=Mock()
+                    expected=dict(name=policy,model=str((root/'parent.zip').resolve()),steps=meta['model_steps'],
+                        policy=policy,task=spec,output=str(args.output),summary=summary,model_sha256=original)
+                    worker.cached={policy:dict(result=expected,metadata_sha256=sha256(args.output/'metadata.json'))}
+                    self.assertEqual(worker.evaluate_behavior(policy,root/'parent.zip',spec,53000,2,policy),expected)
+                    worker.job.assert_not_called()
+                    self.assertEqual(worker.state['jobs_reused'],1)
+                    worker.cached[policy]['metadata_sha256']='altered'
+                    with self.assertRaisesRegex(RuntimeError,'metadata changed'):
+                        worker.evaluate_behavior(policy,root/'parent.zip',spec,53000,2,policy)
         finally:
             env.close()
 

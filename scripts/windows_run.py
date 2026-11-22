@@ -96,6 +96,7 @@ def main():
     env["CMAKE_PREFIX_PATH"] = str(prefix / "Library")
     env["GRADLE_USER_HOME"] = str(prefix / "gradle-cache")
     env["PYTHONUNBUFFERED"] = env["PYTHONUTF8"] = "1"
+    env['CS557_SUPERVISED_WINDOWS'] = '1'
     args.log.parent.mkdir(parents=True, exist_ok=True)
     command = [sys.executable, *python_args]
     record = supervise(command, env, args.log, args.timeout)

@@ -71,6 +71,8 @@ class CombatEnv(gym.Env):
 
     def _make_backend(self):
         import craftground
+        from .windows_runtime import configure_supervised_windows_ipc
+        configure_supervised_windows_ipc()
         from craftground import ActionSpaceVersion, InitialEnvironmentConfig
         from craftground.initial_environment_config import Difficulty, GameMode, WorldType
         e = self.settings

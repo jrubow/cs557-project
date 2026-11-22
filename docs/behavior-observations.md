@@ -136,3 +136,22 @@ episode-level evidence and exposure counts are retained for that reason.
 Do not claim intention, exact acquisition time, causation, or statistical
 significance from the plot alone. The later survival recipe changes several
 training settings together. Original and reserved test splits remain untouched.
+
+## Resuming an interrupted analysis
+
+`scripts/continue_behavior_windows.py` verifies completed supervisor receipts,
+metadata/model/trace hashes and recomputed behavior summaries before reusing old
+evaluations. It runs only the missing jobs in a fresh directory, retains the failed
+attempt, and records each reused output's original revision. Cached successes are
+not rerolled. The original completed batch and its cleanup records are rechecked.
+
+The first analysis reached nine complete jobs, then a new backend construction
+stalled before any Minecraft child or episode trace appeared. Its 90-minute job
+guard exited 124 with no surviving descendants. A precise blocking stack was not
+available. Native Windows supervised jobs now skip CraftGround's Unix `/tmp`
+orphan-socket routine, which otherwise calls `open_files()` across unrelated
+processes before launching Minecraft. Native Windows uses TCP and our supervisor
+retains ownership/cleanup of its own process tree. This scoped operational change
+does not change the task, actions, observations or reward. It is disabled without
+the supervisor's Windows environment flag. Backend construction and episode reset
+also log their stages and dump diagnostic stacks if blocked for five minutes.
