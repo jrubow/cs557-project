@@ -11,6 +11,11 @@ scripted controls and measured across saved C checkpoints. This phase has no
 overall time cutoff and uses development scenarios only; it does not replace the
 original five-wave study or its test results.
 
+The follow-up [behavior observation protocol](docs/behavior-observations.md)
+compares aiming, hit-and-retreat, attack timing, enemy reacquisition and wall
+escapes across the same saved checkpoints. It adds passive traces and annotated
+videos after batch optimization, without changing policy inputs or rewards.
+
 **Status:** all nine controlled A/B/C runs are complete on native Windows with
 Python 3.11 and Java 21. Each fresh seed-0/1/2 model trained for 1,000,448 decisions
 under identical frozen code/config/budgets, then ran 50 shared validation scenarios

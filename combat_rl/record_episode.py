@@ -59,6 +59,7 @@ def main():
     parser.add_argument('--mode', choices=['waves', 'endless', 'batch'], default='waves')
     parser.add_argument('--batch-size', type=int, default=1)
     parser.add_argument('--track-crits', action='store_true', help='Add passive critical-sound cue telemetry')
+    parser.add_argument('--track-behavior', action='store_true', help='Add passive aiming/movement traces and annotations')
     parser.add_argument('--spawn-seconds', type=float, default=2.0,
                         help='Endless mode only: simulated seconds between zombie spawns')
     parser.add_argument('--max-seconds', type=float, default=600,
@@ -69,6 +70,7 @@ def main():
                         help='Keep the training display setting instead of showing the sword/crosshair/HUD')
     parser.add_argument('--port', type=int, default=8000)
     args = parser.parse_args()
+    args.track_crits = args.track_crits or args.track_behavior
     if args.output_dir.exists():
         parser.error('Output directory exists; preserve it and choose a new directory')
     if args.width < 640 or args.height < 360 or args.width % 2 or args.height % 2:
@@ -94,7 +96,7 @@ def main():
     font = ImageFont.load_default(size=16)
     title_font = ImageFont.load_default(size=19)
     fps = 20
-    canvas_size = (args.width, args.height + (146 if args.track_crits else 120))
+    canvas_size = (args.width, args.height + (176 if args.track_behavior else 146 if args.track_crits else 120))
     paths = [args.output_dir/'episode.mp4', args.output_dir/'episode-annotated.mp4']
     writers = []
     for path, size in zip(paths, [(args.width,args.height),canvas_size]):
@@ -132,6 +134,11 @@ def main():
         tracker = CombatTelemetry() if args.track_crits else None
         if tracker is not None:
             tracker.begin(env._raw.latest['full'])
+        from combat_rl.behavior import BehaviorTracker, aggregate as behavior_aggregate
+        behavior_rows = []
+        behavior = BehaviorTracker(config,condition,behavior_rows.append) if args.track_behavior else None
+        if behavior is not None:
+            behavior.begin(env._raw.latest['full'])
 
         def capture(raw, initial=False):
             nonlocal frame_count, last_canvas
@@ -140,8 +147,11 @@ def main():
                 raise RuntimeError('Expected a uint8 HWC RGB framebuffer from the pinned RAW encoder')
             rgb = np.ascontiguousarray(rgb)
             state = read_state(raw)
+            critical_cue = 0
             if tracker is not None and not initial:
-                tracker.observe(raw['full'], env._raw.last_action)
+                critical_cue = tracker.observe(raw['full'], env._raw.last_action)
+            if behavior is not None and not initial:
+                behavior.observe(raw['full'],env._raw.last_action,critical_cue)
             tick = frame_count
             kills = max(0, state.kills-baseline.kills)
             row = dict(frame=frame_count,game_seconds=tick/fps,decision=decision,wave=env.wave,
@@ -185,6 +195,13 @@ def main():
                 suffix = f' | Batches cleared {row["batches_completed"]}' if args.mode == 'batch' else ''
                 draw.text((12,y+73),f'Critical sound cues {tracker.counts["critical_sound_events"]}'+suffix,
                           font=font,fill=(255,210,110))
+            if behavior is not None:
+                retreat_hits = sum(w['group']=='retreat' and not w['partial'] and w['damage_dealt']>0
+                                   and w['damage_taken']==0 for w in behavior.windows)
+                turns = behavior.counts['yaw_turns']
+                corrected = f'{100*behavior.counts["yaw_improving_turns"]/turns:.0f}%' if turns else 'n/a'
+                draw.text((12,y+97),f'Aim turns improved {corrected} | Unanswered retreat windows {retreat_hits}',
+                          font=font,fill=(171,204,255))
             writers[1].send(np.asarray(canvas))
             last_canvas = canvas
             previous = frame_rows[-2] if len(frame_rows)>1 else row
@@ -261,6 +278,13 @@ def main():
         if tracker is not None:
             report['combat_telemetry'] = tracker.summary()
             (args.output_dir/'critical-events.json').write_text(json.dumps(tracker.events)+'\n')
+        if behavior is not None:
+            import gzip
+            details = behavior.finish()
+            report['behavior_summary'] = behavior_aggregate([details])
+            report['behavior_note'] = 'Geometric aiming and one-second retreat-window proxies; not proof of intent or exact hit reach.'
+            with gzip.open(args.output_dir/'behavior-trace.json.gz','wt',encoding='utf-8') as stream:
+                json.dump(dict(episode=details,ticks=behavior_rows),stream)
         (args.output_dir/'episode.json').write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps({'output_dir':str(args.output_dir),'metrics':info,'raw_frames':frame_count}),flush=True)
         success = True
