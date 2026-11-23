@@ -89,10 +89,10 @@ def check_identity(job):
             raise RuntimeError(f"Locked model changed: {job['name']}")
 
 
-def validate_result(path, job, config):
+def validate_result(path, job, config, first_seed=100000):
     meta = read_json(path.with_suffix(".json"))
     expected_model = Path(job["model"]).resolve() if job["policy"] == "ppo" else None
-    if (meta["split"] != "test" or meta["first_seed"] != 100000 or meta["episodes"] != 50
+    if (meta["split"] != "test" or meta["first_seed"] != first_seed or meta["episodes"] != 50
             or meta["condition"] != job["condition"] or meta["policy"] != job["policy"]
             or str(meta["training_seed"]) != str(job["training_seed"]) or meta["config"] != config
             or not meta["deterministic"]
@@ -100,7 +100,7 @@ def validate_result(path, job, config):
         raise RuntimeError(f"Test metadata mismatch: {path}")
     with path.open(newline="") as stream:
         rows = list(csv.DictReader(stream))
-    if len(rows) != 50 or [int(row["scenario_seed"]) for row in rows] != list(range(100000, 100050)):
+    if len(rows) != 50 or [int(row["scenario_seed"]) for row in rows] != list(range(first_seed, first_seed+50)):
         raise RuntimeError(f"Wrong, duplicated, or missing test scenarios: {path}")
     for row in rows:
         if (row["split"] != "test" or row["condition"] != job["condition"] or row["policy"] != job["policy"]

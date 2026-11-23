@@ -59,6 +59,18 @@ class HeldOutEvaluationTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "identity"):
             test_queue.validate_result(self.csv, self.job, CONFIG)
 
+    def test_reserved_range_is_explicit_and_cannot_accept_original_test(self):
+        self.make_test()
+        with self.assertRaisesRegex(RuntimeError,'metadata'):
+            test_queue.validate_result(self.csv,self.job,CONFIG,200000)
+        self.meta['first_seed']=200000
+        for index,row in enumerate(self.rows):
+            row['scenario_seed']=str(200000+index)
+        self.save()
+        self.assertEqual(test_queue.validate_result(self.csv,self.job,CONFIG,200000)['episodes'],50)
+        with self.assertRaisesRegex(RuntimeError,'metadata'):
+            test_queue.validate_result(self.csv,self.job,CONFIG)
+
     def test_training_budgets_remain_separate_groups(self):
         self.make_test()
         first = test_queue.validate_result(self.csv, self.job, CONFIG)
