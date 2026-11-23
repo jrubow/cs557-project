@@ -1,0 +1,121 @@
+{
+  "samples": [
+    {
+      "label": "Development",
+      "parent": {
+        "episodes": 20,
+        "mean_kills": 17.35,
+        "median_kills": 17.5,
+        "mean_seconds": 87.0175,
+        "median_seconds": 91.7,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 646,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 21.5405135045015,
+        "critical_cues_per_game_minute": 22.27138219323699,
+        "csv_sha256": "7af38ca57abe872625537126d29f99ba8b591b1df3cf99cac21424916c971867"
+      },
+      "selected": {
+        "episodes": 20,
+        "mean_kills": 21.6,
+        "median_kills": 21.0,
+        "mean_seconds": 106.4325,
+        "median_seconds": 102.6,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 926,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 24.75273990911521,
+        "critical_cues_per_game_minute": 26.10104996124304,
+        "csv_sha256": "121a2839715ca627a5ebeccd09c0efedbe15fc3d857d235071983e769776fff3"
+      }
+    },
+    {
+      "label": "Confirmation",
+      "parent": {
+        "episodes": 20,
+        "mean_kills": 17.7,
+        "median_kills": 18.0,
+        "mean_seconds": 89.42,
+        "median_seconds": 88.4,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 693,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 22.46353322528363,
+        "critical_cues_per_game_minute": 23.24983225229255,
+        "csv_sha256": "d3891ebfd6aa779abf986bb5fbf004cad4324054369a653a843387dfec17388b"
+      },
+      "selected": {
+        "episodes": 20,
+        "mean_kills": 19.1,
+        "median_kills": 18.0,
+        "mean_seconds": 93.45,
+        "median_seconds": 90.75,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 809,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 24.732497707123205,
+        "critical_cues_per_game_minute": 25.971107544141248,
+        "csv_sha256": "7a700b30de57d2a94506dbee691f3266e0bc14a5d04122c3dcdd0ff83069d273"
+      }
+    },
+    {
+      "label": "Behavior sample",
+      "parent": {
+        "mean_kills": 18.85,
+        "mean_seconds": 95.89250000000001
+      },
+      "selected": {
+        "mean_kills": 21.55,
+        "mean_seconds": 105.07000000000001
+      }
+    }
+  ],
+  "task": {
+    "mode": "batch",
+    "batch_size": 3,
+    "max_seconds": 300
+  },
+  "improvement_confirmed": false,
+  "selected_model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+  "selected_sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+  "five_wave_transfer": {
+    "parent": {
+      "episodes": 50,
+      "mean_kills": 12.3,
+      "median_kills": 12.0,
+      "mean_seconds": 61.481,
+      "median_seconds": 62.3,
+      "capped_episodes": 0,
+      "five_wave_success_rate": 0.34,
+      "mean_waves": 4.3,
+      "critical_sound_events": 1105,
+      "episodes_with_critical_cues": 50,
+      "critical_cues_per_100_attack_pulses": 20.758970505354124,
+      "critical_cues_per_game_minute": 21.567638782713356,
+      "csv_sha256": "7e9ce32990903b9745e7644c601eb9968ebf4ec79000439c02065fe2fb30d40f"
+    },
+    "selected": {
+      "episodes": 50,
+      "mean_kills": 11.86,
+      "median_kills": 12.0,
+      "mean_seconds": 60.417,
+      "median_seconds": 62.1,
+      "capped_episodes": 0,
+      "five_wave_success_rate": 0.28,
+      "mean_waves": 4.14,
+      "critical_sound_events": 1191,
+      "episodes_with_critical_cues": 50,
+      "critical_cues_per_100_attack_pulses": 22.437829691032405,
+      "critical_cues_per_game_minute": 23.65559362431103,
+      "csv_sha256": "8a392c51d52bce327a7f71739e23fa9ac9c27cc6b86dc07c953fd0cca4c833c1"
+    }
+  }
+}

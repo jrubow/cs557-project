@@ -1,7 +1,13 @@
 # Observed combat behavior across learning checkpoints
 
+**Completed November 22, 2026:** 170 diagnostic episodes across fifteen evaluation
+sets and three annotated recordings. See the [final interpretation and policy
+selection](../reports/final-study-20261122/README.md) for aiming, critical cues,
+hit-and-retreat, focus-fire and wall-exposure findings. The protocol below was
+fixed before this analysis; the separate reserved test is reported there too.
+
 This inference-only extension follows the critical-hit study and the existing
-batch optimization. The current frozen training queue continues unchanged.
+batch optimization. The preceding frozen training queue was kept unchanged.
 No aiming, kiting or movement heuristic is added to policy actions or rewards.
 Ground-truth entity state is logged passively for analysis and is never added
 to the policy observation.

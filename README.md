@@ -3,22 +3,36 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
-**Next exploratory phase:** [batch survival and critical-hit analysis](docs/endless-calibration.md)
-waits for the current survival confirmations and recordings to finish. It compares
-cleared batches of 1/2/3/5 zombies with timed arrivals, then fine-tunes a copy for
-up to 2M additional decisions. Passive critical-sound telemetry is validated with
-scripted controls and measured across saved C checkpoints. This phase has no
-overall time cutoff and uses development scenarios only; it does not replace the
-original five-wave study or its test results.
+**Final policies and behavior analysis:** see the [November 22 report](reports/final-study-20261122/README.md)
+and its [HTML view](reports/final-study-20261122/report.html). The five-wave recipe
+is survival10 at 4M decisions across training seeds 0–2, with seed 0 selected for
+demonstration from development results. The batch +1M policy is a separate
+exploratory demonstration: its fresh-confirmation improvement missed the
+predefined threshold. Policy paths and checkpoint hashes are in the
+[final policy registry](reports/final-study-20261122/final-policies.json).
 
-The follow-up [behavior observation protocol](docs/behavior-observations.md)
-compares aiming, hit-and-retreat, attack timing, focus fire, enemy reacquisition
+On the reserved scenarios 200000–200049, the survival recipe completed five waves
+in **24/150 episodes (16%)**, compared with **0/150** for its three C/2M parents.
+Mean completed waves increased from 2.79 to 3.89, and mean kills from 5.99 to 10.90.
+All three seed lineages improved, but their win rates varied: 28%, 16%, and 4%.
+The choice was locked before this test. This comparison combines more training
+with reward/PPO-settings changes; it is not a reward-only ablation. The report
+also gives the separate batch-policy transfer result and all per-model episodes.
+
+The completed [batch survival and critical-hit phase](docs/endless-calibration.md)
+compared cleared batches of 1/2/3/5 zombies with timed arrivals and trained copies
+for up to 2M additional decisions. Critical-sound telemetry passed scripted
+controls and was measured across saved checkpoints. Development uses separate
+scenarios and does not replace the original five-wave study or its test results.
+
+The completed [behavior observation protocol](docs/behavior-observations.md)
+compared aiming, hit-and-retreat, attack timing, focus fire, enemy reacquisition
 and wall escapes across the same saved checkpoints. Focus-fire diagnostics include
 first-damage-to-death time per zombie, switches before killing, simultaneous
-wounded enemies and incomplete timers. It adds passive traces and annotated
+wounded enemies and incomplete timers. It added passive traces and annotated
 videos after batch optimization, without changing policy inputs or rewards.
 
-**Status:** all nine controlled A/B/C runs are complete on native Windows with
+**Original controlled study:** all nine A/B/C runs are complete on native Windows with
 Python 3.11 and Java 21. Each fresh seed-0/1/2 model trained for 1,000,448 decisions
 under identical frozen code/config/budgets, then ran 50 shared validation scenarios
 with ordinary starting positions. Nineteen offline checks and the earlier real

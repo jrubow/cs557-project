@@ -1,0 +1,209 @@
+{
+  "generated_utc": "2026-11-23T00:20:47.171523+00:00",
+  "report_script_sha256": "f48fb3d57a42363239db4b159fc460b5bb6548f7b216f9f5347ae37091d0e056",
+  "behavior_results_sha256": "c9aa653db8c5695669acc0926a901aefc315a6e27042605845a02404e0c11a58",
+  "batch_results_sha256": "78488c81ab217e32d5463e9ec450d50586ff54998918b67b6b1b018be4c9dbac",
+  "critical_evidence_sha256": {
+    "critical-controls.json": "9d91890f1948c48f3705882e2d78bf1ceef55862b5379925ce5bc12195d27b17",
+    "critical-history.json": "a17106d1c0667bc9b27a39d72fd4b9bcdc8120903e04c8398475faf048743807"
+  },
+  "test_manifest_sha256": "6e48a8913a378bc3c0cc4fa59e6e39c76307d96fc4a2f145234a12dc20686325",
+  "test_evidence": [
+    {
+      "name": "parent_2M_seed0",
+      "csv_sha256": "203813adcbd1d542316f8be3c91d7fb3176b882c9e929efbc98235873fc2b12e",
+      "metadata_sha256": "8e4a9efd4271f578b75c252a323c3e41279a3074eab269cc88a24b1e037f63d6",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 118.46899999999732,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed0\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\parent_2M_seed0.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "survival10_4M_seed0",
+      "csv_sha256": "66bce6038ce0ae30b675481f2ca78972b50e9e82a78a955bb63563f822d950fd",
+      "metadata_sha256": "a06cbd757d106d4e8084601f56dac2a4835fa2bea9f33fec29c23eb0fe2193b6",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 136.29699999999866,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\survival10_4M_seed0.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "parent_2M_seed1",
+      "csv_sha256": "1d62d83c2d00a86c935b7370d86c1399eeb097a921dbc37e587e2cd49f068809",
+      "metadata_sha256": "703595f226fa3a734322f1fab34ca44f91c93e8eb1002406e7438906a6029df4",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 108.8440000000046,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed1\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\parent_2M_seed1.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "survival10_4M_seed1",
+      "csv_sha256": "85fea6e281f55c95f5a60b07afe36cf715df3b9fef243e3a2e84c668851bd32a",
+      "metadata_sha256": "d48789a0b883627fd4802dc37d4988b306b627f759e3224c6994a6d46c68416d",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 134.5,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed1\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\survival10_4M_seed1.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "parent_2M_seed2",
+      "csv_sha256": "5edf18ee6bc42a97cf4edab9cc88083604f3b82390ca55ebee6515463dc97951",
+      "metadata_sha256": "2e966a53bd139213dfb88d046579aeb98164cc19c018fb76c9250c48139e984f",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 112.32800000000134,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed2\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\parent_2M_seed2.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "survival10_4M_seed2",
+      "csv_sha256": "4a2cf6415013b2e513c29ee8817f37fea6de6612c6486d3f1c542c0d792a6015",
+      "metadata_sha256": "3a6ec9f104c366f481b3e6c5575e5f507691123ad44316a9758ab6d28559e90e",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 128.5,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed2\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\survival10_4M_seed2.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    },
+    {
+      "name": "batch_plus1M_seed0",
+      "csv_sha256": "a4126269152f4c30d54603374bdcf328a003d723c928a744e6137f11f44b7073",
+      "metadata_sha256": "771b2031ad7adf85c6918bcd9550f7df8772ee2227895e51e6dea61e8b75eaba",
+      "supervisor": {
+        "exit_code": 0,
+        "child_exit_code": 0,
+        "wall_seconds": 135.48500000000058,
+        "command": [
+          "C:\\Users\\Admin\\Documents\\Codex\\cs557-env\\python.exe",
+          "-m",
+          "combat_rl.evaluate",
+          "--model",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+          "--split",
+          "test",
+          "--first-seed",
+          "200000",
+          "--episodes",
+          "50",
+          "--output",
+          "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122\\evaluations\\batch_plus1M_seed0.csv"
+        ],
+        "remaining_descendant_pids": [],
+        "supervisor_errors": []
+      }
+    }
+  ],
+  "test_results_sha256": "d825c66d64fe17d0bab4a0c018691cc2dddea29a641eef004b1f071cccef3ab2",
+  "test_complete": true,
+  "source_files": [
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-behavior-resumed-20261122\\results.json",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-batch-finish-20261122b\\results.json",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-reserved-test-20261122"
+  ]
+}

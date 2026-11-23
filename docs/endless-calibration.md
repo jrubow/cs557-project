@@ -5,6 +5,14 @@ with four kills and requested cleared batches and longer survival. This is a new
 task; it does not replace or get pooled with the original A/B/C five-wave study.
 All original checkpoints and results remain intact.
 
+**Completed November 22, 2026:** the selected three-zombie batch adaptation at
++1M decisions improved fresh-confirmation kills from 17.7 to 19.1, missing the
+predefined two-kill improvement threshold. It remains an exploratory demonstration
+policy. Fixed demonstration episodes recorded 12, 24 and 42 kills; the best video
+is not the mean. The [final interpretation](../reports/final-study-20261122/README.md)
+keeps calibration, development, confirmation, behavior diagnostics and five-wave
+transfer results separate.
+
 ## Execution and task definitions
 
 `scripts/queue_endless_windows.py` runs from a clean frozen checkout. It waits

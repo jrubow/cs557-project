@@ -1,0 +1,217 @@
+{
+  "sensor_validated": true,
+  "checkpoints": [
+    {
+      "name": "c10000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\step_10240.zip",
+      "sha256": "1e251bd3824a20ad202d6e036d1e9e7dc1dac7007d9dac17ba5f70861756e66a",
+      "steps": 10240,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 0.0,
+        "median_kills": 0.0,
+        "mean_seconds": 20.2,
+        "median_seconds": 18.725,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 0,
+        "episodes_with_critical_cues": 0,
+        "critical_cues_per_100_attack_pulses": 0.0,
+        "critical_cues_per_game_minute": 0.0,
+        "csv_sha256": "a38be550c5bb16aaa8d3936ab6c4245bce5b220bb4f8e3c55a6a2f32c0245a15"
+      }
+    },
+    {
+      "name": "c50000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\step_51200.zip",
+      "sha256": "d06f89ea48c41bf6307c0b9c12a76b5ce3c416453fdf06daaf6f179928891152",
+      "steps": 51200,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 0.5,
+        "median_kills": 0.5,
+        "mean_seconds": 33.755,
+        "median_seconds": 35.8,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.5,
+        "critical_sound_events": 0,
+        "episodes_with_critical_cues": 0,
+        "critical_cues_per_100_attack_pulses": 0.0,
+        "critical_cues_per_game_minute": 0.0,
+        "csv_sha256": "b893ad62761e0dae0cae1d0722dabf6dc9387d95401f2666efe663f566cac5cf"
+      }
+    },
+    {
+      "name": "c100000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\step_102400.zip",
+      "sha256": "389936a7b2f09a32058bb79e99a695142fafe7c501c6e0ac755f735fada07ba8",
+      "steps": 102400,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 2.8,
+        "median_kills": 3.0,
+        "mean_seconds": 42.775,
+        "median_seconds": 43.025000000000006,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 1.8,
+        "critical_sound_events": 6,
+        "episodes_with_critical_cues": 3,
+        "critical_cues_per_100_attack_pulses": 0.7083825265643447,
+        "critical_cues_per_game_minute": 0.8416130917592052,
+        "csv_sha256": "0aa02667bfa256298eae4ed7367e421ebe6bc11a7dd82ebc429b1154dd7a747b"
+      }
+    },
+    {
+      "name": "c300000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\step_296960.zip",
+      "sha256": "bbe3ec03e03648525e6cfebc0f508cf39ae76ef09bd088489437575c7c875bcc",
+      "steps": 296960,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 3.1,
+        "median_kills": 3.0,
+        "mean_seconds": 43.47,
+        "median_seconds": 43.8,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 1.9,
+        "critical_sound_events": 5,
+        "episodes_with_critical_cues": 5,
+        "critical_cues_per_100_attack_pulses": 0.6596306068601583,
+        "critical_cues_per_game_minute": 0.6901311249137337,
+        "csv_sha256": "faa79d097ef22dcdff77e7bb4d3096630dca3ce79342b46601937ddcb67e5269"
+      }
+    },
+    {
+      "name": "c500000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\step_501760.zip",
+      "sha256": "8b43a8b698a7db2747af7cd44f46d417a84302cbd1ae3d55ff2a9b11985bd55f",
+      "steps": 501760,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 4.7,
+        "median_kills": 4.0,
+        "mean_seconds": 46.675,
+        "median_seconds": 45.4,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 2.4,
+        "critical_sound_events": 25,
+        "episodes_with_critical_cues": 6,
+        "critical_cues_per_100_attack_pulses": 2.7808676307007785,
+        "critical_cues_per_game_minute": 3.213711837171934,
+        "csv_sha256": "f67c014b1c1ab3b44e7b2263685f7cbd7ad19aa3de0d0df6cc81f2d875d68289"
+      }
+    },
+    {
+      "name": "c1000000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\final.zip",
+      "sha256": "3e5d988ca5314a28ead1c5983433b240f55bb5b4f98b1f58cc4b74abf9bbdae8",
+      "steps": 1000448,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 6.3,
+        "median_kills": 6.0,
+        "mean_seconds": 52.21,
+        "median_seconds": 52.9,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 2.9,
+        "critical_sound_events": 40,
+        "episodes_with_critical_cues": 9,
+        "critical_cues_per_100_attack_pulses": 4.232804232804233,
+        "critical_cues_per_game_minute": 4.596820532465045,
+        "csv_sha256": "1b3b8f4d4f53cdbf5a84bbd1dda40ec70fb7e4923d354e4053901d931c07df57"
+      }
+    },
+    {
+      "name": "c2000000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed0\\final.zip",
+      "sha256": "457e2dce88f095f7098d53fc3609ac387f74474584ac20880a46407dcbce22cb",
+      "steps": 2000896,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 6.4,
+        "median_kills": 7.0,
+        "mean_seconds": 45.08,
+        "median_seconds": 45.45,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 2.9,
+        "critical_sound_events": 104,
+        "episodes_with_critical_cues": 10,
+        "critical_cues_per_100_attack_pulses": 13.29923273657289,
+        "critical_cues_per_game_minute": 13.842058562555458,
+        "csv_sha256": "29d11ffba55b17b136434d27bc6ec917d48e08aed7e57bc5cdb5812bbe655888"
+      }
+    },
+    {
+      "name": "survival10_3000000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_3000000_seed0\\final.zip",
+      "sha256": "6bda32066db6e970d68722c7d685d9bfa57a8d63233b77e91ea5320a439c493d",
+      "steps": 3000320,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 9.9,
+        "median_kills": 11.0,
+        "mean_seconds": 57.305,
+        "median_seconds": 61.6,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 3.6,
+        "critical_sound_events": 164,
+        "episodes_with_critical_cues": 10,
+        "critical_cues_per_100_attack_pulses": 15.723873441994247,
+        "critical_cues_per_game_minute": 17.171276502922957,
+        "csv_sha256": "62ce52b9331f43d345bd17258a072b3fc3fba824c7ea6416e077fffdec7eb70b"
+      }
+    },
+    {
+      "name": "survival10_4000000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+      "sha256": "78c0f90d86c1e0511fba739e1712497dca4d0fb00b06db49696a2a5aeeb04519",
+      "steps": 4000768,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 11.6,
+        "median_kills": 11.0,
+        "mean_seconds": 58.835,
+        "median_seconds": 59.474999999999994,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.3,
+        "mean_waves": 4.1,
+        "critical_sound_events": 214,
+        "episodes_with_critical_cues": 10,
+        "critical_cues_per_100_attack_pulses": 21.08374384236453,
+        "critical_cues_per_game_minute": 21.82374436984788,
+        "csv_sha256": "612585db3bdc8eacb969528173d4b5bdf0ff9a305b2b38b72b7c6e8cd876623e"
+      }
+    },
+    {
+      "name": "survival10_5000000",
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_5000000_seed0\\final.zip",
+      "sha256": "657a948b5032e49ac038e731df88436423a0eea41d9f421f2570d59193436a5b",
+      "steps": 5000192,
+      "score": {
+        "episodes": 10,
+        "mean_kills": 12.0,
+        "median_kills": 11.0,
+        "mean_seconds": 57.425,
+        "median_seconds": 57.725,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.3,
+        "mean_waves": 4.3,
+        "critical_sound_events": 202,
+        "episodes_with_critical_cues": 10,
+        "critical_cues_per_100_attack_pulses": 20.03968253968254,
+        "critical_cues_per_game_minute": 21.105790161079668,
+        "csv_sha256": "f7951d609ea2b4e945d8abf5a66a6838aa2af6994a12457586ba5ffd7c41e55b"
+      }
+    }
+  ],
+  "earliest_observed_checkpoint_steps": 102400,
+  "note": "Matched fresh development rollouts, ten scenarios per checkpoint. Sound cues are not a server hit counter. Earliest sampled observation is not the exact learning step or proof of causation. Zeros with failed sensor controls are inconclusive. Policy receives neither sound nor a crit bonus."
+}

@@ -1,0 +1,122 @@
+{
+  "validated": true,
+  "controls": [
+    {
+      "control": "grounded",
+      "attack_issued": true,
+      "summary": {
+        "critical_sound_events": 0,
+        "attack_pulses": 1,
+        "damage_events": 1,
+        "jump_ticks": 0,
+        "airborne_ticks": 0,
+        "descending_attack_pulses": 0,
+        "ticks": 45,
+        "sounds": {
+          "subtitles.entity.player.attack.sweep": 1
+        },
+        "critical_cues_per_100_attack_pulses": 0.0,
+        "critical_cues_per_game_minute": 0.0,
+        "measurement": "Deduplicated nearby critical-attack sound cues; not a server-side hit counter."
+      },
+      "events": [
+        {
+          "tick": 1,
+          "game_seconds": 0.05,
+          "critical_sound": 0,
+          "attack_pulse": 1,
+          "jump": 0,
+          "on_ground": true,
+          "velocity_y": -0.0784000015258789,
+          "damage_dealt_delta": 0,
+          "sounds": []
+        },
+        {
+          "tick": 5,
+          "game_seconds": 0.25,
+          "critical_sound": 0,
+          "attack_pulse": 0,
+          "jump": 0,
+          "on_ground": true,
+          "velocity_y": -0.0784000015258789,
+          "damage_dealt_delta": 5.9,
+          "sounds": [
+            "subtitles.entity.player.attack.sweep"
+          ]
+        }
+      ]
+    },
+    {
+      "control": "falling",
+      "attack_issued": true,
+      "summary": {
+        "critical_sound_events": 1,
+        "attack_pulses": 1,
+        "damage_events": 1,
+        "jump_ticks": 1,
+        "airborne_ticks": 11,
+        "descending_attack_pulses": 1,
+        "ticks": 45,
+        "sounds": {
+          "subtitles.entity.player.attack.crit": 1
+        },
+        "critical_cues_per_100_attack_pulses": 100.0,
+        "critical_cues_per_game_minute": 26.666666666666668,
+        "measurement": "Deduplicated nearby critical-attack sound cues; not a server-side hit counter."
+      },
+      "events": [
+        {
+          "tick": 7,
+          "game_seconds": 0.35,
+          "critical_sound": 0,
+          "attack_pulse": 1,
+          "jump": 0,
+          "on_ground": false,
+          "velocity_y": -0.15233518685055708,
+          "damage_dealt_delta": 0,
+          "sounds": []
+        },
+        {
+          "tick": 9,
+          "game_seconds": 0.45,
+          "critical_sound": 1,
+          "attack_pulse": 0,
+          "jump": 0,
+          "on_ground": false,
+          "velocity_y": -0.30153472366278034,
+          "damage_dealt_delta": 0,
+          "sounds": [
+            "subtitles.entity.player.attack.crit"
+          ]
+        },
+        {
+          "tick": 10,
+          "game_seconds": 0.5,
+          "critical_sound": 0,
+          "attack_pulse": 0,
+          "jump": 0,
+          "on_ground": false,
+          "velocity_y": -0.3739040364667221,
+          "damage_dealt_delta": 8.9,
+          "sounds": []
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "python": "3.11.18 | packaged by conda-forge | (main, Oct 26 2026, 11:29:07) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "craftground": "2.7.4",
+      "stable-baselines3": "2.7.1",
+      "torch": "2.15.0",
+      "gymnasium": "1.2.2",
+      "numpy": "2.4.6",
+      "protobuf": "7.36.2"
+    },
+    "git_revision": "bf9b7e4b736389229263fde6bf759c2c8fe2bfa7",
+    "git_status": "",
+    "pip_freeze": "cloudpickle==3.1.3\ncontourpy==1.3.3\ncraftground==2.7.4\ncraftground-runtime-mc121==0.1.0\n-e git+https://github.com/jrubow/cs557-project.git@bf9b7e4b736389229263fde6bf759c2c8fe2bfa7#egg=cs557_combat_rl\ncycler==0.12.1\nFarama-Notifications==0.0.6\nfilelock==4.2.12\nfonttools==4.68.0\nfsspec==2026.9.0\ngymnasium==1.2.2\nimageio-ffmpeg==0.8.1\nJinja2==3.1.6\nkiwisolver==1.5.1\nMarkupSafe==3.0.4\nmatplotlib==3.11.2\nmpmath==1.3.0\nnetworkx==3.6.1\nnumpy==2.4.6\npackaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work\npandas==3.1.1\npillow==13.0.0\nprotobuf==7.36.2\npsutil==7.2.2\npyparsing==3.3.3\npypdf @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pypdf_h5ded981_1795037654/work/dist\npython-dateutil==4.0.0\nstable_baselines3==2.7.1\nsympy==1.14.0\ntorch==2.15.0\ntyping_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1783002732/work\ntzdata==2026.6"
+  },
+  "note": "Scripted sensor calibration with an immobile zombie, changed positioning and one-tick actions. Not learned-policy performance; no checkpoint updates. If false, sound-cue counts remain unvalidated."
+}
