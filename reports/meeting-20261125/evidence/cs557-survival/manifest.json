@@ -1,0 +1,491 @@
+{
+  "source_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4",
+  "source": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\work\\cs557-survival",
+  "frozen_utc": "2026-11-21T21:24:54.466583+00:00",
+  "parents": [
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed0\\final.zip",
+      "model_sha256": "457e2dce88f095f7098d53fc3609ac387f74474584ac20880a46407dcbce22cb",
+      "metadata_sha256": "85fad0178fe75c2e72fae4e72f2b0844b60d57d97e4c62d1c17b543288d89355"
+    },
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed1\\final.zip",
+      "model_sha256": "160e8f1dded88601a2e73c40754bb31e4053c366b540d11d586aa8dc6244790a",
+      "metadata_sha256": "4604100dd97e32b3c443733b80c4a2175b105b39ddfbfa4ecd6ce8dd6cbae700"
+    },
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed2\\final.zip",
+      "model_sha256": "bac7aa32aef506c2dea138a7f0c909ae4e6e6ee6bd7cbfa3b34288750bf361d8",
+      "metadata_sha256": "63f98950cc3e4aa545df637fac2c9783f1568d94ee26eee0158b63eddb735a1d"
+    }
+  ],
+  "parent_config": {
+    "environment": {
+      "arena_radius": 12,
+      "arena_center_x": 0,
+      "arena_center_z": 0,
+      "max_waves": 5,
+      "max_episode_steps": 3000,
+      "action_repeat": 4,
+      "history": 4,
+      "fov_degrees": 100,
+      "image_width": 160,
+      "image_height": 90,
+      "world_seed": 557,
+      "weapon": "iron_sword",
+      "armor": "iron",
+      "use_vglrun": false,
+      "curriculum": [
+        [
+          0,
+          1
+        ],
+        [
+          100000,
+          3
+        ],
+        [
+          300000,
+          5
+        ]
+      ],
+      "encounter_curriculum": [
+        [
+          0,
+          2.5,
+          3.0,
+          10.0
+        ],
+        [
+          50000,
+          3.0,
+          5.0,
+          45.0
+        ],
+        [
+          100000,
+          4.0,
+          8.0,
+          90.0
+        ],
+        [
+          200000,
+          4.0,
+          10.0,
+          180.0
+        ]
+      ]
+    },
+    "reward": {
+      "kill": 1.0,
+      "wave": 3.0,
+      "death": -5.0,
+      "time": -0.001,
+      "damage_dealt": 5.0,
+      "damage_taken": 1.5
+    },
+    "training": {
+      "total_timesteps": 2000000,
+      "n_envs": 1,
+      "n_steps": 1024,
+      "batch_size": 256,
+      "learning_rate": 0.0003,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "ent_coef": 0.01,
+      "clip_range": 0.2,
+      "n_epochs": 10,
+      "policy_layers": [
+        128,
+        128
+      ],
+      "checkpoint_every": 10000,
+      "torch_threads": 1,
+      "initial_action_bias": 2.5
+    },
+    "evaluation": {
+      "episodes": 50,
+      "validation_seed": 50000,
+      "test_seed": 100000
+    }
+  },
+  "recipes": {
+    "continue": {
+      "environment": {
+        "arena_radius": 12,
+        "arena_center_x": 0,
+        "arena_center_z": 0,
+        "max_waves": 5,
+        "max_episode_steps": 3000,
+        "action_repeat": 4,
+        "history": 4,
+        "fov_degrees": 100,
+        "image_width": 160,
+        "image_height": 90,
+        "world_seed": 557,
+        "weapon": "iron_sword",
+        "armor": "iron",
+        "use_vglrun": false,
+        "curriculum": [
+          [
+            0,
+            1
+          ],
+          [
+            100000,
+            3
+          ],
+          [
+            300000,
+            5
+          ]
+        ],
+        "encounter_curriculum": [
+          [
+            0,
+            2.5,
+            3.0,
+            10.0
+          ],
+          [
+            50000,
+            3.0,
+            5.0,
+            45.0
+          ],
+          [
+            100000,
+            4.0,
+            8.0,
+            90.0
+          ],
+          [
+            200000,
+            4.0,
+            10.0,
+            180.0
+          ]
+        ]
+      },
+      "reward": {
+        "kill": 1.0,
+        "wave": 3.0,
+        "death": -5.0,
+        "time": -0.001,
+        "damage_dealt": 5.0,
+        "damage_taken": 1.5
+      },
+      "training": {
+        "total_timesteps": 2000000,
+        "n_envs": 1,
+        "n_steps": 1024,
+        "batch_size": 256,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "ent_coef": 0.01,
+        "clip_range": 0.2,
+        "n_epochs": 10,
+        "policy_layers": [
+          128,
+          128
+        ],
+        "checkpoint_every": 10000,
+        "torch_threads": 1,
+        "initial_action_bias": 2.5
+      },
+      "evaluation": {
+        "episodes": 50,
+        "validation_seed": 50000,
+        "test_seed": 100000
+      }
+    },
+    "survival10": {
+      "environment": {
+        "arena_radius": 12,
+        "arena_center_x": 0,
+        "arena_center_z": 0,
+        "max_waves": 5,
+        "max_episode_steps": 3000,
+        "action_repeat": 4,
+        "history": 4,
+        "fov_degrees": 100,
+        "image_width": 160,
+        "image_height": 90,
+        "world_seed": 557,
+        "weapon": "iron_sword",
+        "armor": "iron",
+        "use_vglrun": false,
+        "curriculum": [
+          [
+            0,
+            1
+          ],
+          [
+            100000,
+            3
+          ],
+          [
+            300000,
+            5
+          ]
+        ],
+        "encounter_curriculum": [
+          [
+            0,
+            2.5,
+            3.0,
+            10.0
+          ],
+          [
+            50000,
+            3.0,
+            5.0,
+            45.0
+          ],
+          [
+            100000,
+            4.0,
+            8.0,
+            90.0
+          ],
+          [
+            200000,
+            4.0,
+            10.0,
+            180.0
+          ]
+        ]
+      },
+      "reward": {
+        "kill": 1.0,
+        "wave": 3.0,
+        "death": -5.0,
+        "time": -0.001,
+        "damage_dealt": 5.0,
+        "damage_taken": 10.0
+      },
+      "training": {
+        "total_timesteps": 2000000,
+        "n_envs": 1,
+        "n_steps": 1024,
+        "batch_size": 256,
+        "learning_rate": 0.0001,
+        "gamma": 0.995,
+        "gae_lambda": 0.95,
+        "ent_coef": 0.01,
+        "clip_range": 0.2,
+        "n_epochs": 10,
+        "policy_layers": [
+          128,
+          128
+        ],
+        "checkpoint_every": 10000,
+        "torch_threads": 1,
+        "initial_action_bias": 2.5
+      },
+      "evaluation": {
+        "episodes": 50,
+        "validation_seed": 50000,
+        "test_seed": 100000
+      }
+    },
+    "survival25": {
+      "environment": {
+        "arena_radius": 12,
+        "arena_center_x": 0,
+        "arena_center_z": 0,
+        "max_waves": 5,
+        "max_episode_steps": 3000,
+        "action_repeat": 4,
+        "history": 4,
+        "fov_degrees": 100,
+        "image_width": 160,
+        "image_height": 90,
+        "world_seed": 557,
+        "weapon": "iron_sword",
+        "armor": "iron",
+        "use_vglrun": false,
+        "curriculum": [
+          [
+            0,
+            1
+          ],
+          [
+            100000,
+            3
+          ],
+          [
+            300000,
+            5
+          ]
+        ],
+        "encounter_curriculum": [
+          [
+            0,
+            2.5,
+            3.0,
+            10.0
+          ],
+          [
+            50000,
+            3.0,
+            5.0,
+            45.0
+          ],
+          [
+            100000,
+            4.0,
+            8.0,
+            90.0
+          ],
+          [
+            200000,
+            4.0,
+            10.0,
+            180.0
+          ]
+        ]
+      },
+      "reward": {
+        "kill": 1.0,
+        "wave": 3.0,
+        "death": -5.0,
+        "time": -0.001,
+        "damage_dealt": 5.0,
+        "damage_taken": 25.0
+      },
+      "training": {
+        "total_timesteps": 2000000,
+        "n_envs": 1,
+        "n_steps": 1024,
+        "batch_size": 256,
+        "learning_rate": 0.0001,
+        "gamma": 0.995,
+        "gae_lambda": 0.95,
+        "ent_coef": 0.01,
+        "clip_range": 0.2,
+        "n_epochs": 10,
+        "policy_layers": [
+          128,
+          128
+        ],
+        "checkpoint_every": 10000,
+        "torch_threads": 1,
+        "initial_action_bias": 2.5
+      },
+      "evaluation": {
+        "episodes": 50,
+        "validation_seed": 50000,
+        "test_seed": 100000
+      }
+    }
+  },
+  "development_scenarios": [
+    51000,
+    51001,
+    51002,
+    51003,
+    51004,
+    51005,
+    51006,
+    51007,
+    51008,
+    51009,
+    51010,
+    51011,
+    51012,
+    51013,
+    51014,
+    51015,
+    51016,
+    51017,
+    51018,
+    51019,
+    51020,
+    51021,
+    51022,
+    51023,
+    51024,
+    51025,
+    51026,
+    51027,
+    51028,
+    51029,
+    51030,
+    51031,
+    51032,
+    51033,
+    51034,
+    51035,
+    51036,
+    51037,
+    51038,
+    51039,
+    51040,
+    51041,
+    51042,
+    51043,
+    51044,
+    51045,
+    51046,
+    51047,
+    51048,
+    51049
+  ],
+  "reserved_test_scenarios": [
+    200000,
+    200001,
+    200002,
+    200003,
+    200004,
+    200005,
+    200006,
+    200007,
+    200008,
+    200009,
+    200010,
+    200011,
+    200012,
+    200013,
+    200014,
+    200015,
+    200016,
+    200017,
+    200018,
+    200019,
+    200020,
+    200021,
+    200022,
+    200023,
+    200024,
+    200025,
+    200026,
+    200027,
+    200028,
+    200029,
+    200030,
+    200031,
+    200032,
+    200033,
+    200034,
+    200035,
+    200036,
+    200037,
+    200038,
+    200039,
+    200040,
+    200041,
+    200042,
+    200043,
+    200044,
+    200045,
+    200046,
+    200047,
+    200048,
+    200049
+  ],
+  "max_hours": 18.0,
+  "selection": "success rate, then completed waves, then kills",
+  "note": "Exploratory second study after the original test was observed. Same arena/gear/actions; no healing or scripted aim. Survival recipes jointly change damage penalty, learning rate and discount, so they are not single-factor ablations. See SURVIVAL_PLAN.md."
+}

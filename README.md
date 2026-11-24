@@ -3,6 +3,12 @@
 CS557 project: a small PPO agent learns combat in a controlled CraftGround arena.
 This is an implementation of the midterm plan, with the agreed smaller action set.
 
+**Collaborator meeting, November 25:** [Start here](reports/meeting-20261125/README.md)
+for the plain-English [project walkthrough](reports/meeting-20261125/PROJECT_WALKTHROUGH.md),
+[printable PDF](reports/meeting-20261125/PROJECT_WALKTHROUGH.pdf), four full demo videos,
+the result graphs, portable checkpoints and detailed evidence. The packet includes
+the original 800-episode test, final 350-episode test and 170 behavior episodes.
+
 **Final policies and behavior analysis:** see the [November 22 report](reports/final-study-20261122/README.md)
 and its [HTML view](reports/final-study-20261122/report.html). The five-wave recipe
 is survival10 at 4M decisions across training seeds 0–2, with seed 0 selected for
@@ -54,8 +60,9 @@ second seed-0 validation pass. A lower-learning-rate candidate did not improve.
 This additional-budget result is separate from the controlled 1M A/B/C comparison.
 
 The optimization queue finished all 24 supervised jobs on November 21, 2026,
-including three new recordings of the selected policy. Models, recordings, and
-results remain outside Git. The selected recipe and all checkpoint hashes are
+including three new recordings of the selected policy. The relevant checkpoints,
+recordings and evidence are now exported in the meeting packet; full intermediate
+outputs remain local. The selected recipe and all checkpoint hashes were
 locked before held-out evaluation; test results are not used for further tuning.
 
 The [policy optimization plan](OPTIMIZATION_PLAN.md) defines the completed phase:

@@ -1,0 +1,163 @@
+{
+  "promoted": true,
+  "candidate": [
+    {
+      "success_rate": 0.0,
+      "waves": 2.99,
+      "kills": 6.91,
+      "damage_dealt": 154.196,
+      "damage_taken": 20.972
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.34,
+      "kills": 4.72,
+      "damage_dealt": 110.97200000000001,
+      "damage_taken": 21.0
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.96,
+      "kills": 6.38,
+      "damage_dealt": 143.534,
+      "damage_taken": 20.888
+    }
+  ],
+  "baseline": [
+    {
+      "success_rate": 0.0,
+      "waves": 2.55,
+      "kills": 5.470000000000001,
+      "damage_dealt": 125.951,
+      "damage_taken": 20.958
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.16,
+      "kills": 4.2,
+      "damage_dealt": 98.224,
+      "damage_taken": 20.860000000000003
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.66,
+      "kills": 5.4,
+      "damage_dealt": 120.49000000000001,
+      "damage_taken": 20.972
+    }
+  ],
+  "recipe": {
+    "name": "more_2000000",
+    "kind": "continuation",
+    "target": 2000000,
+    "config": {
+      "environment": {
+        "arena_radius": 12,
+        "arena_center_x": 0,
+        "arena_center_z": 0,
+        "max_waves": 5,
+        "max_episode_steps": 3000,
+        "action_repeat": 4,
+        "history": 4,
+        "fov_degrees": 100,
+        "image_width": 160,
+        "image_height": 90,
+        "world_seed": 557,
+        "weapon": "iron_sword",
+        "armor": "iron",
+        "use_vglrun": false,
+        "curriculum": [
+          [
+            0,
+            1
+          ],
+          [
+            100000,
+            3
+          ],
+          [
+            300000,
+            5
+          ]
+        ],
+        "encounter_curriculum": [
+          [
+            0,
+            2.5,
+            3.0,
+            10.0
+          ],
+          [
+            50000,
+            3.0,
+            5.0,
+            45.0
+          ],
+          [
+            100000,
+            4.0,
+            8.0,
+            90.0
+          ],
+          [
+            200000,
+            4.0,
+            10.0,
+            180.0
+          ]
+        ]
+      },
+      "reward": {
+        "kill": 1.0,
+        "wave": 3.0,
+        "death": -5.0,
+        "time": -0.001,
+        "damage_dealt": 5.0,
+        "damage_taken": 1.5
+      },
+      "training": {
+        "total_timesteps": 1000000,
+        "n_envs": 1,
+        "n_steps": 1024,
+        "batch_size": 256,
+        "learning_rate": 0.0003,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "ent_coef": 0.01,
+        "clip_range": 0.2,
+        "n_epochs": 10,
+        "policy_layers": [
+          128,
+          128
+        ],
+        "checkpoint_every": 10000,
+        "torch_threads": 1,
+        "initial_action_bias": 2.5
+      },
+      "evaluation": {
+        "episodes": 50,
+        "validation_seed": 50000,
+        "test_seed": 100000
+      }
+    },
+    "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed0\\final.zip",
+    "score": {
+      "success_rate": 0.0,
+      "waves": 2.99,
+      "kills": 6.91,
+      "damage_dealt": 154.196,
+      "damage_taken": 20.972
+    },
+    "train_seconds": 4921.641000000003,
+    "milestones": [
+      1500000,
+      2000000
+    ],
+    "qualifies": true
+  },
+  "candidate_models": [
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed0\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed1\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-optimization\\models\\more_2000000_seed2\\final.zip"
+  ]
+}

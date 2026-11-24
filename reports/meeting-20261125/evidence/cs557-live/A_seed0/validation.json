@@ -1,0 +1,102 @@
+{
+  "policy": "ppo",
+  "condition": "A",
+  "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\A_seed0\\final.zip",
+  "training_seed": 0,
+  "split": "validation",
+  "first_seed": 50000,
+  "episodes": 50,
+  "deterministic": true,
+  "config": {
+    "environment": {
+      "arena_radius": 12,
+      "arena_center_x": 0,
+      "arena_center_z": 0,
+      "max_waves": 5,
+      "max_episode_steps": 3000,
+      "action_repeat": 4,
+      "history": 4,
+      "fov_degrees": 100,
+      "image_width": 160,
+      "image_height": 90,
+      "world_seed": 557,
+      "weapon": "iron_sword",
+      "armor": "iron",
+      "use_vglrun": false,
+      "curriculum": [
+        [
+          0,
+          1
+        ],
+        [
+          100000,
+          3
+        ],
+        [
+          300000,
+          5
+        ]
+      ],
+      "encounter_curriculum": [
+        [
+          0,
+          2.5,
+          3.0,
+          10.0
+        ],
+        [
+          50000,
+          3.0,
+          5.0,
+          45.0
+        ],
+        [
+          100000,
+          4.0,
+          8.0,
+          90.0
+        ],
+        [
+          200000,
+          4.0,
+          10.0,
+          180.0
+        ]
+      ]
+    },
+    "reward": {
+      "kill": 1.0,
+      "wave": 3.0,
+      "death": -5.0,
+      "time": -0.001,
+      "damage_dealt": 5.0,
+      "damage_taken": 1.5
+    },
+    "training": {
+      "total_timesteps": 1000000,
+      "n_envs": 1,
+      "n_steps": 1024,
+      "batch_size": 256,
+      "learning_rate": 0.0003,
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "ent_coef": 0.01,
+      "clip_range": 0.2,
+      "n_epochs": 10,
+      "policy_layers": [
+        128,
+        128
+      ],
+      "checkpoint_every": 10000,
+      "torch_threads": 1,
+      "initial_action_bias": 2.5
+    },
+    "evaluation": {
+      "episodes": 50,
+      "validation_seed": 50000,
+      "test_seed": 100000
+    }
+  },
+  "trace_output": null,
+  "wall_seconds": 128.72659869999916
+}

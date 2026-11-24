@@ -1,0 +1,87 @@
+{
+  "status": "confirmed_improvement",
+  "best_seed0": {
+    "recipe": "survival10",
+    "target": 4000000,
+    "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+    "score": {
+      "success_rate": 0.39,
+      "waves": 4.26,
+      "kills": 12.29,
+      "damage_dealt": 257.319,
+      "damage_taken": 19.11
+    },
+    "milestones": [
+      2500000,
+      3000000,
+      4000000
+    ]
+  },
+  "development_scenarios": [
+    51000,
+    51049
+  ],
+  "reserved_test_scenarios": [
+    200000,
+    200049
+  ],
+  "new_test_used": false,
+  "old_study_closed": true,
+  "candidate_models": [
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed1\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed2\\final.zip"
+  ],
+  "candidate_scores": [
+    {
+      "success_rate": 0.39,
+      "waves": 4.26,
+      "kills": 12.29,
+      "damage_dealt": 257.319,
+      "damage_taken": 19.11
+    },
+    {
+      "success_rate": 0.18,
+      "waves": 3.96,
+      "kills": 11.5,
+      "damage_dealt": 241.36800000000002,
+      "damage_taken": 20.216
+    },
+    {
+      "success_rate": 0.02,
+      "waves": 3.8,
+      "kills": 10.2,
+      "damage_dealt": 223.15999999999997,
+      "damage_taken": 20.86
+    }
+  ],
+  "baseline_scores": [
+    {
+      "success_rate": 0.0,
+      "waves": 2.92,
+      "kills": 6.61,
+      "damage_dealt": 151.18099999999998,
+      "damage_taken": 20.93
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.52,
+      "kills": 5.28,
+      "damage_dealt": 120.44400000000002,
+      "damage_taken": 20.944000000000003
+    },
+    {
+      "success_rate": 0.0,
+      "waves": 2.9,
+      "kills": 6.28,
+      "damage_dealt": 137.936,
+      "damage_taken": 21.0
+    }
+  ],
+  "retained_models": [
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed1\\final.zip",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed2\\final.zip"
+  ],
+  "retention_note": "Exploratory best_seed0 remains available even if recipe confirmation fails."
+}

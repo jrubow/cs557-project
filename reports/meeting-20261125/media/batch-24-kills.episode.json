@@ -1,0 +1,477 @@
+{
+  "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+  "model_sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+  "mode": "batch",
+  "policy_updated": false,
+  "condition": "C",
+  "training_seed": 0,
+  "training_steps": 5001216,
+  "scenario_seed": 52000,
+  "split": "validation",
+  "deterministic": true,
+  "metrics": {
+    "kills": 24,
+    "damage_dealt": 518.0,
+    "damage_taken": 21.0,
+    "waves_completed": 0,
+    "success": false,
+    "wave_target": 0,
+    "elapsed_steps": 618,
+    "elapsed_seconds": 123.5,
+    "terminal_reason": "death",
+    "task": "endless_batch",
+    "mode": "batch",
+    "batch_size": 3,
+    "batches_completed": 8,
+    "observation_wave": 3,
+    "spawn_interval_seconds": 2.0,
+    "recording_limit_seconds": 300.0,
+    "spawn_commands_issued": 27,
+    "active_enemies": 3,
+    "peak_active_enemies": 3,
+    "final_health": 0.0,
+    "kills_per_minute": 11.65991902834008
+  },
+  "episode_return": 159.5300000000003,
+  "fps": 20,
+  "raw_frames": 2471,
+  "annotated_frames": 2511,
+  "native_frame_size": [
+    640,
+    360
+  ],
+  "annotated_frame_size": [
+    640,
+    506
+  ],
+  "display_overrides": {
+    "image_width": 640,
+    "image_height": 360,
+    "hud_hidden": false
+  },
+  "model_config": {
+    "environment": {
+      "arena_radius": 12,
+      "arena_center_x": 0,
+      "arena_center_z": 0,
+      "max_waves": 5,
+      "max_episode_steps": 3000,
+      "action_repeat": 4,
+      "history": 4,
+      "fov_degrees": 100,
+      "image_width": 160,
+      "image_height": 90,
+      "world_seed": 557,
+      "weapon": "iron_sword",
+      "armor": "iron",
+      "use_vglrun": false,
+      "curriculum": [
+        [
+          0,
+          1
+        ],
+        [
+          100000,
+          3
+        ],
+        [
+          300000,
+          5
+        ]
+      ],
+      "encounter_curriculum": [
+        [
+          0,
+          2.5,
+          3.0,
+          10.0
+        ],
+        [
+          50000,
+          3.0,
+          5.0,
+          45.0
+        ],
+        [
+          100000,
+          4.0,
+          8.0,
+          90.0
+        ],
+        [
+          200000,
+          4.0,
+          10.0,
+          180.0
+        ]
+      ]
+    },
+    "reward": {
+      "kill": 1.0,
+      "wave": 3.0,
+      "death": -5.0,
+      "time": -0.001,
+      "damage_dealt": 5.0,
+      "damage_taken": 10.0
+    },
+    "training": {
+      "total_timesteps": 5000768,
+      "n_envs": 1,
+      "n_steps": 1024,
+      "batch_size": 256,
+      "learning_rate": 0.0001,
+      "gamma": 0.995,
+      "gae_lambda": 0.95,
+      "ent_coef": 0.01,
+      "clip_range": 0.2,
+      "n_epochs": 10,
+      "policy_layers": [
+        128,
+        128
+      ],
+      "checkpoint_every": 10000,
+      "torch_threads": 1,
+      "initial_action_bias": 2.5
+    },
+    "evaluation": {
+      "episodes": 50,
+      "validation_seed": 50000,
+      "test_seed": 100000
+    }
+  },
+  "recording_config": {
+    "environment": {
+      "arena_radius": 12,
+      "arena_center_x": 0,
+      "arena_center_z": 0,
+      "max_waves": 5,
+      "max_episode_steps": 3000,
+      "action_repeat": 4,
+      "history": 4,
+      "fov_degrees": 100,
+      "image_width": 640,
+      "image_height": 360,
+      "world_seed": 557,
+      "weapon": "iron_sword",
+      "armor": "iron",
+      "use_vglrun": false,
+      "curriculum": [
+        [
+          0,
+          1
+        ],
+        [
+          100000,
+          3
+        ],
+        [
+          300000,
+          5
+        ]
+      ],
+      "encounter_curriculum": [
+        [
+          0,
+          2.5,
+          3.0,
+          10.0
+        ],
+        [
+          50000,
+          3.0,
+          5.0,
+          45.0
+        ],
+        [
+          100000,
+          4.0,
+          8.0,
+          90.0
+        ],
+        [
+          200000,
+          4.0,
+          10.0,
+          180.0
+        ]
+      ]
+    },
+    "reward": {
+      "kill": 1.0,
+      "wave": 3.0,
+      "death": -5.0,
+      "time": -0.001,
+      "damage_dealt": 5.0,
+      "damage_taken": 10.0
+    },
+    "training": {
+      "total_timesteps": 5000768,
+      "n_envs": 1,
+      "n_steps": 1024,
+      "batch_size": 256,
+      "learning_rate": 0.0001,
+      "gamma": 0.995,
+      "gae_lambda": 0.95,
+      "ent_coef": 0.01,
+      "clip_range": 0.2,
+      "n_epochs": 10,
+      "policy_layers": [
+        128,
+        128
+      ],
+      "checkpoint_every": 10000,
+      "torch_threads": 1,
+      "initial_action_bias": 2.5
+    },
+    "evaluation": {
+      "episodes": 50,
+      "validation_seed": 50000,
+      "test_seed": 100000
+    }
+  },
+  "runtime": {
+    "python": "3.11.18 | packaged by conda-forge | (main, Oct 26 2026, 11:29:07) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "craftground": "2.7.4",
+      "stable-baselines3": "2.7.1",
+      "torch": "2.15.0",
+      "gymnasium": "1.2.2",
+      "numpy": "2.4.6",
+      "protobuf": "7.36.2"
+    },
+    "git_revision": "16a681715a1d65597bdd1d614d2fc44b52e84002",
+    "git_status": "",
+    "pip_freeze": "cloudpickle==3.1.3\ncontourpy==1.3.3\ncraftground==2.7.4\ncraftground-runtime-mc121==0.1.0\n-e git+https://github.com/jrubow/cs557-project.git@16a681715a1d65597bdd1d614d2fc44b52e84002#egg=cs557_combat_rl\ncycler==0.12.1\nFarama-Notifications==0.0.6\nfilelock==4.2.12\nfonttools==4.68.0\nfsspec==2026.9.0\ngymnasium==1.2.2\nimageio-ffmpeg==0.8.1\nJinja2==3.1.6\nkiwisolver==1.5.1\nMarkupSafe==3.0.4\nmatplotlib==3.11.2\nmpmath==1.3.0\nnetworkx==3.6.1\nnumpy==2.4.6\npackaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work\npandas==3.1.1\npillow==13.0.0\nprotobuf==7.36.2\npsutil==7.2.2\npyparsing==3.3.3\npypdf @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pypdf_h5ded981_1795037654/work/dist\npython-dateutil==4.0.0\nstable_baselines3==2.7.1\nsympy==1.14.0\ntorch==2.15.0\ntyping_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1783002732/work\ntzdata==2026.6"
+  },
+  "events": [
+    {
+      "frame": 0,
+      "game_seconds": 0.0,
+      "path": "frame_00000.png",
+      "wave": 3,
+      "health": 20.0,
+      "kills": 0
+    },
+    {
+      "frame": 204,
+      "game_seconds": 10.2,
+      "path": "frame_00204.png",
+      "wave": 3,
+      "health": 18.6200008392334,
+      "kills": 1
+    },
+    {
+      "frame": 216,
+      "game_seconds": 10.8,
+      "path": "frame_00216.png",
+      "wave": 3,
+      "health": 17.240001678466797,
+      "kills": 2
+    },
+    {
+      "frame": 240,
+      "game_seconds": 12.0,
+      "path": "frame_00240.png",
+      "wave": 3,
+      "health": 17.240001678466797,
+      "kills": 3
+    },
+    {
+      "frame": 372,
+      "game_seconds": 18.6,
+      "path": "frame_00372.png",
+      "wave": 3,
+      "health": 15.860001564025879,
+      "kills": 4
+    },
+    {
+      "frame": 432,
+      "game_seconds": 21.6,
+      "path": "frame_00432.png",
+      "wave": 3,
+      "health": 14.480001449584961,
+      "kills": 5
+    },
+    {
+      "frame": 516,
+      "game_seconds": 25.8,
+      "path": "frame_00516.png",
+      "wave": 3,
+      "health": 11.720001220703125,
+      "kills": 6
+    },
+    {
+      "frame": 636,
+      "game_seconds": 31.8,
+      "path": "frame_00636.png",
+      "wave": 3,
+      "health": 11.720001220703125,
+      "kills": 7
+    },
+    {
+      "frame": 732,
+      "game_seconds": 36.6,
+      "path": "frame_00732.png",
+      "wave": 3,
+      "health": 11.720001220703125,
+      "kills": 8
+    },
+    {
+      "frame": 780,
+      "game_seconds": 39.0,
+      "path": "frame_00780.png",
+      "wave": 3,
+      "health": 11.720001220703125,
+      "kills": 9
+    },
+    {
+      "frame": 936,
+      "game_seconds": 46.8,
+      "path": "frame_00936.png",
+      "wave": 3,
+      "health": 8.960000991821289,
+      "kills": 10
+    },
+    {
+      "frame": 996,
+      "game_seconds": 49.8,
+      "path": "frame_00996.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 11
+    },
+    {
+      "frame": 1080,
+      "game_seconds": 54.0,
+      "path": "frame_01080.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 12
+    },
+    {
+      "frame": 1228,
+      "game_seconds": 61.4,
+      "path": "frame_01228.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 13
+    },
+    {
+      "frame": 1360,
+      "game_seconds": 68.0,
+      "path": "frame_01360.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 14
+    },
+    {
+      "frame": 1396,
+      "game_seconds": 69.8,
+      "path": "frame_01396.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 15
+    },
+    {
+      "frame": 1564,
+      "game_seconds": 78.2,
+      "path": "frame_01564.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 16
+    },
+    {
+      "frame": 1600,
+      "game_seconds": 80.0,
+      "path": "frame_01600.png",
+      "wave": 3,
+      "health": 7.580000877380371,
+      "kills": 17
+    },
+    {
+      "frame": 1680,
+      "game_seconds": 84.0,
+      "path": "frame_01680.png",
+      "wave": 3,
+      "health": 4.820000648498535,
+      "kills": 18
+    },
+    {
+      "frame": 1764,
+      "game_seconds": 88.2,
+      "path": "frame_01764.png",
+      "wave": 3,
+      "health": 4.820000648498535,
+      "kills": 19
+    },
+    {
+      "frame": 1924,
+      "game_seconds": 96.2,
+      "path": "frame_01924.png",
+      "wave": 3,
+      "health": 4.820000648498535,
+      "kills": 20
+    },
+    {
+      "frame": 1960,
+      "game_seconds": 98.0,
+      "path": "frame_01960.png",
+      "wave": 3,
+      "health": 4.820000648498535,
+      "kills": 21
+    },
+    {
+      "frame": 2216,
+      "game_seconds": 110.8,
+      "path": "frame_02216.png",
+      "wave": 3,
+      "health": 2.0600008964538574,
+      "kills": 22
+    },
+    {
+      "frame": 2240,
+      "game_seconds": 112.0,
+      "path": "frame_02240.png",
+      "wave": 3,
+      "health": 0.6800010204315186,
+      "kills": 23
+    },
+    {
+      "frame": 2252,
+      "game_seconds": 112.6,
+      "path": "frame_02252.png",
+      "wave": 3,
+      "health": 0.6800010204315186,
+      "kills": 24
+    },
+    {
+      "frame": 2470,
+      "game_seconds": 123.5,
+      "path": "frame_02470.png",
+      "wave": 3,
+      "health": 0.0,
+      "kills": 24
+    }
+  ],
+  "wall_seconds": 81.07301919999736,
+  "note": "Exploratory cleared-batch survival, not a five-wave evaluation. Spawn 3 zombies initially and after every full batch clear; standard arena/gear, no between-batch healing. The wave feature is fixed at k. No policy updates or manual input. RGB/HUD/telemetry never enter policy input. Raw video is 20 ticks/s; annotation adds a two-second end hold.",
+  "combat_telemetry": {
+    "critical_sound_events": 59,
+    "attack_pulses": 219,
+    "damage_events": 84,
+    "jump_ticks": 864,
+    "airborne_ticks": 1755,
+    "descending_attack_pulses": 128,
+    "ticks": 2470,
+    "sounds": {
+      "subtitles.entity.player.attack.weak": 6,
+      "subtitles.entity.player.attack.crit": 59,
+      "subtitles.entity.player.attack.strong": 5,
+      "subtitles.entity.player.attack.sweep": 17
+    },
+    "critical_cues_per_100_attack_pulses": 26.940639269406393,
+    "critical_cues_per_game_minute": 28.663967611336034,
+    "measurement": "Deduplicated nearby critical-attack sound cues; not a server-side hit counter."
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+  "model_sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+  "config": {
+    "environment": {
+      "arena_radius": 12,
+      "arena_center_x": 0,
+      "arena_center_z": 0,
+      "max_waves": 5,
+      "max_episode_steps": 3000,
+      "action_repeat": 4,
+      "history": 4,
+      "fov_degrees": 100,
+      "image_width": 160,
+      "image_height": 90,
+      "world_seed": 557,
+      "weapon": "iron_sword",
+      "armor": "iron",
+      "use_vglrun": false,
+      "curriculum": [
+        [
+          0,
+          1
+        ],
+        [
+          100000,
+          3
+        ],
+        [
+          300000,
+          5
+        ]
+      ],
+      "encounter_curriculum": [
+        [
+          0,
+          2.5,
+          3.0,
+          10.0
+        ],
+        [
+          50000,
+          3.0,
+          5.0,
+          45.0
+        ],
+        [
+          100000,
+          4.0,
+          8.0,
+          90.0
+        ],
+        [
+          200000,
+          4.0,
+          10.0,
+          180.0
+        ]
+      ]
+    },
+    "reward": {
+      "kill": 1.0,
+      "wave": 3.0,
+      "death": -5.0,
+      "time": -0.001,
+      "damage_dealt": 5.0,
+      "damage_taken": 10.0
+    },
+    "training": {
+      "total_timesteps": 5000768,
+      "n_envs": 1,
+      "n_steps": 1024,
+      "batch_size": 256,
+      "learning_rate": 0.0001,
+      "gamma": 0.995,
+      "gae_lambda": 0.95,
+      "ent_coef": 0.01,
+      "clip_range": 0.2,
+      "n_epochs": 10,
+      "policy_layers": [
+        128,
+        128
+      ],
+      "checkpoint_every": 10000,
+      "torch_threads": 1,
+      "initial_action_bias": 2.5
+    },
+    "evaluation": {
+      "episodes": 50,
+      "validation_seed": 50000,
+      "test_seed": 100000
+    }
+  },
+  "training_task": {
+    "mode": "batch",
+    "batch_size": 3,
+    "max_seconds": 300
+  },
+  "evaluation_task": {
+    "mode": "waves"
+  },
+  "episodes": 50,
+  "first_seed": 51000,
+  "split": "validation",
+  "deterministic": true,
+  "training_seed": 0,
+  "wall_seconds": 142.95300000000134,
+  "runtime": {
+    "python": "3.11.18 | packaged by conda-forge | (main, Oct 26 2026, 11:29:07) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "packages": {
+      "craftground": "2.7.4",
+      "stable-baselines3": "2.7.1",
+      "torch": "2.15.0",
+      "gymnasium": "1.2.2",
+      "numpy": "2.4.6",
+      "protobuf": "7.36.2"
+    },
+    "git_revision": "16a681715a1d65597bdd1d614d2fc44b52e84002",
+    "git_status": "",
+    "pip_freeze": "cloudpickle==3.1.3\ncontourpy==1.3.3\ncraftground==2.7.4\ncraftground-runtime-mc121==0.1.0\n-e git+https://github.com/jrubow/cs557-project.git@16a681715a1d65597bdd1d614d2fc44b52e84002#egg=cs557_combat_rl\ncycler==0.12.1\nFarama-Notifications==0.0.6\nfilelock==4.2.12\nfonttools==4.68.0\nfsspec==2026.9.0\ngymnasium==1.2.2\nimageio-ffmpeg==0.8.1\nJinja2==3.1.6\nkiwisolver==1.5.1\nMarkupSafe==3.0.4\nmatplotlib==3.11.2\nmpmath==1.3.0\nnetworkx==3.6.1\nnumpy==2.4.6\npackaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work\npandas==3.1.1\npillow==13.0.0\nprotobuf==7.36.2\npsutil==7.2.2\npyparsing==3.3.3\npypdf @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pypdf_h5ded981_1795037654/work/dist\npython-dateutil==4.0.0\nstable_baselines3==2.7.1\nsympy==1.14.0\ntorch==2.15.0\ntyping_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1783002732/work\ntzdata==2026.6"
+  },
+  "policy_updated": false
+}

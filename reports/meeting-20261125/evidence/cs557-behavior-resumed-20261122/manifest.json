@@ -1,0 +1,40 @@
+{
+  "source_revision": "98b65470c145e5200340ba025a26e7e9d6f959ff",
+  "predecessor": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-batch-finish-20261122b",
+  "predecessor_pid": 15564,
+  "predecessor_create_time": null,
+  "predecessor_manifest_sha256": "b3132b4efc831cc472ed637fcf741c85c431c294e1093c1ea0d43e58106c5f06",
+  "history_sha256": "a17106d1c0667bc9b27a39d72fd4b9bcdc8120903e04c8398475faf048743807",
+  "definitions": {
+    "focus_fire": {
+      "full_zombie_health": 20.0,
+      "game_ticks_per_second": 20,
+      "clock": "First observed health decrease to first observed health <= 0, by UUID.",
+      "inclusion": "Mean/median require a full-health observation before first damage and no observation gaps.",
+      "censoring": "Alive at episode end and disappearance are incomplete, not kills. Initially injured or observation-gap records remain separate. One-tick lethal damage has duration zero.",
+      "focus": "Consecutive single-target health-loss events, with the previous damaged target still alive and at least two live zombies before the next event. Multi-target events break the chain.",
+      "note": "Client-observed health changes at 0.05-second resolution, not server hit timestamps or player-attributed per-target attacks. Sweeps/environmental damage can affect health. Completed-only kill time is subject to survivor selection; inspect incomplete cases and damage-target switches too. All arena entities are diagnostic only, including outside policy FOV."
+    },
+    "close_distance": 4.0,
+    "aligned_yaw_degrees": 15.0,
+    "aligned_pitch_degrees": 20.0,
+    "player_eye_offset": 1.62,
+    "zombie_torso_offset": 1.0,
+    "radial_motion_per_tick": 0.01,
+    "window_ticks": 20,
+    "near_wall_gap": 2.0,
+    "escaped_wall_gap": 3.0,
+    "note": "Angles target the nearest policy-visible zombie torso, not an exact crosshair/hitbox raycast. Range 4 is a diagnostic band, not a claim about attack reach. Damage is player-attributed statistic change; timing may lag attacks. Unanswered retreat windows are evidence consistent with kiting, not proof of intent or invulnerability."
+  },
+  "history_scenarios": [
+    53000,
+    53009
+  ],
+  "batch_comparison_scenarios": [
+    53100,
+    53119
+  ],
+  "policy_updated": false,
+  "held_out_test_used": false,
+  "overall_deadline": null
+}
