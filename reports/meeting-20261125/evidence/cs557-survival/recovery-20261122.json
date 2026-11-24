@@ -1,0 +1,36 @@
+{
+  "observed_utc": "2026-11-22T16:55:47.801325+00:00",
+  "reason": "Controller exited on denied status-file replacement; supervised training completed independently.",
+  "predecessor_pids": [
+    26136,
+    24996
+  ],
+  "predecessor_failed_status": {
+    "phase": "failed",
+    "error": "PermissionError(13, 'Access is denied')",
+    "ready": true
+  },
+  "previous_main_status": {
+    "phase": "running",
+    "updated_utc": "2026-11-22T10:26:12.244214+00:00",
+    "elapsed_seconds": 18908.671000000002,
+    "remaining_seconds": null,
+    "overall_time_limit_removed": true,
+    "controller_revision": "384affd7924a796f39b3ba92016cf4670d35a426",
+    "training_source_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4",
+    "jobs_completed": 28,
+    "current_job": "survival10_4000000_seed2-train"
+  },
+  "original_manifest_sha256": "72d90104b62482eeb2aa8a3d096d7785f9a56ddd4bf82b0b89b25b37fdce9d76",
+  "old_ledger_sha256": "3b9e76298f1792fcdb23f2c81812235c7ba3ef9729be85df5e1f43456917ea31",
+  "supervisor_sha256": "e9a4d2f270fe2542d4af7810ce3967bbd6e4138b31c513b30541965cdddbe13a",
+  "supervisor_modified_utc": "2026-11-22T11:12:06.910502+00:00",
+  "completed_jobs_audited": 29,
+  "recovered_checkpoint": {
+    "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed2\\final.zip",
+    "model_sha256": "0220299bfecf2fb53d68daa3133f18399480e2509c9d9a6fa349ebf929497fcc",
+    "metadata_sha256": "19a5d6a4247ffedda6a132ec3a638f1bb92bbbe9fa213ef34197e2cd1dd8df86",
+    "steps": 4000768
+  },
+  "training_repeated": false
+}

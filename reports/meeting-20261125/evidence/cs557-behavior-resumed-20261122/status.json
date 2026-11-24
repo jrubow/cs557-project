@@ -1,0 +1,11 @@
+{
+  "jobs_completed": 9,
+  "jobs_reused": 9,
+  "overall_deadline": null,
+  "phase": "complete",
+  "updated_utc": "2026-11-22T23:51:18.303068+00:00",
+  "predecessor_phase": "complete",
+  "predecessor_job": null,
+  "current_job": null,
+  "review_ready": true
+}

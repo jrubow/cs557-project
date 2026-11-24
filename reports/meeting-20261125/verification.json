@@ -1,0 +1,19 @@
+{
+  "checked_date": "2026-11-24",
+  "original_test_rows": 800,
+  "reserved_test_rows": 350,
+  "behavior_episodes": 170,
+  "behavior_evaluation_sets": 15,
+  "pdf_pages": 8,
+  "checkpoint_loads_verified": 23,
+  "all_checkpoint_weights_finite": true,
+  "video_decoded_frames": {
+    "five-wave-clear": 1389,
+    "batch-42-kills": 3966,
+    "batch-24-kills": 2511,
+    "timed-spawn-comparison": 647
+  },
+  "video_frame_counts_match_sources": true,
+  "pdf_pages_visually_reviewed": 8,
+  "note": "Document and asset checks only; no Minecraft episode was run or policy updated during packaging."
+}

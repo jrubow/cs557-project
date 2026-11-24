@@ -1,8 +1,10 @@
 """Train the same small PPO policy for each reward/information condition."""
 
 import argparse
+import hashlib
 import importlib.metadata
 import json
+import math
 import platform
 import signal
 import subprocess
@@ -16,6 +18,39 @@ from combat_rl.config import load_config
 def read_checkpoint(path):
     path = Path(path).with_suffix(".zip")
     return path, json.loads(path.with_suffix(".json").read_text())
+
+
+FINETUNE_FIELDS = {"learning_rate", "gamma", "ent_coef", "clip_range"}
+
+
+def finetune_changes(previous, proposed):
+    """Allow explicit reward/PPO adaptation while preserving the original task."""
+    changes = {}
+    for section in previous.keys() | proposed.keys():
+        old, new = previous.get(section, {}), proposed.get(section, {})
+        for key in old.keys() | new.keys():
+            if old.get(key) == new.get(key):
+                continue
+            allowed = section == "reward" and key in old and key in new
+            allowed |= section == "training" and key in FINETUNE_FIELDS | {"total_timesteps"}
+            if not allowed:
+                raise ValueError(f"Fine-tuning cannot change {section}.{key}")
+            value = new[key]
+            if not isinstance(value, (int, float)) or not math.isfinite(value):
+                raise ValueError(f"Invalid fine-tuning value: {section}.{key}")
+            if section == "training":
+                if (key in {"learning_rate", "total_timesteps"} and value <= 0
+                        or key in {"gamma", "clip_range"} and not 0 < value <= 1
+                        or key == "ent_coef" and value < 0):
+                    raise ValueError(f"Invalid fine-tuning value: {section}.{key}")
+            changes[f"{section}.{key}"] = {"before": old.get(key), "after": value}
+    return changes
+
+
+def finetune_ppo_kwargs(config):
+    # SB3 applies these before _setup_model: schedules and rollout-buffer gamma
+    # are rebuilt, then saved policy AND optimizer tensors are restored.
+    return {key: config["training"][key] for key in FINETUNE_FIELDS}
 
 
 def save_checkpoint(model, path, metadata):
@@ -58,9 +93,15 @@ def main():
     parser.add_argument("--n-envs", type=int)
     parser.add_argument("--run-dir", required=True, type=Path)
     parser.add_argument("--resume", type=Path)
+    parser.add_argument("--finetune-config", type=Path,
+                        help="Explicit reward/PPO adaptation from --resume into a NEW run directory")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--port", type=int, default=8000)
     args = parser.parse_args()
+    if args.finetune_config and (not args.resume or args.config):
+        parser.error("--finetune-config requires --resume and cannot be combined with --config")
+    if args.finetune_config and args.run_dir.exists() and any(args.run_dir.iterdir()):
+        parser.error("Fine-tuning requires a new, empty run directory")
 
     import torch
     from stable_baselines3 import PPO
@@ -83,6 +124,12 @@ def main():
         condition, seed = previous["condition"], previous["seed"]
         if args.n_envs is not None and args.n_envs != config["training"]["n_envs"]:
             parser.error("Keep the same --n-envs when resuming")
+        if args.finetune_config:
+            config = load_config(args.finetune_config)
+            try:
+                finetune_changes(previous["config"], config)
+            except ValueError as error:
+                parser.error(str(error))
     else:
         config = load_config(args.config)
         condition = args.condition or "B"
@@ -111,6 +158,12 @@ def main():
                 "algorithm": "PPO", "device": args.device,
                 "resume_from": str(args.resume) if args.resume else None,
                 "runtime": runtime_metadata()}
+    if args.resume:
+        metadata["resume_sha256"] = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    if args.finetune_config:
+        metadata["fine_tuning"] = {"changes": finetune_changes(previous["config"], config),
+                                   "parent_timesteps": previous["timesteps"],
+                                   "optimizer_restored": True}
     (args.run_dir / "config.json").write_text(json.dumps(metadata, indent=2) + "\n")
     torch.set_num_threads(training["torch_threads"])
 
@@ -161,7 +214,8 @@ def main():
     try:
         vec_env.seed(seed)
         if args.resume:
-            model = PPO.load(checkpoint, env=vec_env, device=args.device)
+            overrides = finetune_ppo_kwargs(config) if args.finetune_config else {}
+            model = PPO.load(checkpoint, env=vec_env, device=args.device, **overrides)
             vec_env.env_method("set_training_step", model.num_timesteps)
         else:
             model = PPO("MlpPolicy", vec_env, seed=seed, device=args.device, verbose=1,
@@ -170,6 +224,17 @@ def main():
                         gae_lambda=training["gae_lambda"], ent_coef=training["ent_coef"],
                         clip_range=training["clip_range"], n_epochs=training["n_epochs"],
                         policy_kwargs={"net_arch": training["policy_layers"]})
+            initial_bias = training.get("initial_action_bias", 0.0)
+            if initial_bias:
+                from combat_rl.task import COMPACT_NVECS, NO_OP_ACTION
+                preferred = NO_OP_ACTION.copy()
+                preferred[-1] = 1  # Attack while initially favoring steady aim/movement.
+                with torch.no_grad():
+                    offset = 0
+                    for choices, selected in zip(COMPACT_NVECS, preferred):
+                        model.policy.action_net.bias[offset + int(selected)] += initial_bias
+                        offset += int(choices)
+                print(f"Initial action preference logit bias: {initial_bias}")
         model.set_logger(configure(str(log_dir), ["stdout", "csv"]))
         remaining = training["total_timesteps"] - model.num_timesteps
         if remaining > 0:

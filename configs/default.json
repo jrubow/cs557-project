@@ -14,6 +14,7 @@
     "weapon": "iron_sword",
     "armor": "iron",
     "use_vglrun": false,
+    "encounter_curriculum": [],
     "curriculum": [
       [
         0,
@@ -53,7 +54,8 @@
       128
     ],
     "checkpoint_every": 50000,
-    "torch_threads": 1
+    "torch_threads": 1,
+    "initial_action_bias": 0.0
   },
   "evaluation": {
     "episodes": 50,

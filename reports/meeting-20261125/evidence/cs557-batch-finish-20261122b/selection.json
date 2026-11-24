@@ -1,0 +1,123 @@
+{
+  "parent": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+  "selected": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+  "selected_sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+  "task": {
+    "mode": "batch",
+    "batch_size": 3,
+    "max_seconds": 300
+  },
+  "baseline": {
+    "episodes": 20,
+    "mean_kills": 17.35,
+    "median_kills": 17.5,
+    "mean_seconds": 87.0175,
+    "median_seconds": 91.7,
+    "capped_episodes": 0,
+    "five_wave_success_rate": 0.0,
+    "mean_waves": 0.0,
+    "critical_sound_events": 646,
+    "episodes_with_critical_cues": 20,
+    "critical_cues_per_100_attack_pulses": 21.5405135045015,
+    "critical_cues_per_game_minute": 22.27138219323699,
+    "csv_sha256": "7af38ca57abe872625537126d29f99ba8b591b1df3cf99cac21424916c971867"
+  },
+  "selected_score": {
+    "episodes": 20,
+    "mean_kills": 21.6,
+    "median_kills": 21.0,
+    "mean_seconds": 106.4325,
+    "median_seconds": 102.6,
+    "capped_episodes": 0,
+    "five_wave_success_rate": 0.0,
+    "mean_waves": 0.0,
+    "critical_sound_events": 926,
+    "episodes_with_critical_cues": 20,
+    "critical_cues_per_100_attack_pulses": 24.75273990911521,
+    "critical_cues_per_game_minute": 26.10104996124304,
+    "csv_sha256": "121a2839715ca627a5ebeccd09c0efedbe15fc3d857d235071983e769776fff3"
+  },
+  "candidates": [
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_250000\\final.zip",
+      "sha256": "807ab73ba902cbac1b9251b225782ce2856e001f78af379a631006bef61e7e7c",
+      "additional_target": 250000,
+      "score": {
+        "episodes": 20,
+        "mean_kills": 14.6,
+        "median_kills": 14.5,
+        "mean_seconds": 72.275,
+        "median_seconds": 71.19999999999999,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 669,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 26.997578692493946,
+        "critical_cues_per_game_minute": 27.768938083708054,
+        "csv_sha256": "1698372b516189c3da6915b1cc1314a36536843a54edbdaebe2224c6ac3b69dc"
+      }
+    },
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_500000\\final.zip",
+      "sha256": "ea5c8550586e6a72fdc428299fe320d78303dd119a86d4e81b83bbf7430fa4ff",
+      "additional_target": 500000,
+      "score": {
+        "episodes": 20,
+        "mean_kills": 16.6,
+        "median_kills": 16.0,
+        "mean_seconds": 85.1425,
+        "median_seconds": 80.65,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 661,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 22.38401625465628,
+        "critical_cues_per_game_minute": 23.290366150864728,
+        "csv_sha256": "5f47e216d352ee04637405c3998dabc309cf15ded1c75fe91bd9816ade36aea2"
+      }
+    },
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+      "sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+      "additional_target": 1000000,
+      "score": {
+        "episodes": 20,
+        "mean_kills": 21.6,
+        "median_kills": 21.0,
+        "mean_seconds": 106.4325,
+        "median_seconds": 102.6,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 926,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 24.75273990911521,
+        "critical_cues_per_game_minute": 26.10104996124304,
+        "csv_sha256": "121a2839715ca627a5ebeccd09c0efedbe15fc3d857d235071983e769776fff3"
+      }
+    },
+    {
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_2000000\\final.zip",
+      "sha256": "9be5d679748c3567c98533d1e1f81a9a2de5b8e919b6e3383db16da11b909aba",
+      "additional_target": 2000000,
+      "score": {
+        "episodes": 20,
+        "mean_kills": 20.6,
+        "median_kills": 18.5,
+        "mean_seconds": 101.995,
+        "median_seconds": 93.75,
+        "capped_episodes": 0,
+        "five_wave_success_rate": 0.0,
+        "mean_waves": 0.0,
+        "critical_sound_events": 797,
+        "episodes_with_critical_cues": 20,
+        "critical_cues_per_100_attack_pulses": 22.362514029180694,
+        "critical_cues_per_game_minute": 23.442325604196284,
+        "csv_sha256": "bdb9475d308a0f1558f711534d2ddcc6bf6abcfc868540b42ea981cabab75d95"
+      }
+    }
+  ],
+  "held_out_test_used": false
+}

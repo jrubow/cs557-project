@@ -1,0 +1,160 @@
+{
+  "conditions": {
+    "A": {
+      "success_rate": 0.0,
+      "waves": 1.34,
+      "kills": 2.3266666666666667,
+      "damage_dealt": 59.97266666666667,
+      "damage_taken": 19.459999999999997
+    },
+    "B": {
+      "success_rate": 0.0,
+      "waves": 2.4533333333333336,
+      "kills": 4.96,
+      "damage_dealt": 114.04200000000002,
+      "damage_taken": 20.93466666666667
+    },
+    "C": {
+      "success_rate": 0.0,
+      "waves": 2.46,
+      "kills": 5.013333333333334,
+      "damage_dealt": 115.15333333333334,
+      "damage_taken": 20.944000000000003
+    }
+  },
+  "runs": {
+    "A": [
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\A_seed0\\final.zip",
+        "model_sha256": "c4bf9b475a806133601e827f471527cc8461a2f206b0050cda44a21f30b62574",
+        "metadata_sha256": "450c717218e87a537c062d3468c701397356ba44ac54d9f26ab21496307a7362",
+        "steps": 1000448,
+        "seed": 0,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 1.98,
+          "kills": 3.56,
+          "damage_dealt": 89.608,
+          "damage_taken": 20.915999999999997
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\A_seed1\\final.zip",
+        "model_sha256": "ae230a68e4774c03b83d34bbebd1e0b543a7e60fbd08004577d30e2c57d26171",
+        "metadata_sha256": "56172d6f3cbd17b2fc43c22301a6433a59128ae0fe7015bc9b1dbcbe2740613d",
+        "steps": 1000448,
+        "seed": 1,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.02,
+          "kills": 3.4,
+          "damage_dealt": 84.652,
+          "damage_taken": 20.944
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\A_seed2\\final.zip",
+        "model_sha256": "b7a993db275c4e33a1910bec64181d6f277203eba431f8bc68c25865546705ef",
+        "metadata_sha256": "d3d6ca1d6f14ac4cc839b94afad0a8d1559f1bde86d0119fe9df593497411dd7",
+        "steps": 1000448,
+        "seed": 2,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 0.02,
+          "kills": 0.02,
+          "damage_dealt": 5.6579999999999995,
+          "damage_taken": 16.52
+        }
+      }
+    ],
+    "B": [
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\B_seed0\\final.zip",
+        "model_sha256": "a48deafa7e44c237c529c84fca0bed4ebb7d61e8de798debd97c5fd92b724dd5",
+        "metadata_sha256": "d3dff1ca8bf12f2f4ca05f9807e77cafac944af49b95268b2b8fb50421acd625",
+        "steps": 1000448,
+        "seed": 0,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.1,
+          "kills": 4.0,
+          "damage_dealt": 95.46400000000001,
+          "damage_taken": 20.972
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\B_seed1\\final.zip",
+        "model_sha256": "26b566f433486fb842e0884ad2c342e24d346836c76e8d211639cafb391b28ad",
+        "metadata_sha256": "e61a86138ff3a618af5c7da458a1803259e45bfd05ed405be91274982a64d98f",
+        "steps": 1000448,
+        "seed": 1,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.72,
+          "kills": 5.68,
+          "damage_dealt": 127.734,
+          "damage_taken": 20.944
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\B_seed2\\final.zip",
+        "model_sha256": "be90d080253b9bd21d0b97f1895954b67f5d36d5a4e85d0bdce74215cf0aba6f",
+        "metadata_sha256": "c6eca96eec71aa436e7cae66c9a9846d6eb17d9f52fb562fde4fa7557567d7d2",
+        "steps": 1000448,
+        "seed": 2,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.54,
+          "kills": 5.2,
+          "damage_dealt": 118.92800000000003,
+          "damage_taken": 20.888
+        }
+      }
+    ],
+    "C": [
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed0\\final.zip",
+        "model_sha256": "3e5d988ca5314a28ead1c5983433b240f55bb5b4f98b1f58cc4b74abf9bbdae8",
+        "metadata_sha256": "bccaf799c0c7741326e919e91471d3c05292f11a6af1b08566edc15215d9c18f",
+        "steps": 1000448,
+        "seed": 0,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.56,
+          "kills": 5.44,
+          "damage_dealt": 126.746,
+          "damage_taken": 21.0
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed1\\final.zip",
+        "model_sha256": "18e4c99b3a3a16f528243b80e93ce659e82c7a413d73b8f0d83c3900b4e8068b",
+        "metadata_sha256": "0fc4a6655ec3c4c50b4e4de8d1f32354dd8f3bdb4db19bd6fc411ef4e0c030fd",
+        "steps": 1000448,
+        "seed": 1,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.16,
+          "kills": 4.2,
+          "damage_dealt": 98.224,
+          "damage_taken": 20.860000000000003
+        }
+      },
+      {
+        "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live\\C_seed2\\final.zip",
+        "model_sha256": "b7957f820dcd697b14a56fe1de305b07405a53be23890651f3dbac9463df12d5",
+        "metadata_sha256": "215b4b52f57eabc72961325e1f3caaff06c85a46cc862a932c096d949fd622e6",
+        "steps": 1000448,
+        "seed": 2,
+        "score": {
+          "success_rate": 0.0,
+          "waves": 2.66,
+          "kills": 5.4,
+          "damage_dealt": 120.49000000000001,
+          "damage_taken": 20.972
+        }
+      }
+    ]
+  },
+  "selected": "C"
+}

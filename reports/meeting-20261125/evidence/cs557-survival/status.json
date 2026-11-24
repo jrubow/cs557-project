@@ -1,0 +1,13 @@
+{
+  "phase": "complete",
+  "updated_utc": "2026-11-22T17:02:16.868240+00:00",
+  "elapsed_seconds": 361.34400000000096,
+  "remaining_seconds": null,
+  "overall_time_limit_removed": true,
+  "controller_revision": "bf9b7e4b736389229263fde6bf759c2c8fe2bfa7",
+  "training_source_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4",
+  "jobs_completed": 33,
+  "current_job": null,
+  "selection_status": "confirmed_improvement",
+  "video_status": "complete"
+}

@@ -1,0 +1,12 @@
+{
+  "source_sha256": "aacc642d68a3387ddc8db0cbae3fae113612c6dcea11eb92ce9841b2973b45a0",
+  "sha256": "af3d78b95390fbad8838ca4bcd40a52709002dca83d68927a00f756fab5325a8",
+  "codec": "H.264",
+  "crf": 23,
+  "full_episode": true,
+  "speed_changed": false,
+  "dimensions_changed": false,
+  "source_frames": 3966,
+  "fps": 20,
+  "note": "Only re-encoded for smaller download. Same frames, size and 20 fps; existing two-second end hold retained. Source has no audio."
+}

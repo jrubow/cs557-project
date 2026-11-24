@@ -1,0 +1,36 @@
+{
+  "source_revision": "16a681715a1d65597bdd1d614d2fc44b52e84002",
+  "predecessor": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery",
+  "predecessor_manifest_sha256": "33ad389f47560d16173e8372cc6f58af4c1763e1a5683f6b93021d4f32857f54",
+  "old_pids": [
+    6232,
+    25132,
+    9204
+  ],
+  "additional_training_steps": 0,
+  "held_out_test_used": false,
+  "overall_deadline": null,
+  "recovery": {
+    "prior_completed_jobs_verified": 26,
+    "adopted_model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_2000000\\final.zip",
+    "model_sha256": "9be5d679748c3567c98533d1e1f81a9a2de5b8e919b6e3383db16da11b909aba",
+    "metadata_sha256": "77ad24f0b72fdc12056471f7f0ae34af7f67baaa3e01a47231d77da5ef5729cc",
+    "timesteps": 6001664,
+    "prior_supervisor_exit_code": null,
+    "prior_cleanup_receipt": null,
+    "prior_clean_exit_certified": false,
+    "current_runtime_idle_verified": true,
+    "ppo_load_and_finite_weights": true,
+    "original_source_revision": "bf9b7e4b736389229263fde6bf759c2c8fe2bfa7",
+    "evidence_sha256": {
+      "manifest.json": "33ad389f47560d16173e8372cc6f58af4c1763e1a5683f6b93021d4f32857f54",
+      "status.json": "ba8a24fbb9f71255496ecd4a41e5dffe647a223f040ee38d959a4c39140cc739",
+      "ledger.jsonl": "ecc9c833701fd8b0cc1c96091a79ca6dea4e5d93287deb4f9bffb91a66649b0d",
+      "selection.json": "a78138cf1d3f05b4e812a1908520d70bd14ccc0b07caa7639620604e440f1968",
+      "calibration.json": "70afa8020d945dabcb1924c98a5b80f8cf51889f91490e968d5effa51b75949e",
+      "critical-history.json": "a17106d1c0667bc9b27a39d72fd4b9bcdc8120903e04c8398475faf048743807",
+      "logs/train-additional-2000000.log": "6c8f749f82de9065d9c4156f5a76c6a546db94f0b89156f06c335ad095223220"
+    },
+    "note": "Explicit adoption of a complete audited artifact after loss of supervisor receipt. No prior exit code or clean shutdown is inferred. No training is repeated."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "diagnostics": {
+    "decisions": 12222,
+    "fraction_within_3_blocks": 0.4289805269186712,
+    "fraction_near_wall": 0.8692521682212404,
+    "fraction_stationary_requested": 0.1937489772541319,
+    "fraction_attacking": 0.3651611847488136,
+    "fraction_attack_decisions_without_damage": 0.7488236612144298,
+    "mean_absolute_bearing_when_close": 19.608443932052424,
+    "mean_health_entering_wave": {
+      "1": 20.0,
+      "2": 18.206000957489014,
+      "3": 11.579184906823295,
+      "4": 4.376429438591003
+    },
+    "note": "Attack/no-damage and wall proximity are diagnostics, not proof of cooldown or pathing failure.",
+    "train/approx_kl": 0.030437805,
+    "train/clip_fraction": 0.228515625,
+    "train/entropy_loss": -2.58483624458313,
+    "train/explained_variance": 0.9362399876117706,
+    "normalized_joint_entropy": 0.3700703258538871
+  },
+  "candidates": [
+    {
+      "name": "lower_lr",
+      "changes": {
+        "learning_rate": 0.0001
+      },
+      "hypothesis": "Large recent PPO updates may limit stable improvement."
+    }
+  ],
+  "note": "Thresholds are bounded search heuristics; reward/curriculum changes require manual trace review."
+}

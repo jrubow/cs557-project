@@ -1,0 +1,62 @@
+{
+  "selection_locked_before_test": true,
+  "selection_frozen_utc": "2026-11-23T00:04:35.273657+00:00",
+  "primary_recipe": [
+    {
+      "name": "survival10_4M_seed0",
+      "group": "survival10 4M",
+      "policy": "ppo",
+      "condition": "C",
+      "training_seed": 0,
+      "training_target": 4000000,
+      "steps": 4000768,
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+      "model_sha256": "78c0f90d86c1e0511fba739e1712497dca4d0fb00b06db49696a2a5aeeb04519",
+      "metadata_sha256": "4aec1f1fdff872ee52c629796ec149155c41f3c90ebf3595f1ab8e07edaa1060",
+      "training_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4"
+    },
+    {
+      "name": "survival10_4M_seed1",
+      "group": "survival10 4M",
+      "policy": "ppo",
+      "condition": "C",
+      "training_seed": 1,
+      "training_target": 4000000,
+      "steps": 4000768,
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed1\\final.zip",
+      "model_sha256": "05b53cdb344a84938e093b28ec33b98a169da404f9afd785f35e28231d5b6d1f",
+      "metadata_sha256": "4caeee26cb5fcdac2be975f8aa54ed1ea119014f9ac84b9e3ccda26586a899f0",
+      "training_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4"
+    },
+    {
+      "name": "survival10_4M_seed2",
+      "group": "survival10 4M",
+      "policy": "ppo",
+      "condition": "C",
+      "training_seed": 2,
+      "training_target": 4000000,
+      "steps": 4000768,
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed2\\final.zip",
+      "model_sha256": "0220299bfecf2fb53d68daa3133f18399480e2509c9d9a6fa349ebf929497fcc",
+      "metadata_sha256": "19a5d6a4247ffedda6a132ec3a638f1bb92bbbe9fa213ef34197e2cd1dd8df86",
+      "training_revision": "a2cca1b2f33e185203279bad385a45f46edd28f4"
+    }
+  ],
+  "demonstration_model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+  "exploratory_batch": [
+    {
+      "name": "batch_plus1M_seed0",
+      "group": "batch +1M transfer",
+      "policy": "ppo",
+      "condition": "C",
+      "training_seed": 0,
+      "training_target": 5000768,
+      "steps": 5001216,
+      "model": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-endless-calibration-recovery\\models\\additional_1000000\\final.zip",
+      "model_sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+      "metadata_sha256": "86293b35840086d26196cd48c637f7a63a058f3481d0638f7ffd77305cbca620",
+      "training_revision": "bf9b7e4b736389229263fde6bf759c2c8fe2bfa7"
+    }
+  ],
+  "batch_upgrade_confirmed": false
+}

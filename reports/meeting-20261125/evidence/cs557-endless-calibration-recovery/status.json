@@ -1,0 +1,13 @@
+{
+  "jobs_completed": 26,
+  "overall_deadline": null,
+  "phase": "failed",
+  "updated_utc": "2026-11-22T21:20:33.269839+00:00",
+  "predecessor_pid": 10368,
+  "predecessor_phase": "running",
+  "predecessor_job": "video-51002",
+  "parent": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival\\models\\survival10_4000000_seed0\\final.zip",
+  "parent_sha256": "78c0f90d86c1e0511fba739e1712497dca4d0fb00b06db49696a2a5aeeb04519",
+  "current_job": "train-additional-2000000",
+  "error": "FileNotFoundError(2, 'No such file or directory')"
+}

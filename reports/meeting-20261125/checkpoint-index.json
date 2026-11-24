@@ -1,0 +1,323 @@
+{
+  "models": [
+    {
+      "name": "parent_2M_seed0",
+      "aliases": [
+        "C_2M_seed0",
+        "history-c2000000"
+      ],
+      "roles": [
+        "C 2M parent",
+        "PPO C 2M",
+        "behavior learning history"
+      ],
+      "path": "checkpoints/parent_2M_seed0/final.zip",
+      "sha256": "457e2dce88f095f7098d53fc3609ac387f74474584ac20880a46407dcbce22cb",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 2000896,
+      "metadata_sha256": "85fad0178fe75c2e72fae4e72f2b0844b60d57d97e4c62d1c17b543288d89355"
+    },
+    {
+      "name": "survival10_4M_seed0",
+      "aliases": [
+        "history-survival10_4000000"
+      ],
+      "roles": [
+        "survival10 4M",
+        "behavior learning history"
+      ],
+      "path": "checkpoints/survival10_4M_seed0/final.zip",
+      "sha256": "78c0f90d86c1e0511fba739e1712497dca4d0fb00b06db49696a2a5aeeb04519",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 4000768,
+      "metadata_sha256": "4aec1f1fdff872ee52c629796ec149155c41f3c90ebf3595f1ab8e07edaa1060"
+    },
+    {
+      "name": "parent_2M_seed1",
+      "aliases": [
+        "C_2M_seed1"
+      ],
+      "roles": [
+        "C 2M parent",
+        "PPO C 2M"
+      ],
+      "path": "checkpoints/parent_2M_seed1/final.zip",
+      "sha256": "160e8f1dded88601a2e73c40754bb31e4053c366b540d11d586aa8dc6244790a",
+      "condition": "C",
+      "training_seed": 1,
+      "actual_training_decisions": 2000896,
+      "metadata_sha256": "4604100dd97e32b3c443733b80c4a2175b105b39ddfbfa4ecd6ce8dd6cbae700"
+    },
+    {
+      "name": "survival10_4M_seed1",
+      "aliases": [],
+      "roles": [
+        "survival10 4M"
+      ],
+      "path": "checkpoints/survival10_4M_seed1/final.zip",
+      "sha256": "05b53cdb344a84938e093b28ec33b98a169da404f9afd785f35e28231d5b6d1f",
+      "condition": "C",
+      "training_seed": 1,
+      "actual_training_decisions": 4000768,
+      "metadata_sha256": "4caeee26cb5fcdac2be975f8aa54ed1ea119014f9ac84b9e3ccda26586a899f0"
+    },
+    {
+      "name": "parent_2M_seed2",
+      "aliases": [
+        "C_2M_seed2"
+      ],
+      "roles": [
+        "C 2M parent",
+        "PPO C 2M"
+      ],
+      "path": "checkpoints/parent_2M_seed2/final.zip",
+      "sha256": "bac7aa32aef506c2dea138a7f0c909ae4e6e6ee6bd7cbfa3b34288750bf361d8",
+      "condition": "C",
+      "training_seed": 2,
+      "actual_training_decisions": 2000896,
+      "metadata_sha256": "63f98950cc3e4aa545df637fac2c9783f1568d94ee26eee0158b63eddb735a1d"
+    },
+    {
+      "name": "survival10_4M_seed2",
+      "aliases": [],
+      "roles": [
+        "survival10 4M"
+      ],
+      "path": "checkpoints/survival10_4M_seed2/final.zip",
+      "sha256": "0220299bfecf2fb53d68daa3133f18399480e2509c9d9a6fa349ebf929497fcc",
+      "condition": "C",
+      "training_seed": 2,
+      "actual_training_decisions": 4000768,
+      "metadata_sha256": "19a5d6a4247ffedda6a132ec3a638f1bb92bbbe9fa213ef34197e2cd1dd8df86"
+    },
+    {
+      "name": "batch_plus1M_seed0",
+      "aliases": [],
+      "roles": [
+        "batch +1M transfer"
+      ],
+      "path": "checkpoints/batch_plus1M_seed0/final.zip",
+      "sha256": "5758584a0e8aa07d667ed039caa5165c8ec1c2b54925146fd8e7f39ab4c0076f",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 5001216,
+      "metadata_sha256": "86293b35840086d26196cd48c637f7a63a058f3481d0638f7ffd77305cbca620"
+    },
+    {
+      "name": "A_1M_seed0",
+      "aliases": [],
+      "roles": [
+        "PPO A 1M"
+      ],
+      "path": "checkpoints/A_1M_seed0/final.zip",
+      "sha256": "c4bf9b475a806133601e827f471527cc8461a2f206b0050cda44a21f30b62574",
+      "condition": "A",
+      "training_seed": 0,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "450c717218e87a537c062d3468c701397356ba44ac54d9f26ab21496307a7362"
+    },
+    {
+      "name": "A_1M_seed1",
+      "aliases": [],
+      "roles": [
+        "PPO A 1M"
+      ],
+      "path": "checkpoints/A_1M_seed1/final.zip",
+      "sha256": "ae230a68e4774c03b83d34bbebd1e0b543a7e60fbd08004577d30e2c57d26171",
+      "condition": "A",
+      "training_seed": 1,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "56172d6f3cbd17b2fc43c22301a6433a59128ae0fe7015bc9b1dbcbe2740613d"
+    },
+    {
+      "name": "A_1M_seed2",
+      "aliases": [],
+      "roles": [
+        "PPO A 1M"
+      ],
+      "path": "checkpoints/A_1M_seed2/final.zip",
+      "sha256": "b7a993db275c4e33a1910bec64181d6f277203eba431f8bc68c25865546705ef",
+      "condition": "A",
+      "training_seed": 2,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "d3d6ca1d6f14ac4cc839b94afad0a8d1559f1bde86d0119fe9df593497411dd7"
+    },
+    {
+      "name": "B_1M_seed0",
+      "aliases": [],
+      "roles": [
+        "PPO B 1M"
+      ],
+      "path": "checkpoints/B_1M_seed0/final.zip",
+      "sha256": "a48deafa7e44c237c529c84fca0bed4ebb7d61e8de798debd97c5fd92b724dd5",
+      "condition": "B",
+      "training_seed": 0,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "d3dff1ca8bf12f2f4ca05f9807e77cafac944af49b95268b2b8fb50421acd625"
+    },
+    {
+      "name": "B_1M_seed1",
+      "aliases": [],
+      "roles": [
+        "PPO B 1M"
+      ],
+      "path": "checkpoints/B_1M_seed1/final.zip",
+      "sha256": "26b566f433486fb842e0884ad2c342e24d346836c76e8d211639cafb391b28ad",
+      "condition": "B",
+      "training_seed": 1,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "e61a86138ff3a618af5c7da458a1803259e45bfd05ed405be91274982a64d98f"
+    },
+    {
+      "name": "B_1M_seed2",
+      "aliases": [],
+      "roles": [
+        "PPO B 1M"
+      ],
+      "path": "checkpoints/B_1M_seed2/final.zip",
+      "sha256": "be90d080253b9bd21d0b97f1895954b67f5d36d5a4e85d0bdce74215cf0aba6f",
+      "condition": "B",
+      "training_seed": 2,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "c6eca96eec71aa436e7cae66c9a9846d6eb17d9f52fb562fde4fa7557567d7d2"
+    },
+    {
+      "name": "C_1M_seed0",
+      "aliases": [
+        "history-c1000000"
+      ],
+      "roles": [
+        "PPO C 1M",
+        "behavior learning history"
+      ],
+      "path": "checkpoints/C_1M_seed0/final.zip",
+      "sha256": "3e5d988ca5314a28ead1c5983433b240f55bb5b4f98b1f58cc4b74abf9bbdae8",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "bccaf799c0c7741326e919e91471d3c05292f11a6af1b08566edc15215d9c18f"
+    },
+    {
+      "name": "C_1M_seed1",
+      "aliases": [],
+      "roles": [
+        "PPO C 1M"
+      ],
+      "path": "checkpoints/C_1M_seed1/final.zip",
+      "sha256": "18e4c99b3a3a16f528243b80e93ce659e82c7a413d73b8f0d83c3900b4e8068b",
+      "condition": "C",
+      "training_seed": 1,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "0fc4a6655ec3c4c50b4e4de8d1f32354dd8f3bdb4db19bd6fc411ef4e0c030fd"
+    },
+    {
+      "name": "C_1M_seed2",
+      "aliases": [],
+      "roles": [
+        "PPO C 1M"
+      ],
+      "path": "checkpoints/C_1M_seed2/final.zip",
+      "sha256": "b7957f820dcd697b14a56fe1de305b07405a53be23890651f3dbac9463df12d5",
+      "condition": "C",
+      "training_seed": 2,
+      "actual_training_decisions": 1000448,
+      "metadata_sha256": "215b4b52f57eabc72961325e1f3caaff06c85a46cc862a932c096d949fd622e6"
+    },
+    {
+      "name": "history-c10000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-c10000/final.zip",
+      "sha256": "1e251bd3824a20ad202d6e036d1e9e7dc1dac7007d9dac17ba5f70861756e66a",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 10240,
+      "metadata_sha256": "04fb7d5f8bd36a04e33f3f5f0d29f9990edf8a857e49f548bc140e800f3bd18f"
+    },
+    {
+      "name": "history-c50000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-c50000/final.zip",
+      "sha256": "d06f89ea48c41bf6307c0b9c12a76b5ce3c416453fdf06daaf6f179928891152",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 51200,
+      "metadata_sha256": "12254bc4e0a44bd63d294aceb5007d35a0e81b84f35214314a3e3ead3f1ae566"
+    },
+    {
+      "name": "history-c100000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-c100000/final.zip",
+      "sha256": "389936a7b2f09a32058bb79e99a695142fafe7c501c6e0ac755f735fada07ba8",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 102400,
+      "metadata_sha256": "71053f49d9bf0ded818505a1cdb43ee52cfd9f2f33dfe9e972bb995c095250de"
+    },
+    {
+      "name": "history-c300000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-c300000/final.zip",
+      "sha256": "bbe3ec03e03648525e6cfebc0f508cf39ae76ef09bd088489437575c7c875bcc",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 296960,
+      "metadata_sha256": "94fafaa007203d67635f010ce1ca532f9bd8379cb735671c7cbdcf01d8b47709"
+    },
+    {
+      "name": "history-c500000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-c500000/final.zip",
+      "sha256": "8b43a8b698a7db2747af7cd44f46d417a84302cbd1ae3d55ff2a9b11985bd55f",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 501760,
+      "metadata_sha256": "a9e92f31a24ad1ffc89de085b61f154fa2e6e6a4e08f664388094493d3947800"
+    },
+    {
+      "name": "history-survival10_3000000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-survival10_3000000/final.zip",
+      "sha256": "6bda32066db6e970d68722c7d685d9bfa57a8d63233b77e91ea5320a439c493d",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 3000320,
+      "metadata_sha256": "cbdfad0b1ba3653b9b40c4ffd5501438872548fa590f12fd768db62367be21c9"
+    },
+    {
+      "name": "history-survival10_5000000",
+      "aliases": [],
+      "roles": [
+        "behavior learning history"
+      ],
+      "path": "checkpoints/history-survival10_5000000/final.zip",
+      "sha256": "657a948b5032e49ac038e731df88436423a0eea41d9f421f2570d59193436a5b",
+      "condition": "C",
+      "training_seed": 0,
+      "actual_training_decisions": 5000192,
+      "metadata_sha256": "cbe36818edd06e22d82147d332389a086a48eac07284ef559171717a6de3d626"
+    }
+  ],
+  "five_wave_demo": "checkpoints/survival10_4M_seed0/final.zip",
+  "exploratory_batch_demo": "checkpoints/batch_plus1M_seed0/final.zip",
+  "note": "Paths are relative to this meeting directory. Keep each final.zip beside final.json. Original metadata is unchanged; recorded local source paths are provenance."
+}

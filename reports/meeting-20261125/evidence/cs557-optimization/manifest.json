@@ -1,0 +1,14 @@
+{
+  "source_revision": "af6d1df5289fd87625d82989c1015d6bb4878412",
+  "test_split_used": false,
+  "comparison_root": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-live",
+  "hours_cap": 18.0,
+  "cutoff_utc": "2026-11-24T05:00:00+00:00",
+  "jobs_completed": 0,
+  "comparison_manifest_sha256": "5920c657bf594d24130df7b6f7e43584140d78d3fbd7601672ecc3d63e44a318",
+  "predecessor_pid": 19140,
+  "predecessor_created": 1795230756.6836908,
+  "validation_only": true,
+  "initial_confirmation_reserve_hours": 6,
+  "selection_rule": "completion rate, waves, kills; seed 0 screening; seeds 1/2 confirmation"
+}

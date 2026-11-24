@@ -1,0 +1,74 @@
+{
+  "source_revision": "bf9b7e4b736389229263fde6bf759c2c8fe2bfa7",
+  "profiles": {
+    "batch1": {
+      "mode": "batch",
+      "batch_size": 1,
+      "max_seconds": 300
+    },
+    "batch2": {
+      "mode": "batch",
+      "batch_size": 2,
+      "max_seconds": 300
+    },
+    "batch3": {
+      "mode": "batch",
+      "batch_size": 3,
+      "max_seconds": 300
+    },
+    "batch5": {
+      "mode": "batch",
+      "batch_size": 5,
+      "max_seconds": 300
+    },
+    "timed2": {
+      "mode": "timed",
+      "spawn_seconds": 2,
+      "max_seconds": 300
+    },
+    "timed4": {
+      "mode": "timed",
+      "spawn_seconds": 4,
+      "max_seconds": 300
+    },
+    "timed6": {
+      "mode": "timed",
+      "spawn_seconds": 6,
+      "max_seconds": 300
+    }
+  },
+  "parent_selection": "Final predecessor development-selected best_seed0; no test selection",
+  "predecessor": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival",
+  "predecessor_control": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\outputs\\cs557-survival-recovery-20261122",
+  "predecessor_pid": 10368,
+  "predecessor_create_time": 1795366575.3527112,
+  "predecessor_manifest_sha256": "72d90104b62482eeb2aa8a3d096d7785f9a56ddd4bf82b0b89b25b37fdce9d76",
+  "additional_step_targets": [
+    250000,
+    500000,
+    1000000,
+    2000000
+  ],
+  "calibration_seeds": [
+    52000,
+    52009
+  ],
+  "development_seeds": [
+    52100,
+    52119
+  ],
+  "confirmation_seeds": [
+    52200,
+    52219
+  ],
+  "critical_history_seeds": [
+    53000,
+    53009
+  ],
+  "overall_time_limit": null,
+  "training_seeds": [
+    0
+  ],
+  "protocol": "C:\\Users\\Admin\\Documents\\Codex\\2026-11-19\\metaphorical-thing-you-might-not-have\\work\\cs557-recovery-20261122\\docs\\endless-calibration.md",
+  "held_out_test_used": false
+}
